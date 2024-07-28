@@ -4,6 +4,11 @@
     title: TestApp | v1,
     version: 1.0.0
   },
+  servers: [
+    {
+      url: http://localhost
+    }
+  ],
   paths: {
     /hello: {
       get: {
@@ -18,7 +23,8 @@
             required: true,
             schema: {
               type: string
-            }
+            },
+            example: Martin
           }
         ],
         responses: {
@@ -34,6 +40,9 @@
                       nullable: true
                     }
                   }
+                },
+                example: {
+                  text: Hello, World!
                 }
               }
             }
