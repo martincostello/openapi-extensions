@@ -32,6 +32,7 @@ public class DocumentTests(ITestOutputHelper outputHelper)
                     services.AddOpenApiExtensions((options) =>
                     {
                         options.AddExamples = true;
+                        options.AddServerUrls = true;
                         options.AddXmlComments<Greeting>();
                         options.SerializationContext = AppJsonSerializationContext.Default;
                     });
