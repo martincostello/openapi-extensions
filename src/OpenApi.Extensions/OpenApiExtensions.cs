@@ -4,6 +4,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace MartinCostello.OpenApi;
 
@@ -109,13 +110,15 @@ public static class OpenApiExtensions
         ArgumentNullException.ThrowIfNull(configureOptions);
 
         services.AddOpenApiExtensionsCore(documentName);
-        services.AddOptions<OpenApiExtensionsOptions>(documentName)
-                .Configure<OpenApiOptions>(ConfigureExtensions);
+
+        services.AddOptions<OpenApiOptions>(documentName)
+                .Configure<IOptions<OpenApiExtensionsOptions>>(ConfigureExtensions);
 
         return services;
 
-        void ConfigureExtensions(OpenApiExtensionsOptions extensions, OpenApiOptions options)
+        void ConfigureExtensions(OpenApiOptions options, IOptions<OpenApiExtensionsOptions> other)
         {
+            var extensions = other.Value;
             configureOptions(options, extensions);
 
             if (extensions.AddServerUrls)
@@ -159,6 +162,7 @@ public static class OpenApiExtensions
     private static IServiceCollection AddOpenApiExtensionsCore(this IServiceCollection services, string documentName)
     {
         services.AddKeyedSingleton<IOpenApiDocumentTransformer, AddServersTransformer>(documentName);
+        services.AddOptions<OpenApiExtensionsOptions>(documentName);
 
         return services;
     }
