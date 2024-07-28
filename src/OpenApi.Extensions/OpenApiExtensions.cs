@@ -121,6 +121,12 @@ public static class OpenApiExtensions
             var extensions = other.Value;
             configureOptions(options, extensions);
 
+            // TODO Register as the instance
+            var addDescriptions = new AddDescriptionsTransformer();
+            var addResponses = new AddResponseDescriptionsTransformer();
+            options.UseOperationTransformer(addDescriptions.TransformAsync);
+            options.UseOperationTransformer(addResponses.TransformAsync);
+
             if (extensions.AddServerUrls)
             {
                 options.UseTransformer<AddServersTransformer>();
