@@ -23,9 +23,9 @@ public class OpenApiExtensionsOptions
     /// Gets or sets a value indicating whether to add the server URLs to the OpenAPI document.
     /// </summary>
     /// <remarks>
-    /// The default value is <see langword="true"/>.
+    /// The default value is <see langword="false"/>.
     /// </remarks>
-    public bool AddServerUrls { get; set; } = true;
+    public bool AddServerUrls { get; set; }
 
     /// <summary>
     /// Gets or sets the default server URL to use if no server URLs are available,
