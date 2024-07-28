@@ -29,7 +29,7 @@
         ],
         responses: {
           200: {
-            description: OK,
+            description: A greeting.,
             content: {
               application/json: {
                 schema: {
