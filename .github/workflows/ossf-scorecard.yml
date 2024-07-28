@@ -1,0 +1,45 @@
+name: ossf-scorecard
+
+on:
+  branch_protection_rule:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 5 * * MON'
+  workflow_dispatch:
+
+permissions: read-all
+
+jobs:
+  analysis:
+    name: analysis
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      security-events: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        with:
+          persist-credentials: false
+
+      - name: Run analysis
+        uses: ossf/scorecard-action@62b2cac7ed8198b15735ed49ab1e5cf35480ba46 # v2.4.0
+        with:
+          publish_results: true
+          results_file: results.sarif
+          results_format: sarif
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
+        with:
+          name: SARIF
+          path: results.sarif
+          retention-days: 5
+
+      - name: Upload to code-scanning
+        uses: github/codeql-action/upload-sarif@afb54ba388a7dca6ecae48f608c4ff05ff4cc77a # v3.25.15
+        with:
+          sarif_file: results.sarif

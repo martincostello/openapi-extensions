@@ -1,0 +1,25 @@
+<Project>
+  <ItemGroup>
+    <!--
+    TODO Enable once basic implementation completed
+    <GlobalPackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4" PrivateAssets="All" />
+    -->
+    <GlobalPackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" PrivateAssets="All" />
+    <GlobalPackageReference Include="ReferenceTrimmer" Version="3.3.6" PrivateAssets="All" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageVersion Include="coverlet.msbuild" Version="6.0.2" />
+    <PackageVersion Include="GitHubActionsTestLogger" Version="2.4.1" />
+    <PackageVersion Include="MartinCostello.Logging.XUnit" Version="0.4.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.0-preview.6.24328.4" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0-preview.6.24328.4" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+    <PackageVersion Include="Microsoft.OpenApi" Version="1.6.15" />
+    <PackageVersion Include="Microsoft.OpenApi.Readers" Version="1.6.15" />
+    <PackageVersion Include="ReportGenerator" Version="5.3.8" />
+    <PackageVersion Include="Shouldly" Version="4.2.1" />
+    <PackageVersion Include="Verify.Xunit" Version="26.0.1" />
+    <PackageVersion Include="xunit" Version="2.9.0" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
+  </ItemGroup>
+</Project>

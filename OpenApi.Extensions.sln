@@ -1,0 +1,115 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E2EDA906-BEE4-4971-AAB2-342D255A0867}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		.markdownlint.json = .markdownlint.json
+		.vsconfig = .vsconfig
+		build.ps1 = build.ps1
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		Directory.Packages.props = Directory.Packages.props
+		exclusion.dic = exclusion.dic
+		global.json = global.json
+		LICENSE = LICENSE
+		NuGet.config = NuGet.config
+		omnisharp.json = omnisharp.json
+		OpenApi.Extensions.ruleset = OpenApi.Extensions.ruleset
+		OpenApi.Extensions.snk = OpenApi.Extensions.snk
+		package-readme.md = package-readme.md
+		README.md = README.md
+		SECURITY.MD = SECURITY.MD
+		startvs.cmd = startvs.cmd
+		startvscode.cmd = startvscode.cmd
+		stylecop.json = stylecop.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{EE7E5E84-21AA-4131-BD42-F37CCBA104C8}"
+	ProjectSection(SolutionItems) = preProject
+		.github\actionlint-matcher.json = .github\actionlint-matcher.json
+		.github\CODEOWNERS = .github\CODEOWNERS
+		.github\CONTRIBUTING.md = .github\CONTRIBUTING.md
+		.github\dependabot.yml = .github\dependabot.yml
+		.github\FUNDING.yml = .github\FUNDING.yml
+		.github\ISSUE_TEMPLATE.md = .github\ISSUE_TEMPLATE.md
+		.github\PULL_REQUEST_TEMPLATE.md = .github\PULL_REQUEST_TEMPLATE.md
+		.github\update-dotnet-sdk.json = .github\update-dotnet-sdk.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ISSUE_TEMPLATE", "ISSUE_TEMPLATE", "{8180CDC2-FBE3-4272-99C4-156053321159}"
+	ProjectSection(SolutionItems) = preProject
+		.github\ISSUE_TEMPLATE\bug_report.md = .github\ISSUE_TEMPLATE\bug_report.md
+		.github\ISSUE_TEMPLATE\config.yml = .github\ISSUE_TEMPLATE\config.yml
+		.github\ISSUE_TEMPLATE\feature_request.md = .github\ISSUE_TEMPLATE\feature_request.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{E514EAAF-D67D-46E7-A0A5-394BAEAB3081}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build.yml = .github\workflows\build.yml
+		.github\workflows\bump-version.yml = .github\workflows\bump-version.yml
+		.github\workflows\code-scan.yml = .github\workflows\code-scan.yml
+		.github\workflows\dependency-review.yml = .github\workflows\dependency-review.yml
+		.github\workflows\lint.yml = .github\workflows\lint.yml
+		.github\workflows\ossf-scorecard.yml = .github\workflows\ossf-scorecard.yml
+		.github\workflows\release.yml = .github\workflows\release.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".vscode", ".vscode", "{D690C0BB-F792-4FD0-8F33-2837E7591D55}"
+	ProjectSection(SolutionItems) = preProject
+		.vscode\extensions.json = .vscode\extensions.json
+		.vscode\launch.json = .vscode\launch.json
+		.vscode\settings.json = .vscode\settings.json
+		.vscode\tasks.json = .vscode\tasks.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{478C1FF1-33D2-4B75-806D-3037902A29F7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1C29C633-37BE-409C-AD68-382EABAACFF7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MartinCostello.OpenApi.Extensions", "src\OpenApi.Extensions\MartinCostello.OpenApi.Extensions.csproj", "{CE44EFB6-B59F-4737-AC1A-8F91695250D3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MartinCostello.OpenApi.Extensions.Tests", "tests\OpenApi.Extensions.Tests\MartinCostello.OpenApi.Extensions.Tests.csproj", "{38537165-58BF-4564-A685-501378877E94}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApp", "tests\TestApp\TestApp.csproj", "{423D6083-EBF0-4482-A5B8-5B8FB5DE738F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CE44EFB6-B59F-4737-AC1A-8F91695250D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE44EFB6-B59F-4737-AC1A-8F91695250D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE44EFB6-B59F-4737-AC1A-8F91695250D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE44EFB6-B59F-4737-AC1A-8F91695250D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38537165-58BF-4564-A685-501378877E94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38537165-58BF-4564-A685-501378877E94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38537165-58BF-4564-A685-501378877E94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38537165-58BF-4564-A685-501378877E94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{423D6083-EBF0-4482-A5B8-5B8FB5DE738F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{423D6083-EBF0-4482-A5B8-5B8FB5DE738F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{423D6083-EBF0-4482-A5B8-5B8FB5DE738F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{423D6083-EBF0-4482-A5B8-5B8FB5DE738F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EE7E5E84-21AA-4131-BD42-F37CCBA104C8} = {E2EDA906-BEE4-4971-AAB2-342D255A0867}
+		{8180CDC2-FBE3-4272-99C4-156053321159} = {EE7E5E84-21AA-4131-BD42-F37CCBA104C8}
+		{E514EAAF-D67D-46E7-A0A5-394BAEAB3081} = {EE7E5E84-21AA-4131-BD42-F37CCBA104C8}
+		{D690C0BB-F792-4FD0-8F33-2837E7591D55} = {E2EDA906-BEE4-4971-AAB2-342D255A0867}
+		{CE44EFB6-B59F-4737-AC1A-8F91695250D3} = {478C1FF1-33D2-4B75-806D-3037902A29F7}
+		{38537165-58BF-4564-A685-501378877E94} = {1C29C633-37BE-409C-AD68-382EABAACFF7}
+		{423D6083-EBF0-4482-A5B8-5B8FB5DE738F} = {1C29C633-37BE-409C-AD68-382EABAACFF7}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F68AAFE0-4FD7-4D6E-8CDB-0A43C453FC46}
+	EndGlobalSection
+EndGlobal

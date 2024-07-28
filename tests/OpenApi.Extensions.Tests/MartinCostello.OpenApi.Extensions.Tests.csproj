@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>Tests for MartinCostello.OpenApi.Extensions.</Description>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <NoWarn>$(NoWarn);CA1707;CA2007;SA1600</NoWarn>
+    <RootNamespace>MartinCostello.OpenApi</RootNamespace>
+    <TargetFramework>net9.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="xunit.runner.json" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="coverlet.msbuild" />
+    <PackageReference Include="GitHubActionsTestLogger" NoWarn="RT0003" />
+    <PackageReference Include="MartinCostello.Logging.XUnit" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="ReportGenerator" />
+    <PackageReference Include="Shouldly" />
+    <PackageReference Include="Verify.Xunit" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\OpenApi.Extensions\MartinCostello.OpenApi.Extensions.csproj" />
+    <ProjectReference Include="..\TestApp\TestApp.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Using Include="Shouldly" />
+    <Using Include="Xunit" />
+    <Using Include="Xunit.Abstractions" />
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(BuildingInsideVisualStudio)' != 'true' ">
+    <CollectCoverage>true</CollectCoverage>
+    <CoverletOutputFormat>cobertura,json</CoverletOutputFormat>
+    <Exclude>[*.Test*]*,[xunit.*]*</Exclude>
+    <ExcludeByAttribute>GeneratedCodeAttribute</ExcludeByAttribute>
+    <!--
+    TODO Enable coverage threshold
+    <Threshold>80</Threshold>
+    -->
+  </PropertyGroup>
+</Project>

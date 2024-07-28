@@ -1,0 +1,50 @@
+﻿{
+  openapi: 3.0.1,
+  info: {
+    title: TestApp | v1,
+    version: 1.0.0
+  },
+  paths: {
+    /hello: {
+      get: {
+        tags: [
+          TestApp
+        ],
+        parameters: [
+          {
+            name: name,
+            in: query,
+            description: The name of the person to greet.,
+            required: true,
+            schema: {
+              type: string
+            }
+          }
+        ],
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              application/json: {
+                schema: {
+                  type: object,
+                  properties: {
+                    text: {
+                      type: string,
+                      nullable: true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  tags: [
+    {
+      name: TestApp
+    }
+  ]
+}
