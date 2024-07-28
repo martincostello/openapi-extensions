@@ -145,14 +145,6 @@ public static class OpenApiExtensions
                 options.UseSchemaTransformer(examples.TransformAsync);
             }
 
-            if (extensions.GetDescriptionTransformer() is { } transformer)
-            {
-                // TODO Register as the instance
-                var descriptions = new DescriptionTransformer(transformer);
-                options.UseOperationTransformer(descriptions.TransformAsync);
-                options.UseSchemaTransformer(descriptions.TransformAsync);
-            }
-
             if (extensions.XmlDocumentationAssemblies is { Count: > 0 } assemblies)
             {
                 foreach (var assembly in assemblies)
@@ -161,6 +153,14 @@ public static class OpenApiExtensions
                     var documentation = new AddXmlDocumentationTransformer(assembly);
                     options.UseSchemaTransformer(documentation.TransformAsync);
                 }
+            }
+
+            if (extensions.GetDescriptionTransformer() is { } transformer)
+            {
+                // TODO Register as the instance
+                var descriptions = new DescriptionTransformer(transformer);
+                options.UseOperationTransformer(descriptions.TransformAsync);
+                options.UseSchemaTransformer(descriptions.TransformAsync);
             }
         }
     }
