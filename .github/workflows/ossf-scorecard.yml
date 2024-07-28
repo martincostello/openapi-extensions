@@ -12,6 +12,8 @@ permissions: read-all
 
 jobs:
   analysis:
+    # TODO Enable once repository is public
+    if: false
     name: analysis
     runs-on: ubuntu-latest
 
