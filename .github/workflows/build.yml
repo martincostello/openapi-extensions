@@ -148,7 +148,6 @@ jobs:
   publish-feedz-io:
     needs: [ build, validate-packages ]
     runs-on: ubuntu-latest
-    if: false
     if: |
       github.event.repository.fork == false &&
       (github.ref_name == github.event.repository.default_branch ||
