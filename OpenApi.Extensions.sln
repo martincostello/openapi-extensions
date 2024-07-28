@@ -78,6 +78,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MartinCostello.OpenApi.Exte
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApp", "tests\TestApp\TestApp.csproj", "{423D6083-EBF0-4482-A5B8-5B8FB5DE738F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{713276A9-B3B4-4622-90FE-2B58350EEC80}"
+	ProjectSection(SolutionItems) = preProject
+		.config\dotnet-tools.json = .config\dotnet-tools.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -108,6 +113,7 @@ Global
 		{CE44EFB6-B59F-4737-AC1A-8F91695250D3} = {478C1FF1-33D2-4B75-806D-3037902A29F7}
 		{38537165-58BF-4564-A685-501378877E94} = {1C29C633-37BE-409C-AD68-382EABAACFF7}
 		{423D6083-EBF0-4482-A5B8-5B8FB5DE738F} = {1C29C633-37BE-409C-AD68-382EABAACFF7}
+		{713276A9-B3B4-4622-90FE-2B58350EEC80} = {E2EDA906-BEE4-4971-AAB2-342D255A0867}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F68AAFE0-4FD7-4D6E-8CDB-0A43C453FC46}
