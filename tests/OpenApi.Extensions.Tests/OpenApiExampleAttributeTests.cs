@@ -99,7 +99,7 @@ public static partial class OpenApiExampleAttributeTests
         actual.ShouldNotBeNull();
 
         // Arrange
-        var stringWriter = new StringWriter();
+        using var stringWriter = new StringWriter();
         var jsonWriter = new OpenApiJsonWriter(stringWriter);
 
         // Act
