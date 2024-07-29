@@ -36,9 +36,6 @@
     <CoverletOutputFormat>cobertura,json</CoverletOutputFormat>
     <Exclude>[*.Test*]*,[xunit.*]*</Exclude>
     <ExcludeByAttribute>GeneratedCodeAttribute</ExcludeByAttribute>
-    <!--
-    TODO Enable coverage threshold
-    <Threshold>80</Threshold>
-    -->
+    <Threshold>50</Threshold>
   </PropertyGroup>
 </Project>
