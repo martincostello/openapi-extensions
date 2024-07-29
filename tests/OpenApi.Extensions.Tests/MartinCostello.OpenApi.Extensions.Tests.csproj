@@ -38,6 +38,6 @@
     <CoverletOutputFormat>cobertura,json</CoverletOutputFormat>
     <Exclude>[*Models*]*,[*Test*]*,[xunit.*]*</Exclude>
     <ExcludeByAttribute>GeneratedCodeAttribute</ExcludeByAttribute>
-    <Threshold>65</Threshold>
+    <Threshold>75</Threshold>
   </PropertyGroup>
 </Project>

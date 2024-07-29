@@ -14,15 +14,7 @@
           content: {
             application/json: {
               schema: {
-                type: object,
-                properties: {
-                  color: {
-                    $ref: #/components/schemas/string
-                  },
-                  name: {
-                    $ref: #/components/schemas/string
-                  }
-                }
+                $ref: #/components/schemas/Cat
               }
             }
           },
@@ -44,15 +36,7 @@
           content: {
             application/json: {
               schema: {
-                type: object,
-                properties: {
-                  breed: {
-                    $ref: #/components/schemas/string
-                  },
-                  name: {
-                    $ref: #/components/schemas/string
-                  }
-                }
+                $ref: #/components/schemas/Dog
               }
             }
           },
@@ -76,15 +60,7 @@
             content: {
               application/json: {
                 schema: {
-                  type: array,
-                  items: {
-                    type: object,
-                    properties: {
-                      name: {
-                        $ref: #/components/schemas/string
-                      }
-                    }
-                  }
+                  $ref: #/components/schemas/ArrayOfAnimal
                 }
               }
             }
@@ -95,9 +71,51 @@
   },
   components: {
     schemas: {
-      string: {
-        type: string,
-        nullable: true
+      ArrayOfAnimal: {
+        type: array,
+        items: {
+          type: object,
+          properties: {
+            name: {
+              type: string,
+              description: The name of the animal.,
+              nullable: true
+            }
+          },
+          description: A class representing an animal.
+        }
+      },
+      Cat: {
+        type: object,
+        properties: {
+          color: {
+            type: string,
+            description: The color of the cat.,
+            nullable: true
+          },
+          name: {
+            type: string,
+            description: The name of the animal.,
+            nullable: true
+          }
+        },
+        description: A class representing a cat.
+      },
+      Dog: {
+        type: object,
+        properties: {
+          breed: {
+            type: string,
+            description: The breed of the dog.,
+            nullable: true
+          },
+          name: {
+            type: string,
+            description: The name of the animal.,
+            nullable: true
+          }
+        },
+        description: A class representing a dog.
       }
     }
   },

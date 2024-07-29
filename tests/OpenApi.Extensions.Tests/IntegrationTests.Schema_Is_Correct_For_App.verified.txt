@@ -21,7 +21,8 @@
             in: query,
             description: The name of the person to greet.,
             schema: {
-              $ref: #/components/schemas/string
+              type: string,
+              nullable: true
             },
             example: Martin
           }
@@ -32,12 +33,7 @@
             content: {
               application/json: {
                 schema: {
-                  type: object,
-                  properties: {
-                    text: {
-                      $ref: #/components/schemas/string
-                    }
-                  }
+                  $ref: #/components/schemas/Greeting
                 },
                 example: {
                   text: Hello, World!
@@ -50,26 +46,7 @@
             content: {
               application/problem+json: {
                 schema: {
-                  type: object,
-                  properties: {
-                    type: {
-                      $ref: #/components/schemas/string
-                    },
-                    title: {
-                      $ref: #/components/schemas/string
-                    },
-                    status: {
-                      type: integer,
-                      format: int32,
-                      nullable: true
-                    },
-                    detail: {
-                      $ref: #/components/schemas/string
-                    },
-                    instance: {
-                      $ref: #/components/schemas/string
-                    }
-                  }
+                  $ref: #/components/schemas/ProblemDetails
                 },
                 example: {
                   type: https://tools.ietf.org/html/rfc9110#section-15.6.1,
@@ -87,9 +64,42 @@
   },
   components: {
     schemas: {
-      string: {
-        type: string,
-        nullable: true
+      Greeting: {
+        type: object,
+        properties: {
+          text: {
+            type: string,
+            description: The text of the greeting.,
+            nullable: true
+          }
+        },
+        description: Represents a greeting.
+      },
+      ProblemDetails: {
+        type: object,
+        properties: {
+          type: {
+            type: string,
+            nullable: true
+          },
+          title: {
+            type: string,
+            nullable: true
+          },
+          status: {
+            type: integer,
+            format: int32,
+            nullable: true
+          },
+          detail: {
+            type: string,
+            nullable: true
+          },
+          instance: {
+            type: string,
+            nullable: true
+          }
+        }
       }
     }
   },

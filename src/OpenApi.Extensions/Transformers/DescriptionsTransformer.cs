@@ -6,19 +6,16 @@ using Microsoft.OpenApi.Models;
 
 namespace MartinCostello.OpenApi.Transformers;
 
-#pragma warning disable CA1852 // TODO Enable with .NET 9 preview 7
-
 /// <summary>
 /// A class representing an operation and schema description transformer. This class cannot be inherited.
 /// </summary>
 /// <param name="transformer">A delegate to a method to use to transform description strings.</param>
-internal class DescriptionsTransformer(Func<string, string> transformer)
+internal sealed class DescriptionsTransformer(Func<string, string> transformer) :
+    IOpenApiOperationTransformer,
+    IOpenApiSchemaTransformer
 {
-    //// TODO Implement IOpenApiOperationTransformer and IOpenApiSchemaTransformer
-    //// TODO Make the class sealed
-    //// TODO Remove virtual modifiers
-
-    public virtual Task TransformAsync(
+    /// <inheritdoc/>
+    public Task TransformAsync(
         OpenApiOperation operation,
         OpenApiOperationTransformerContext context,
         CancellationToken cancellationToken)
@@ -37,7 +34,8 @@ internal class DescriptionsTransformer(Func<string, string> transformer)
         return Task.CompletedTask;
     }
 
-    public virtual Task TransformAsync(
+    /// <inheritdoc/>
+    public Task TransformAsync(
         OpenApiSchema schema,
         OpenApiSchemaTransformerContext context,
         CancellationToken cancellationToken)

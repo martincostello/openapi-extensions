@@ -129,15 +129,12 @@ public static class OpenApiExtensions
             var extensions = other.Value;
             configureOptions(options, extensions);
 
-            // TODO Register as the instance
-            var parameterDescriptions = new AddParameterDescriptionsTransformer();
-            var responseDescriptions = new AddResponseDescriptionsTransformer();
-            options.UseOperationTransformer(parameterDescriptions.TransformAsync);
-            options.UseOperationTransformer(responseDescriptions.TransformAsync);
+            options.AddOperationTransformer<AddParameterDescriptionsTransformer>();
+            options.AddOperationTransformer<AddResponseDescriptionsTransformer>();
 
             if (extensions.AddServerUrls)
             {
-                options.UseTransformer<AddServersTransformer>();
+                options.AddDocumentTransformer<AddServersTransformer>();
             }
 
             if (extensions.AddExamples)
@@ -151,27 +148,24 @@ public static class OpenApiExtensions
                     extensions.ExamplesMetadata,
                     extensions.SerializationContext);
 
-                // TODO Register as the instance
-                options.UseOperationTransformer(examples.TransformAsync);
-                options.UseSchemaTransformer(examples.TransformAsync);
+                options.AddOperationTransformer(examples);
+                options.AddSchemaTransformer(examples);
             }
 
             if (extensions.XmlDocumentationAssemblies is { Count: > 0 } assemblies)
             {
                 foreach (var assembly in assemblies)
                 {
-                    // TODO Register as the instance
                     var documentation = new AddXmlDocumentationTransformer(assembly);
-                    options.UseSchemaTransformer(documentation.TransformAsync);
+                    options.AddSchemaTransformer(documentation);
                 }
             }
 
             if (extensions.GetDescriptionTransformer() is { } transformer)
             {
-                // TODO Register as the instance
                 var descriptions = new DescriptionsTransformer(transformer);
-                options.UseOperationTransformer(descriptions.TransformAsync);
-                options.UseSchemaTransformer(descriptions.TransformAsync);
+                options.AddOperationTransformer(descriptions);
+                options.AddSchemaTransformer(descriptions);
             }
         }
     }
