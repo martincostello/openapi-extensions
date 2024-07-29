@@ -4,7 +4,7 @@
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi.Models;
 
-namespace MartinCostello.OpenApi;
+namespace MartinCostello.OpenApi.Transformers;
 
 #pragma warning disable CA1852 // TODO Enable with .NET 9 preview 7
 
@@ -12,7 +12,7 @@ namespace MartinCostello.OpenApi;
 /// A class representing an operation and schema description transformer. This class cannot be inherited.
 /// </summary>
 /// <param name="transformer">A delegate to a method to use to transform description strings.</param>
-internal class DescriptionTransformer(Func<string, string> transformer)
+internal class DescriptionsTransformer(Func<string, string> transformer)
 {
     //// TODO Implement IOpenApiOperationTransformer and IOpenApiSchemaTransformer
     //// TODO Make the class sealed

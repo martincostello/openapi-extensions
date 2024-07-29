@@ -7,14 +7,14 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi.Models;
 
-namespace MartinCostello.OpenApi;
+namespace MartinCostello.OpenApi.Transformers;
 
 #pragma warning disable CA1852 // TODO Enable with .NET 9 preview 7
 
 /// <summary>
 /// A class that adds descriptions to OpenAPI operations. This class cannot be inherited.
 /// </summary>
-internal class AddDescriptionsTransformer
+internal class AddParameterDescriptionsTransformer
 {
     //// TODO Implement IOpenApiOperationTransformer
     //// TODO Make the class sealed

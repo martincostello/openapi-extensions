@@ -2,6 +2,7 @@
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using System.Text.Json.Serialization;
+using MartinCostello.OpenApi.Transformers;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -122,10 +123,10 @@ public static class OpenApiExtensions
             configureOptions(options, extensions);
 
             // TODO Register as the instance
-            var addDescriptions = new AddDescriptionsTransformer();
-            var addResponses = new AddResponseDescriptionsTransformer();
-            options.UseOperationTransformer(addDescriptions.TransformAsync);
-            options.UseOperationTransformer(addResponses.TransformAsync);
+            var parameterDescriptions = new AddParameterDescriptionsTransformer();
+            var responseDescriptions = new AddResponseDescriptionsTransformer();
+            options.UseOperationTransformer(parameterDescriptions.TransformAsync);
+            options.UseOperationTransformer(responseDescriptions.TransformAsync);
 
             if (extensions.AddServerUrls)
             {
@@ -158,7 +159,7 @@ public static class OpenApiExtensions
             if (extensions.GetDescriptionTransformer() is { } transformer)
             {
                 // TODO Register as the instance
-                var descriptions = new DescriptionTransformer(transformer);
+                var descriptions = new DescriptionsTransformer(transformer);
                 options.UseOperationTransformer(descriptions.TransformAsync);
                 options.UseSchemaTransformer(descriptions.TransformAsync);
             }
