@@ -20,8 +20,6 @@ jobs:
   code-ql:
 
     runs-on: ubuntu-latest
-    # TODO Enable once repository is public
-    if: false
 
     permissions:
       security-events: write
