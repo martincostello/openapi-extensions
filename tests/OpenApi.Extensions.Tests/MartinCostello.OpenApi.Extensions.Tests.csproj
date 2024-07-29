@@ -24,6 +24,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\OpenApi.Extensions\MartinCostello.OpenApi.Extensions.csproj" />
+    <ProjectReference Include="..\Models.A\Models.A.csproj" />
+    <ProjectReference Include="..\Models.B\Models.B.csproj" />
     <ProjectReference Include="..\TestApp\TestApp.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -34,7 +36,7 @@
   <PropertyGroup Condition=" '$(BuildingInsideVisualStudio)' != 'true' ">
     <CollectCoverage>true</CollectCoverage>
     <CoverletOutputFormat>cobertura,json</CoverletOutputFormat>
-    <Exclude>[*Test*]*,[xunit.*]*</Exclude>
+    <Exclude>[*Models*]*,[*Test*]*,[xunit.*]*</Exclude>
     <ExcludeByAttribute>GeneratedCodeAttribute</ExcludeByAttribute>
     <Threshold>50</Threshold>
   </PropertyGroup>

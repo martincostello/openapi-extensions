@@ -1,0 +1,88 @@
+﻿{
+  openapi: 3.0.1,
+  info: {
+    title: TestApp | v1,
+    version: 1.0.0
+  },
+  paths: {
+    /car: {
+      post: {
+        tags: [
+          TestApp
+        ],
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                required: [
+                  type,
+                  wheels,
+                  manufacturer
+                ],
+                type: object,
+                properties: {
+                  type: {
+                    type: integer
+                  },
+                  wheels: {
+                    type: integer,
+                    format: int32
+                  },
+                  manufacturer: {
+                    type: string
+                  }
+                }
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          204: {
+            description: No Content
+          }
+        }
+      }
+    },
+    /vehicles: {
+      get: {
+        tags: [
+          TestApp
+        ],
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              application/json: {
+                schema: {
+                  type: array,
+                  items: {
+                    required: [
+                      wheels,
+                      manufacturer
+                    ],
+                    type: object,
+                    properties: {
+                      wheels: {
+                        type: integer,
+                        format: int32
+                      },
+                      manufacturer: {
+                        type: string
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  tags: [
+    {
+      name: TestApp
+    }
+  ]
+}

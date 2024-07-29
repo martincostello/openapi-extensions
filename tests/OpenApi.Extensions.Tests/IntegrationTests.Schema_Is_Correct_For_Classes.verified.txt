@@ -1,0 +1,109 @@
+﻿{
+  openapi: 3.0.1,
+  info: {
+    title: TestApp | v1,
+    version: 1.0.0
+  },
+  paths: {
+    /adopt/cat: {
+      post: {
+        tags: [
+          TestApp
+        ],
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                type: object,
+                properties: {
+                  color: {
+                    $ref: #/components/schemas/string
+                  },
+                  name: {
+                    $ref: #/components/schemas/string
+                  }
+                }
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          204: {
+            description: No Content
+          }
+        }
+      }
+    },
+    /adopt/dog: {
+      post: {
+        tags: [
+          TestApp
+        ],
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                type: object,
+                properties: {
+                  breed: {
+                    $ref: #/components/schemas/string
+                  },
+                  name: {
+                    $ref: #/components/schemas/string
+                  }
+                }
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          204: {
+            description: No Content
+          }
+        }
+      }
+    },
+    /animals: {
+      get: {
+        tags: [
+          TestApp
+        ],
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              application/json: {
+                schema: {
+                  type: array,
+                  items: {
+                    type: object,
+                    properties: {
+                      name: {
+                        $ref: #/components/schemas/string
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  components: {
+    schemas: {
+      string: {
+        type: string,
+        nullable: true
+      }
+    }
+  },
+  tags: [
+    {
+      name: TestApp
+    }
+  ]
+}

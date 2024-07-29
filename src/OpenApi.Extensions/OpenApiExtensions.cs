@@ -3,6 +3,8 @@
 
 using System.Text.Json.Serialization;
 using MartinCostello.OpenApi.Transformers;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -171,8 +173,15 @@ public static class OpenApiExtensions
 
     private static IServiceCollection AddOpenApiExtensionsCore(this IServiceCollection services, string documentName)
     {
-        services.AddKeyedSingleton<IOpenApiDocumentTransformer, AddServersTransformer>(documentName);
         services.AddOptions<OpenApiExtensionsOptions>(documentName);
+        services.AddKeyedSingleton<IOpenApiDocumentTransformer>(documentName, (provider, key) =>
+        {
+            var extensionsOptions = provider.GetRequiredKeyedService<IOptions<OpenApiExtensionsOptions>>(key);
+            var httpContextAccessor = provider.GetService<IHttpContextAccessor>();
+            var forwardedHeadersOptions = provider.GetService<IOptions<ForwardedHeadersOptions>>();
+
+            return new AddServersTransformer(extensionsOptions, httpContextAccessor, forwardedHeadersOptions);
+        });
 
         return services;
     }
