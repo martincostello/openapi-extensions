@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Martin Costello, 2024. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MartinCostello.OpenApi;
@@ -21,8 +22,10 @@ public class DocumentTests(ITestOutputHelper outputHelper)
                 {
                     options.AddExamples = true;
                     options.AddServerUrls = true;
-                    options.AddXmlComments<Greeting>();
                     options.SerializationContext = AppJsonSerializationContext.Default;
+
+                    options.AddExample<ProblemDetails, ProblemDetailsExampleProvider>();
+                    options.AddXmlComments<Greeting>();
                 });
             },
             (endpoints) => { },

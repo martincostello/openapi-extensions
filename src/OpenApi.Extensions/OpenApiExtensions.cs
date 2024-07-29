@@ -140,8 +140,11 @@ public static class OpenApiExtensions
                     throw new InvalidOperationException($"No {nameof(JsonSerializerContext)} has been configured on the {nameof(OpenApiExtensionsOptions)} instance for the OpenAPI document \"{options.DocumentName}\".");
                 }
 
+                var examples = new AddExamplesTransformer(
+                    extensions.ExamplesMetadata,
+                    extensions.SerializationContext);
+
                 // TODO Register as the instance
-                var examples = new AddExamplesTransformer(extensions.SerializationContext);
                 options.UseOperationTransformer(examples.TransformAsync);
                 options.UseSchemaTransformer(examples.TransformAsync);
             }

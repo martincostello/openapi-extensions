@@ -3,8 +3,24 @@
 
 using System.ComponentModel;
 using MartinCostello.OpenApi;
+using Microsoft.AspNetCore.WebUtilities;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddProblemDetails();
+builder.Services.Configure<ProblemDetailsOptions>((options) =>
+{
+    options.CustomizeProblemDetails = (context) =>
+    {
+        if (context.Exception is not null)
+        {
+            context.ProblemDetails.Detail = "An internal error occurred.";
+        }
+
+        context.ProblemDetails.Instance = context.HttpContext.Request.Path;
+        context.ProblemDetails.Title = ReasonPhrases.GetReasonPhrase(context.ProblemDetails.Status ?? StatusCodes.Status500InternalServerError);
+    };
+});
 
 builder.Services.AddOpenApi();
 
@@ -15,16 +31,24 @@ app.MapOpenApi();
 app.MapGet("/hello", (
     [Description("The name of the person to greet.")]
     [OpenApiExample("Martin")]
-    string name) =>
-{
-    var greeting = new Greeting()
+    string? name) =>
     {
-        Text = $"Hello, {name}!",
-    };
+        if (string.IsNullOrEmpty(name))
+        {
+            return Results.Problem("No name was provided.", statusCode: StatusCodes.Status400BadRequest);
+        }
 
-    return greeting;
-})
-    .WithMetadata(new OpenApiResponseAttribute(StatusCodes.Status200OK, "A greeting."));
+        var greeting = new Greeting()
+        {
+            Text = $"Hello, {name}!",
+        };
+
+        return Results.Json(greeting);
+    })
+    .Produces<Greeting>(StatusCodes.Status200OK)
+    .ProducesProblem(StatusCodes.Status400BadRequest)
+    .WithMetadata(new OpenApiResponseAttribute(StatusCodes.Status200OK, "A greeting."))
+    .WithMetadata(new OpenApiResponseAttribute(StatusCodes.Status400BadRequest, "No name was provided."));
 
 app.Run();
 
