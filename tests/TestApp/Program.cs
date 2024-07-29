@@ -47,8 +47,8 @@ app.MapGet("/hello", (
     })
     .Produces<Greeting>(StatusCodes.Status200OK)
     .ProducesProblem(StatusCodes.Status400BadRequest)
-    .WithMetadata(new OpenApiResponseAttribute(StatusCodes.Status200OK, "A greeting."))
-    .WithMetadata(new OpenApiResponseAttribute(StatusCodes.Status400BadRequest, "No name was provided."));
+    .ProducesOpenApiResponse(StatusCodes.Status200OK, "A greeting.")
+    .ProducesOpenApiResponse(StatusCodes.Status400BadRequest, "No name was provided.");
 
 app.Run();
 
