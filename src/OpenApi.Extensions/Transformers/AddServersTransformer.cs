@@ -12,12 +12,12 @@ namespace MartinCostello.OpenApi.Transformers;
 /// <summary>
 /// A class that server information to an OpenAPI document. This class cannot be inherited.
 /// </summary>
-/// <param name="accessor">The <see cref="IHttpContextAccessor"/> to use, if available.</param>
 /// <param name="extensionsOptions"> The configured <see cref="OpenApiExtensionsOptions"/>.</param>
+/// <param name="accessor">The <see cref="IHttpContextAccessor"/> to use, if available.</param>
 /// <param name="forwardedHeadersOptions">The configured <see cref="ForwardedHeadersOptions"/>, if any.</param>
 internal sealed class AddServersTransformer(
-    IHttpContextAccessor? accessor,
     IOptions<OpenApiExtensionsOptions> extensionsOptions,
+    IHttpContextAccessor? accessor,
     IOptions<ForwardedHeadersOptions>? forwardedHeadersOptions) : IOpenApiDocumentTransformer
 {
     /// <inheritdoc/>
