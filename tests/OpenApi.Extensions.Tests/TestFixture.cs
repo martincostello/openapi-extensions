@@ -32,18 +32,13 @@ public sealed class TestFixture(
 
         builder.ConfigureServices((services) =>
         {
-            services.AddSingleton<IStartupFilter>(ConfigureEndpointsFilter.Create(configureEndpoints));
+            services.AddSingleton<IStartupFilter>(new ConfigureEndpointsFilter(configureEndpoints));
             configureServices(services);
         });
     }
 
     private sealed class ConfigureEndpointsFilter(Action<IEndpointRouteBuilder> configure) : IStartupFilter
     {
-#pragma warning disable CA1859
-        public static IStartupFilter Create(Action<IEndpointRouteBuilder> configure)
-            => new ConfigureEndpointsFilter(configure);
-#pragma warning restore CA1859
-
         public Action<IApplicationBuilder> Configure(Action<IApplicationBuilder> next)
         {
             return (builder) =>
