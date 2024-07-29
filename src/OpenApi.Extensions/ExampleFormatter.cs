@@ -13,19 +13,6 @@ namespace MartinCostello.OpenApi;
 internal static class ExampleFormatter
 {
     /// <summary>
-    /// Formats the example for the specified type.
-    /// </summary>
-    /// <typeparam name="TSchema">The type of the schema.</typeparam>
-    /// <typeparam name="TProvider">The type of the example provider.</typeparam>
-    /// <param name="context">The JSON serializer context to use.</param>
-    /// <returns>
-    /// The <see cref="IOpenApiAny"/> to use as the example.
-    /// </returns>
-    public static IOpenApiAny AsJson<TSchema, TProvider>(JsonSerializerContext context)
-        where TProvider : IExampleProvider<TSchema>
-        => AsJson(TProvider.GenerateExample(), context);
-
-    /// <summary>
     /// Formats the specified value as JSON.
     /// </summary>
     /// <typeparam name="T">The type of the value.</typeparam>
