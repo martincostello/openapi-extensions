@@ -89,21 +89,18 @@ public class OpenApiExtensionsOptions
         {
             return null;
         }
-        else if (DescriptionTransformations.Count == 1)
+
+        var transformer = DescriptionTransformations[0];
+
+        if (DescriptionTransformations.Count > 1)
         {
-            return DescriptionTransformations[0];
+            for (int i = 1; i < DescriptionTransformations.Count; i++)
+            {
+                var next = DescriptionTransformations[i];
+                transformer += next;
+            }
         }
 
-        return (description) =>
-        {
-            string transformed = description;
-
-            foreach (var transformer in DescriptionTransformations)
-            {
-                transformed = transformer(transformed);
-            }
-
-            return transformed;
-        };
+        return transformer;
     }
 }
