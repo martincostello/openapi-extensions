@@ -13,8 +13,6 @@ permissions:
 jobs:
   dependency-review:
     runs-on: ubuntu-latest
-    # TODO Enable once repository is public
-    if: false
 
     steps:
 
