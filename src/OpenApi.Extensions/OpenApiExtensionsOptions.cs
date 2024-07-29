@@ -59,6 +59,19 @@ public class OpenApiExtensionsOptions
     ];
 
     /// <summary>
+    /// Gets a collection of metadata to use when adding examples to OpenAPI operations and schemas.
+    /// </summary>
+    /// <remarks>
+    /// By default example metadata is searched for in the metadata for endpoints, as well as on
+    /// their parameters and parameter and return types. This collection can be used to provide examples
+    /// for types and/or endpoints where the examples cannot be inferred from the metadata.
+    /// <para/>
+    /// For example, this property can be used to add metadata for types for code you cannot change
+    /// the definition of, such as types from a third-party library or ASP.NET Core itself.
+    /// </remarks>
+    public ICollection<IOpenApiExampleMetadata> ExamplesMetadata { get; } = [];
+
+    /// <summary>
     /// Gets or sets the <see cref="JsonSerializerContext"/> to use
     /// when <see cref="AddExamples"/> is <see langword="true"/>.
     /// </summary>
@@ -69,6 +82,21 @@ public class OpenApiExtensionsOptions
     /// to provide descriptions for operations and/or schemas, if any.
     /// </summary>
     public IList<Assembly> XmlDocumentationAssemblies { get; } = [];
+
+    /// <summary>
+    /// Adds an example provider for the specified type to the options.
+    /// </summary>
+    /// <typeparam name="TSchema">The type of the schema.</typeparam>
+    /// <typeparam name="TProvider">The type of the example provider.</typeparam>
+    /// <returns>
+    /// The current instance of <see cref="OpenApiExtensionsOptions"/>.
+    /// </returns>
+    public OpenApiExtensionsOptions AddExample<TSchema, TProvider>()
+        where TProvider : IExampleProvider<TSchema>
+    {
+        ExamplesMetadata.Add(new OpenApiExampleAttribute<TSchema, TProvider>());
+        return this;
+    }
 
     /// <summary>
     /// Adds XML documentation for the assembly associated with the specified type to the options.

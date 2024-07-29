@@ -34,7 +34,7 @@
   <PropertyGroup Condition=" '$(BuildingInsideVisualStudio)' != 'true' ">
     <CollectCoverage>true</CollectCoverage>
     <CoverletOutputFormat>cobertura,json</CoverletOutputFormat>
-    <Exclude>[*.Test*]*,[xunit.*]*</Exclude>
+    <Exclude>[*Test*]*,[xunit.*]*</Exclude>
     <ExcludeByAttribute>GeneratedCodeAttribute</ExcludeByAttribute>
     <Threshold>50</Threshold>
   </PropertyGroup>

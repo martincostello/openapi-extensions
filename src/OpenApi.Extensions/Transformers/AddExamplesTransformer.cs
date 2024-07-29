@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Martin Costello, 2024. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
+using System.Collections.Frozen;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -15,13 +16,17 @@ namespace MartinCostello.OpenApi.Transformers;
 /// <summary>
 /// A class that adds examples to the OpenAPI operations and schemas. This class cannot be inherited.
 /// </summary>
+/// <param name="examplesMetadata">Any explicitly configured example metadata.</param>
 /// <param name="context">The <see cref="JsonSerializerContext"/> to use to generate the examples.</param>
-internal class AddExamplesTransformer(JsonSerializerContext context)
+internal class AddExamplesTransformer(
+    ICollection<IOpenApiExampleMetadata> examplesMetadata,
+    JsonSerializerContext context)
 {
     //// TODO Implement IOpenApiOperationTransformer and IOpenApiSchemaTransformer
     //// TODO Make the class sealed
     //// TODO Remove virtual modifiers
 
+    private readonly FrozenDictionary<Type, IOpenApiExampleMetadata> _metadata = examplesMetadata.ToFrozenDictionary((p) => p.ExampleType, (v) => v);
     private readonly JsonSerializerContext _context = context;
 
     public virtual Task TransformAsync(
@@ -103,7 +108,8 @@ internal class AddExamplesTransformer(JsonSerializerContext context)
                 var metadata =
                     argument.GetExampleMetadata().FirstOrDefault((p) => p.ExampleType == argument.ParameterType) ??
                     argument.ParameterType.GetExampleMetadata().FirstOrDefault((p) => p.ExampleType == argument.ParameterType) ??
-                    examples.FirstOrDefault((p) => p.ExampleType == argument.ParameterType);
+                    examples.FirstOrDefault((p) => p.ExampleType == argument.ParameterType) ??
+                    TryGetMetadata(argument.ParameterType);
 
                 if (metadata?.GenerateExample(_context) is { } value)
                 {
@@ -136,7 +142,9 @@ internal class AddExamplesTransformer(JsonSerializerContext context)
             .GetExampleMetadata()
             .FirstOrDefault();
 
-        metadata ??= examples.FirstOrDefault((p) => p.ExampleType == bodyParameter.Type);
+        metadata ??=
+            examples.FirstOrDefault((p) => p.ExampleType == bodyParameter.Type) ??
+            TryGetMetadata(bodyParameter.Type);
 
         if (metadata is not null)
         {
@@ -153,18 +161,27 @@ internal class AddExamplesTransformer(JsonSerializerContext context)
         {
             schemaResponse.Type ??= schemaResponse.ModelMetadata?.ModelType;
 
-            var metadata = schemaResponse.Type?
-                .GetExampleMetadata()
-                .FirstOrDefault((p) => p.ExampleType == schemaResponse.Type);
+            IOpenApiExampleMetadata? metadata = null;
+
+            if (schemaResponse.Type is { } type)
+            {
+                metadata =
+                    type.GetExampleMetadata().FirstOrDefault((p) => p.ExampleType == type) ??
+                    examples.FirstOrDefault((p) => p.ExampleType == type) ??
+                    TryGetMetadata(type);
+            }
 
             foreach (var responseFormat in schemaResponse.ApiResponseFormats)
             {
                 if (responses.TryGetValue(schemaResponse.StatusCode.ToString(CultureInfo.InvariantCulture), out var response) &&
                     response.Content.TryGetValue(responseFormat.MediaType, out var mediaType))
                 {
-                    mediaType.Example ??= (metadata ?? examples.SingleOrDefault((p) => p.ExampleType == schemaResponse.Type))?.GenerateExample(_context);
+                    mediaType.Example ??= metadata?.GenerateExample(_context);
                 }
             }
         }
     }
+
+    private IOpenApiExampleMetadata? TryGetMetadata(Type type)
+        => _metadata.TryGetValue(type, out var metadata) ? metadata : null;
 }
