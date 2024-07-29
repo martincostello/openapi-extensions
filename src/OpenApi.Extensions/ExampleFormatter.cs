@@ -21,8 +21,13 @@ internal static class ExampleFormatter
     /// <returns>
     /// The <see cref="IOpenApiAny"/> to use as the example.
     /// </returns>
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="context"/> is <see langword="null"/>.
+    /// </exception>
     public static IOpenApiAny AsJson<T>(T example, JsonSerializerContext context)
     {
+        ArgumentNullException.ThrowIfNull(context);
+
         string? json = JsonSerializer.Serialize(example, typeof(T), context);
         using var document = JsonDocument.Parse(json);
 
