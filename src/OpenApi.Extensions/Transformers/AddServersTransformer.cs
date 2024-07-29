@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
-namespace MartinCostello.OpenApi;
+namespace MartinCostello.OpenApi.Transformers;
 
 /// <summary>
 /// A class that server information to an OpenAPI document. This class cannot be inherited.
@@ -51,8 +51,8 @@ internal sealed class AddServersTransformer(
             return null;
         }
 
-        string scheme = TryGetFirstHeader(options.ForwardedProtoHeaderName) ?? request.Scheme;
-        string host = TryGetFirstHeader(options.ForwardedHostHeaderName) ?? request.Host.ToString();
+        var scheme = TryGetFirstHeader(options.ForwardedProtoHeaderName) ?? request.Scheme;
+        var host = TryGetFirstHeader(options.ForwardedHostHeaderName) ?? request.Host.ToString();
 
         return new Uri($"{scheme}://{host}").ToString().TrimEnd('/');
 

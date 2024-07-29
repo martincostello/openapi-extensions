@@ -9,12 +9,12 @@ using System.Xml.XPath;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi.Models;
 
-namespace MartinCostello.OpenApi;
+namespace MartinCostello.OpenApi.Transformers;
 
 #pragma warning disable CA1852 // TODO Enable with .NET 9 preview 7
 
 /// <summary>
-/// A class that adds XML documentation descriptions to OpenAPI operations and schemas. This class cannot be inherited.
+/// A class that adds XML documentation descriptions to OpenAPI schemas. This class cannot be inherited.
 /// </summary>
 /// <param name="assembly">The assembly to add XML descriptions to the types of.</param>
 internal class AddXmlDocumentationTransformer(Assembly assembly)
@@ -46,7 +46,7 @@ internal class AddXmlDocumentationTransformer(Assembly assembly)
 
     private string? GetDescription(string memberName)
     {
-        if (_descriptions.TryGetValue(memberName, out string? description))
+        if (_descriptions.TryGetValue(memberName, out var description))
         {
             return description;
         }
@@ -96,7 +96,7 @@ internal class AddXmlDocumentationTransformer(Assembly assembly)
     {
         if (_navigator is null)
         {
-            string path = Path.Combine(AppContext.BaseDirectory, $"{_assembly.GetName().Name}.xml");
+            var path = Path.Combine(AppContext.BaseDirectory, $"{_assembly.GetName().Name}.xml");
             using var reader = XmlReader.Create(path);
             _navigator = new XPathDocument(reader).CreateNavigator();
         }

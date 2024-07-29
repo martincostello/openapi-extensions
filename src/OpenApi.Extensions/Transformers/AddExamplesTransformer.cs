@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi.Models;
 
-namespace MartinCostello.OpenApi;
+namespace MartinCostello.OpenApi.Transformers;
 
 #pragma warning disable CA1852 // TODO Enable with .NET 9 preview 7
 

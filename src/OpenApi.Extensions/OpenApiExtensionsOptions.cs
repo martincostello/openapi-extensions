@@ -3,6 +3,7 @@
 
 using System.Reflection;
 using System.Text.Json.Serialization;
+using MartinCostello.OpenApi.Transformers;
 
 namespace MartinCostello.OpenApi;
 
@@ -53,8 +54,8 @@ public class OpenApiExtensionsOptions
     /// </remarks>
     public IList<Func<string, string>> DescriptionTransformations { get; } =
     [
-        DescriptionTransformer.RemoveBackticks,
-        DescriptionTransformer.RemoveStyleCopPrefixes,
+        DescriptionsTransformer.RemoveBackticks,
+        DescriptionsTransformer.RemoveStyleCopPrefixes,
     ];
 
     /// <summary>
