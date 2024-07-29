@@ -90,7 +90,12 @@ public static class OpenApiExtensions
         this IServiceCollection services,
         string documentName,
         Action<OpenApiExtensionsOptions> configureOptions)
-        => services.AddOpenApiExtensions(documentName, (_, options) => configureOptions(options));
+    {
+        ArgumentNullException.ThrowIfNull(services);
+        ArgumentNullException.ThrowIfNull(configureOptions);
+
+        return services.AddOpenApiExtensions(documentName, (_, options) => configureOptions(options));
+    }
 
     /// <summary>
     /// Adds OpenAPI extensions related to the given document name to the specified <see cref="IServiceCollection"/> with the specified options.
