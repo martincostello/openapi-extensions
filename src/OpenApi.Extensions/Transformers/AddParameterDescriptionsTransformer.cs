@@ -9,18 +9,13 @@ using Microsoft.OpenApi.Models;
 
 namespace MartinCostello.OpenApi.Transformers;
 
-#pragma warning disable CA1852 // TODO Enable with .NET 9 preview 7
-
 /// <summary>
 /// A class that adds descriptions to OpenAPI operations. This class cannot be inherited.
 /// </summary>
-internal class AddParameterDescriptionsTransformer
+internal sealed class AddParameterDescriptionsTransformer : IOpenApiOperationTransformer
 {
-    //// TODO Implement IOpenApiOperationTransformer
-    //// TODO Make the class sealed
-    //// TODO Remove virtual modifier
-
-    public virtual Task TransformAsync(
+    /// <inheritdoc/>
+    public Task TransformAsync(
         OpenApiOperation operation,
         OpenApiOperationTransformerContext context,
         CancellationToken cancellationToken)

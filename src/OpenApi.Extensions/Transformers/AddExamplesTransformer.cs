@@ -11,25 +11,22 @@ using Microsoft.OpenApi.Models;
 
 namespace MartinCostello.OpenApi.Transformers;
 
-#pragma warning disable CA1852 // TODO Enable with .NET 9 preview 7
-
 /// <summary>
 /// A class that adds examples to the OpenAPI operations and schemas. This class cannot be inherited.
 /// </summary>
 /// <param name="examplesMetadata">Any explicitly configured example metadata.</param>
 /// <param name="context">The <see cref="JsonSerializerContext"/> to use to generate the examples.</param>
-internal class AddExamplesTransformer(
+internal sealed class AddExamplesTransformer(
     ICollection<IOpenApiExampleMetadata> examplesMetadata,
-    JsonSerializerContext context)
+    JsonSerializerContext context) :
+    IOpenApiOperationTransformer,
+    IOpenApiSchemaTransformer
 {
-    //// TODO Implement IOpenApiOperationTransformer and IOpenApiSchemaTransformer
-    //// TODO Make the class sealed
-    //// TODO Remove virtual modifiers
-
     private readonly FrozenDictionary<Type, IOpenApiExampleMetadata> _metadata = examplesMetadata.ToFrozenDictionary((p) => p.ExampleType, (v) => v);
     private readonly JsonSerializerContext _context = context;
 
-    public virtual Task TransformAsync(
+    /// <inheritdoc/>
+    public Task TransformAsync(
         OpenApiOperation operation,
         OpenApiOperationTransformerContext context,
         CancellationToken cancellationToken)
@@ -39,20 +36,13 @@ internal class AddExamplesTransformer(
         return Task.CompletedTask;
     }
 
-    public virtual Task TransformAsync(
+    /// <inheritdoc/>
+    public Task TransformAsync(
         OpenApiSchema schema,
         OpenApiSchemaTransformerContext context,
         CancellationToken cancellationToken)
     {
-        // TODO Use context.JsonTypeInfo.Type with .NET 9 preview 7
-        Type? type = null; // context.JsonTypeInfo.Type;
-
-#pragma warning disable CA1508
-        if (type is not null)
-#pragma warning restore CA1508
-        {
-            Process(schema, type);
-        }
+        Process(schema, context.JsonTypeInfo.Type);
 
         return Task.CompletedTask;
     }

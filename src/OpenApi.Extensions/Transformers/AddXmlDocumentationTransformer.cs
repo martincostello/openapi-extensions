@@ -11,31 +11,24 @@ using Microsoft.OpenApi.Models;
 
 namespace MartinCostello.OpenApi.Transformers;
 
-#pragma warning disable CA1852 // TODO Enable with .NET 9 preview 7
-
 /// <summary>
 /// A class that adds XML documentation descriptions to OpenAPI schemas. This class cannot be inherited.
 /// </summary>
 /// <param name="assembly">The assembly to add XML descriptions to the types of.</param>
-internal class AddXmlDocumentationTransformer(Assembly assembly)
+internal sealed class AddXmlDocumentationTransformer(Assembly assembly) : IOpenApiSchemaTransformer
 {
-    //// TODO Implement IOpenApiSchemaTransformer
-    //// TODO Make the class sealed
-    //// TODO Remove virtual modifier
-
     private readonly Assembly _assembly = assembly;
     private readonly ConcurrentDictionary<string, string?> _descriptions = [];
     private XPathNavigator? _navigator;
 
-    public virtual Task TransformAsync(
+    /// <inheritdoc/>
+    public Task TransformAsync(
         OpenApiSchema schema,
         OpenApiSchemaTransformerContext context,
         CancellationToken cancellationToken)
     {
-        // TODO Pass through context.JsonTypeInfo and
-        // context.JsonPropertyInfo .NET 9 preview 7
         if (schema.Description is null &&
-            GetMemberName(null!, null) is { Length: > 0 } memberName &&
+            GetMemberName(context.JsonTypeInfo, context.JsonPropertyInfo) is { Length: > 0 } memberName &&
             GetDescription(memberName) is { Length: > 0 } description)
         {
             schema.Description = description;
@@ -66,8 +59,7 @@ internal class AddXmlDocumentationTransformer(Assembly assembly)
 
     private string? GetMemberName(JsonTypeInfo typeInfo, JsonPropertyInfo? propertyInfo)
     {
-        // TODO Remove null guard on typeInfo for .NET 9 preview 7
-        if (typeInfo?.Type.Assembly != _assembly &&
+        if (typeInfo.Type.Assembly != _assembly &&
             propertyInfo?.DeclaringType.Assembly != _assembly)
         {
             return null;
@@ -84,12 +76,10 @@ internal class AddXmlDocumentationTransformer(Assembly assembly)
 
             return $"{memberType}:{typeName}{Type.Delimiter}{memberName}";
         }
-        else if (typeInfo is not null)
+        else
         {
             return $"T:{typeInfo.Type.FullName}";
         }
-
-        return null;
     }
 
     private XPathNavigator CreateNavigator()
