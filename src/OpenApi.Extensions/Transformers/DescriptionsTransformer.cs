@@ -27,12 +27,9 @@ internal class DescriptionsTransformer(Func<string, string> transformer)
         {
             foreach (var model in response.Content.Values)
             {
-                foreach (var property in model.Schema.Properties.Values)
+                foreach (var property in model.Schema.Properties.Values.Where((p) => p.Description is not null))
                 {
-                    if (property.Description is { } description)
-                    {
-                        property.Description = transformer(description);
-                    }
+                    property.Description = transformer(property.Description);
                 }
             }
         }
@@ -50,12 +47,9 @@ internal class DescriptionsTransformer(Func<string, string> transformer)
             schema.Description = transformer(schemaDescription);
         }
 
-        foreach (var property in schema.Properties.Values)
+        foreach (var property in schema.Properties.Values.Where((p) => p.Description is not null))
         {
-            if (property.Description is { } description)
-            {
-                property.Description = transformer(description);
-            }
+            property.Description = transformer(property.Description);
         }
 
         return Task.CompletedTask;
