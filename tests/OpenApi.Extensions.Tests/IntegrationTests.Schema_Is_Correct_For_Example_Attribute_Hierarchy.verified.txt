@@ -208,6 +208,76 @@
           }
         }
       }
+    },
+    /example-is-endpoint-metadata: {
+      get: {
+        tags: [
+          Hierarchicy
+        ],
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/Cat
+                },
+                example: {
+                  Color: Black,
+                  Name: Whiskers
+                }
+              }
+            }
+          }
+        }
+      },
+      post: {
+        tags: [
+          Hierarchicy
+        ],
+        parameters: [
+          {
+            name: name,
+            in: query,
+            schema: {
+              type: string,
+              default: null,
+              nullable: true
+            },
+            example: name
+          }
+        ],
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                $ref: #/components/schemas/Cat
+              },
+              example: {
+                Color: Black,
+                Name: Whiskers
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/Cat
+                },
+                example: {
+                  Color: Black,
+                  Name: Whiskers
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   components: {
