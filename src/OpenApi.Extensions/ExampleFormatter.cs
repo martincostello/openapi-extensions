@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Martin Costello, 2024. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Any;
@@ -31,25 +32,10 @@ internal static class ExampleFormatter
         string? json = JsonSerializer.Serialize(example, typeof(T), context);
         using var document = JsonDocument.Parse(json);
 
-        if (document.RootElement.ValueKind == JsonValueKind.String)
-        {
-            return new OpenApiString(document.RootElement.ToString());
-        }
-
-        var result = new OpenApiObject();
-
-        foreach (var token in document.RootElement.EnumerateObject())
-        {
-            if (TryParse(token.Value, out var any))
-            {
-                result[token.Name] = any;
-            }
-        }
-
-        return result;
+        return TryParse(document.RootElement, out var any) ? any : new OpenApiNull();
     }
 
-    private static bool TryParse(JsonElement token, out IOpenApiAny? any)
+    private static bool TryParse(JsonElement token, [NotNullWhen(true)] out IOpenApiAny? any)
     {
         any = null;
 
@@ -100,6 +86,9 @@ internal static class ExampleFormatter
                 return true;
 
             case JsonValueKind.Null:
+                any = new OpenApiNull();
+                return true;
+
             case JsonValueKind.Undefined:
             default:
                 return false;
