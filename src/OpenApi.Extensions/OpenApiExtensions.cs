@@ -18,7 +18,7 @@ namespace MartinCostello.OpenApi;
 /// </summary>
 public static class OpenApiExtensions
 {
-    // See https://github.com/dotnet/aspnetcore/blob/06155c05af89c957de20d2c53cee0e37171b9a09/src/OpenApi/src/Services/OpenApiConstants.cs#L10C5-L10C54
+    // See https://github.com/dotnet/aspnetcore/blob/06155c05af89c957de20d2c53cee0e37171b9a09/src/OpenApi/src/Services/OpenApiConstants.cs#L10
     private const string DefaultDocumentName = "v1";
 
     /// <summary>
