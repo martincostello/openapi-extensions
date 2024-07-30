@@ -72,10 +72,10 @@ public class OpenApiExtensionsOptions
     public ICollection<IOpenApiExampleMetadata> ExamplesMetadata { get; } = [];
 
     /// <summary>
-    /// Gets or sets the <see cref="JsonSerializerContext"/> to use
+    /// Gets the instances of <see cref="JsonSerializerContext"/> to use
     /// when <see cref="AddExamples"/> is <see langword="true"/>.
     /// </summary>
-    public JsonSerializerContext? SerializationContext { get; set; }
+    public IList<JsonSerializerContext> SerializationContexts { get; } = [];
 
     /// <summary>
     /// Gets the assemblies that should be used to find XML documentation

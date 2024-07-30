@@ -56,7 +56,7 @@ public static class OpenApiExtensionsTests
         services.AddOpenApiExtensions((options) =>
         {
             options.AddExamples = true;
-            options.SerializationContext = null;
+            options.SerializationContexts.Clear();
         });
 
         using var serviceProvider = services.BuildServiceProvider();
