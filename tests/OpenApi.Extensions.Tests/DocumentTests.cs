@@ -14,11 +14,10 @@ public abstract class DocumentTests(ITestOutputHelper outputHelper)
 
     protected async Task VerifyOpenApiDocumentAsync(
         Action<IServiceCollection> configureServices,
-        Action<IEndpointRouteBuilder>? configureEndpoints = null,
+        Action<IEndpointRouteBuilder> configureEndpoints,
         VerifySettings? settings = null)
     {
         // Arrange
-        configureEndpoints ??= static (_) => { };
         using var fixture = new TestFixture(configureServices, configureEndpoints, OutputHelper);
 
         // Act
