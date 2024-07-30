@@ -73,7 +73,10 @@
             nullable: true
           }
         },
-        description: Represents a greeting.
+        description: Represents a greeting.,
+        example: {
+          text: Hello, World!
+        }
       },
       ProblemDetails: {
         type: object,
@@ -99,6 +102,13 @@
             type: string,
             nullable: true
           }
+        },
+        example: {
+          type: https://tools.ietf.org/html/rfc9110#section-15.6.1,
+          title: Internal Server Error,
+          status: 500,
+          detail: An internal error occurred.,
+          instance: /hello
         }
       }
     }

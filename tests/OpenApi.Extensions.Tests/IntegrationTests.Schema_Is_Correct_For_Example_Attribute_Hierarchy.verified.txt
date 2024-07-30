@@ -339,6 +339,11 @@
           manufacturer: {
             type: string
           }
+        },
+        example: {
+          Type: 0,
+          Wheels: 4,
+          Manufacturer: MINI
         }
       },
       CarType: {
@@ -368,6 +373,10 @@
             type: string,
             nullable: true
           }
+        },
+        example: {
+          Breed: Greyhound,
+          Name: Santa's Little Helper
         }
       },
       Spot: {
@@ -381,6 +390,10 @@
             type: string,
             nullable: true
           }
+        },
+        example: {
+          Breed: Greyhound,
+          Name: Santa's Little Helper
         }
       }
     }

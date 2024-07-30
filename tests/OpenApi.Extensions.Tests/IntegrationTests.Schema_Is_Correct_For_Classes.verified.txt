@@ -109,7 +109,10 @@
             nullable: true
           }
         },
-        description: A class representing an animal.
+        description: A class representing an animal.,
+        example: {
+          Name: Donald
+        }
       },
       ArrayOfAnimal: {
         type: array,
@@ -147,7 +150,11 @@
             nullable: true
           }
         },
-        description: A class representing a dog.
+        description: A class representing a dog.,
+        example: {
+          Breed: Greyhound,
+          Name: Santa's Little Helper
+        }
       }
     }
   },
