@@ -75,6 +75,7 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
                     options.AddExamples = true;
                     options.SerializationContexts.Add(AnimalsJsonSerializationContext.Default);
 
+                    options.AddExample<Animal, AnimalExampleProvider>();
                     options.AddXmlComments<Animal>();
                 });
                 services.ConfigureHttpJsonOptions((options) =>
@@ -84,6 +85,11 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
             },
             (endpoints) =>
             {
+                endpoints.MapPost("/register", (Animal animal) =>
+                {
+                    return TypedResults.Created();
+                });
+
                 endpoints.MapPost("/adopt/cat", (Cat cat) =>
                 {
                     return TypedResults.NoContent();
@@ -101,6 +107,35 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
                         new Cat() { Name = "Garfield", Color = "Orange" },
                         new Dog() { Name = "Snoopy", Breed = "Beagle" },
                     };
+                });
+            });
+    }
+
+    [Fact]
+    public async Task Schema_Is_Correct_For_Interfaces()
+    {
+        // Act and Assert
+        await VerifyOpenApiDocumentAsync(
+            (services) =>
+            {
+                services.AddOpenApi();
+                services.AddOpenApiExtensions((options) =>
+                {
+                    options.AddExamples = true;
+                    options.SerializationContexts.Add(AnimalsJsonSerializationContext.Default);
+
+                    options.AddXmlComments<IAnimal>();
+                });
+                services.ConfigureHttpJsonOptions((options) =>
+                {
+                    options.SerializerOptions.TypeInfoResolverChain.Add(AnimalsJsonSerializationContext.Default);
+                });
+            },
+            (endpoints) =>
+            {
+                endpoints.MapPost("/register", (IAnimal animal) =>
+                {
+                    return TypedResults.Created();
                 });
             });
     }
@@ -140,6 +175,35 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
                         new Motorcycle("Yamaha"),
                     };
                 });
+            });
+    }
+
+    [Fact]
+    public async Task Schema_Is_Correct_For_Not_Json()
+    {
+        // Act and Assert
+        await VerifyOpenApiDocumentAsync(
+            (services) =>
+            {
+                services.AddHttpContextAccessor();
+                services.AddOpenApi();
+                services.AddOpenApiExtensions((options) =>
+                {
+                    options.AddExamples = true;
+                    options.AddServerUrls = true;
+                    options.SerializationContexts.Add(AppJsonSerializationContext.Default);
+                });
+                services.ConfigureHttpJsonOptions((options) =>
+                {
+                    options.SerializerOptions.TypeInfoResolverChain.Add(AppJsonSerializationContext.Default);
+                });
+            },
+            (endpoints) =>
+            {
+                endpoints.MapGet("/greet", Greet);
+
+                [return: OpenApiExample("Bonjour!")]
+                static string Greet() => "Hello!";
             });
     }
 
