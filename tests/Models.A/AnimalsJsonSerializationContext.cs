@@ -9,6 +9,7 @@ namespace Models.A;
 /// The <see cref="JsonSerializerContext"/> to use for animals.
 /// </summary>
 [JsonSerializable(typeof(Animal))]
+[JsonSerializable(typeof(Animal[]))]
 [JsonSerializable(typeof(Cat))]
 [JsonSerializable(typeof(Dog))]
 public sealed partial class AnimalsJsonSerializationContext : JsonSerializerContext;

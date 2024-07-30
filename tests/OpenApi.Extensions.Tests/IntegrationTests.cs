@@ -31,6 +31,10 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
                     options.AddExample<ProblemDetails, ProblemDetailsExampleProvider>();
                     options.AddXmlComments<Greeting>();
                 });
+                services.ConfigureHttpJsonOptions((options) =>
+                {
+                    options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializationContext.Default);
+                });
             },
             (endpoints) =>
             {
@@ -73,6 +77,10 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
 
                     options.AddXmlComments<Animal>();
                 });
+                services.ConfigureHttpJsonOptions((options) =>
+                {
+                    options.SerializerOptions.TypeInfoResolverChain.Insert(0, AnimalsJsonSerializationContext.Default);
+                });
             },
             (endpoints) =>
             {
@@ -111,6 +119,10 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
                     options.SerializationContext = VehiclesJsonSerializationContext.Default;
 
                     options.AddXmlComments<Vehicle>();
+                });
+                services.ConfigureHttpJsonOptions((options) =>
+                {
+                    options.SerializerOptions.TypeInfoResolverChain.Insert(0, VehiclesJsonSerializationContext.Default);
                 });
             },
             (endpoints) =>
