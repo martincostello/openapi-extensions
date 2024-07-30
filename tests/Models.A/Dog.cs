@@ -6,7 +6,7 @@ using MartinCostello.OpenApi;
 namespace Models.A;
 
 /// <summary>
-/// A class representing a dog.
+/// A class representing a dog. Secret.
 /// </summary>
 [OpenApiExample<Dog>]
 public class Dog : Animal, IExampleProvider<Dog>

@@ -122,11 +122,17 @@ public class OpenApiExtensionsOptions
 
         if (DescriptionTransformations.Count > 1)
         {
-            for (int i = 1; i < DescriptionTransformations.Count; i++)
+            transformer = (description) =>
             {
-                var next = DescriptionTransformations[i];
-                transformer += next;
-            }
+                string transformed = description;
+
+                foreach (var transformer in DescriptionTransformations)
+                {
+                    transformed = transformer(transformed);
+                }
+
+                return transformed;
+            };
         }
 
         return transformer;

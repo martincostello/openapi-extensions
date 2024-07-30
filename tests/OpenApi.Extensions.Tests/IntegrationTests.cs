@@ -79,6 +79,8 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
 
                     options.AddExample<Animal, AnimalExampleProvider>();
                     options.AddXmlComments<Animal>();
+
+                    options.DescriptionTransformations.Add((p) => p.Replace(" Secret.", string.Empty, StringComparison.Ordinal));
                 });
                 services.ConfigureHttpJsonOptions((options) =>
                 {
