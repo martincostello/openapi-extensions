@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Martin Costello, 2024. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
+using System.ComponentModel;
 using MartinCostello.OpenApi;
 using Microsoft.EntityFrameworkCore;
 using TodoApp.Data;
@@ -83,7 +84,7 @@ public static class ApiEndpoints
             group.MapGet(
                 "/{id}",
                 async (
-                    Guid id,
+                    [Description("The Todo item's ID.")] Guid id,
                     ITodoService service,
                     CancellationToken cancellationToken) =>
                 {
@@ -105,7 +106,7 @@ public static class ApiEndpoints
             group.MapPost(
                 "/",
                 async (
-                    CreateTodoItemModel model,
+                    [Description("The Todo item to create.")] CreateTodoItemModel model,
                     ITodoService service,
                     CancellationToken cancellationToken) =>
                 {
@@ -129,7 +130,7 @@ public static class ApiEndpoints
             group.MapPost(
                 "/{id}/complete",
                 async (
-                    Guid id,
+                    [Description("The Todo item's ID.")] Guid id,
                     ITodoService service,
                     CancellationToken cancellationToken) =>
                 {
@@ -155,7 +156,7 @@ public static class ApiEndpoints
             group.MapDelete(
                 "/{id}",
                 async (
-                    Guid id,
+                    [Description("The Todo item's ID.")] Guid id,
                     ITodoService service,
                     CancellationToken cancellationToken) =>
                 {
