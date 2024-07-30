@@ -8,7 +8,9 @@ namespace MartinCostello.OpenApi;
 internal static class ReflectionExtensions
 {
     public static IEnumerable<IOpenApiExampleMetadata> GetExampleMetadata(this MethodInfo method)
-        => method.GetCustomAttributes().OfType<IOpenApiExampleMetadata>();
+        => method.GetCustomAttributes()
+                 .OfType<IOpenApiExampleMetadata>()
+                 .Concat(method.ReturnParameter.GetExampleMetadata());
 
     public static IEnumerable<IOpenApiExampleMetadata> GetExampleMetadata(this ParameterInfo parameter)
         => parameter.GetCustomAttributes().OfType<IOpenApiExampleMetadata>();

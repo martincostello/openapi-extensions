@@ -13,7 +13,7 @@ namespace MartinCostello.OpenApi;
 /// </summary>
 /// <typeparam name="TSchema">The type of the schema.</typeparam>
 /// <typeparam name="TProvider">The type of the example provider.</typeparam>
-[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Parameter, AllowMultiple = true, Inherited = true)]
+[AttributeUsage(ExampleTargets.ValidTargets, AllowMultiple = true, Inherited = true)]
 public class OpenApiExampleAttribute<TSchema, TProvider> : Attribute, IOpenApiExampleMetadata
     where TProvider : IExampleProvider<TSchema>
 {

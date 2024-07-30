@@ -1,0 +1,39 @@
+﻿{
+  openapi: 3.0.1,
+  info: {
+    title: TestApp | v1,
+    version: 1.0.0
+  },
+  servers: [
+    {
+      url: http://localhost
+    }
+  ],
+  paths: {
+    /greet: {
+      get: {
+        tags: [
+          IntegrationTests
+        ],
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              text/plain: {
+                schema: {
+                  type: string
+                },
+                example: Bonjour!
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  tags: [
+    {
+      name: IntegrationTests
+    }
+  ]
+}

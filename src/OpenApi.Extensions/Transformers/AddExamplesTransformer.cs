@@ -117,17 +117,15 @@ internal sealed class AddExamplesTransformer(
         ApiDescription description,
         IList<IOpenApiExampleMetadata> examples)
     {
-        if (!body.Content.TryGetValue("application/json", out var mediaType) || mediaType.Example is not null)
+        foreach (var mediaType in body.Content.Values)
         {
-            return;
-        }
+            var bodyParameter = description.ParameterDescriptions.Single((p) => p.Source == BindingSource.Body);
+            var argument = TryGetMethodInfo(description)?.GetParameters().Single((p) => p.Name == bodyParameter.Name);
 
-        var bodyParameter = description.ParameterDescriptions.Single((p) => p.Source == BindingSource.Body);
-        var argument = TryGetMethodInfo(description)?.GetParameters().Single((p) => p.Name == bodyParameter.Name);
-
-        if (TryGetMetadata(argument, bodyParameter, examples) is { } metadata)
-        {
-            mediaType.Example = metadata.GenerateExample(_context);
+            if (TryGetMetadata(argument, bodyParameter, examples) is { } metadata)
+            {
+                mediaType.Example ??= metadata.GenerateExample(_context);
+            }
         }
     }
 

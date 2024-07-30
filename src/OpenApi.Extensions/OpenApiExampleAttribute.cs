@@ -7,7 +7,7 @@ namespace MartinCostello.OpenApi;
 /// An attribute representing a string example for an OpenAPI document. This class cannot be inherited.
 /// </summary>
 /// <param name="value">The example's value.</param>
-[AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
+[AttributeUsage(ExampleTargets.ValidTargets, AllowMultiple = false)]
 public sealed class OpenApiExampleAttribute(string value) : OpenApiExampleAttribute<string, OpenApiExampleAttribute>, IExampleProvider<string>
 {
     /// <summary>
