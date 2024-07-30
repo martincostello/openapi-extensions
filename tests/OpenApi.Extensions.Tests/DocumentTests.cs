@@ -8,7 +8,7 @@ namespace MartinCostello.OpenApi;
 
 public abstract class DocumentTests(ITestOutputHelper outputHelper)
 {
-    protected static VerifySettings Settings { get; } = CreateSettings();
+    internal static VerifySettings Settings { get; } = CreateSettings();
 
     protected ITestOutputHelper OutputHelper { get; } = outputHelper;
 
