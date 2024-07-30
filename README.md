@@ -22,6 +22,8 @@ Features include:
 - Adding application URLs to the OpenAPI document.
 - Adding OpenAPI schema documentation from XML comments.
 
+The library is also designed to be compatible with support for [native AoT][aspnetcore-native-aot] in ASP.NET Core 9.
+
 A sample application using the library can be found [here][sample-app].
 
 ## Installation
@@ -146,8 +148,16 @@ public class ProblemDetailsExampleProvider : IExampleProvider<ProblemDetails>
     }
 }
 
+// JSON source generation context to use to generate examples for JSON
+// payloads that matches the runtime behaviour of the application itself
+// (for example whether to use camelCase or PascalCase etc.)
+
 [JsonSerializable(typeof(Todo))]
 [JsonSerializable(typeof(ProblemDetails))]
+[JsonSourceGenerationOptions(
+    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+    PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
+    WriteIndented = true)]
 public partial class TodoJsonSerializerContext : JsonSerializerContext;
 ```
 
@@ -177,6 +187,7 @@ The repository is hosted in [GitHub][repo]: <https://github.com/martincostello/o
 This project is licensed under the [Apache 2.0][license] license.
 
 [aspnetcore-9]: https://learn.microsoft.com/aspnet/core/release-notes/aspnetcore-9.0
+[aspnetcore-native-aot]: https://learn.microsoft.com/aspnet/core/fundamentals/native-aot "ASP.NET Core support for Native AOT"
 [aspnetcore-openapi]: https://www.nuget.org/packages/Microsoft.AspNetCore.OpenApi
 [build-badge]: https://github.com/martincostello/openapi-extensions/actions/workflows/build.yml/badge.svg?branch=main&event=push
 [build-status]: https://github.com/martincostello/openapi-extensions/actions?query=workflow%3Abuild+branch%3Amain+event%3Apush "Continuous Integration for this project"
