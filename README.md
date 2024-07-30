@@ -1,4 +1,7 @@
-# OpenAPI Extensions
+# OpenAPI Extensions for ASP.NET Core
+
+> [!NOTE]
+> This project is currently experimental and depends on pre-releases of [ASP.NET Core 9][aspnetcore-9].
 
 [![NuGet][package-badge]][package-download]
 
@@ -8,7 +11,145 @@
 
 ## Introduction
 
-Extensions for the [Microsoft.AspNetCore.OpenApi][aspnetcore-openapi] library.
+A NuGet package of extensions for the [Microsoft.AspNetCore.OpenApi][aspnetcore-openapi] package.
+
+Features include:
+
+- Adding examples to OpenAPI operations and schemas.
+- Customizing descriptions for:
+  - OpenAPI operation parameters and responses;
+  - OpenAPI schemas and their properties.
+- Adding application URLs to the OpenAPI document.
+- Adding OpenAPI schema documentation from XML comments.
+
+A sample application using the library can be found [here][sample-app].
+
+## Installation
+
+To install the library from [NuGet][package-download] using the .NET SDK run the following command:
+
+```console
+dotnet add package MartinCostello.OpenApi.Extensions --prerelease
+```
+
+## Usage
+
+Below is an example code snippet showing how to use the features of the library:
+
+```csharp
+using System.ComponentModel;
+using System.Text.Json.Serialization;
+using MartinCostello.OpenApi;
+using Microsoft.AspNetCore.Mvc;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddOpenApi((options) =>
+{
+    // Configure ASP.NET Core support for OpenAPI documentation...
+});
+
+builder.Services.AddOpenApiExtensions((options) =>
+{
+    // Always return the server URLs in the OpenAPI document
+    options.AddServerUrls = true;
+
+    // Set a default URL to use for generation of the OpenAPI document using
+    // https://www.nuget.org/packages/Microsoft.Extensions.ApiDescription.Server.
+    options.DefaultServerUrl = "https://localhost:50001";
+
+    // Add examples for OpenAPI operations and components
+    options.AddExamples = true;
+
+    // Add JSON serialization context to use to serialize examples when enabled
+    options.SerializationContexts.Add(TodoJsonSerializerContext.Default);
+
+    // Add a custom example provider for ProblemDetails
+    options.AddExample<ProblemDetails, ProblemDetailsExampleProvider>();
+
+    // Configure XML comments for the schemas in the OpenAPI document
+    // from the assembly that the Program class is defined in.
+    options.AddXmlComments<Program>();
+
+    // Add a custom transformations for the descriptions in the OpenAPI document
+    options.DescriptionTransformations.Add((p) => p.ToUpper());
+});
+
+// Required if AddServerUrls=true
+builder.Services.AddHttpContextAccessor();
+
+var app = builder.Build();
+
+// The [Description] attribute can be used to add parameter descriptions
+// The [OpenApiExample] can be used to add simple string examples
+// The ProducesOpenApiResponse() method can be used to customize the description for responses
+app.MapGet("/todo", ([Description("The Todo item's ID"), OpenApiExample("42")] string id) =>
+{
+    return new Todo()
+    {
+        Id = id,
+        Text = "Example",
+        IsComplete = false,
+    };
+}).ProducesOpenApiResponse(StatusCodes.Status200OK, "The Todo item.");
+
+app.MapPost("/todo", (Todo model) =>
+{
+    var todo = new Todo()
+    {
+        Id = Guid.NewGuid().ToString(),
+        Text = model.Text,
+        IsComplete = false,
+    };
+    return Results.Created($"/todo/{todo.Id}", todo);
+}).ProducesOpenApiResponse(StatusCodes.Status201Created, "The created Todo item.");
+
+app.Run();
+
+// Classes can implement IExampleProvider<Todo> and decorate
+// themselves with the [OpenApiExample<T>] attribute to use
+// the example for all usage of the type in the OpenAPI document.
+// Examples can also be added as attributes to parameters of operations,
+// endpoint methods themselves, or as endpoint metadata.
+
+[OpenApiExample<Todo>]
+public class Todo : IExampleProvider<Todo>
+{
+    public string Id { get; set; }
+    public string Text { get; set; }
+    public bool IsComplete { get; set; }
+
+    public static Todo GenerateExample() =>
+        new()
+        {
+            Id = "42",
+            Text = "Buy milk",
+            IsComplete = false,
+        };
+}
+
+// Custom IExampleProvider<T> implementations can be used to add more specific
+// examples for types in the OpenAPI document, or for types that are not owned
+// by the application itself (e.g. ASP.NET Core's ProblemDetails class).
+
+public class ProblemDetailsExampleProvider : IExampleProvider<ProblemDetails>
+{
+    public static ProblemDetails GenerateExample()
+    {
+        return new()
+        {
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+            Title = "Bad Request",
+            Status = StatusCodes.Status400BadRequest,
+            Detail = "The specified value is invalid.",
+        };
+    }
+}
+
+[JsonSerializable(typeof(Todo))]
+[JsonSerializable(typeof(ProblemDetails))]
+public partial class TodoJsonSerializerContext : JsonSerializerContext;
+```
 
 ## Building and Testing
 
@@ -35,6 +176,7 @@ The repository is hosted in [GitHub][repo]: <https://github.com/martincostello/o
 
 This project is licensed under the [Apache 2.0][license] license.
 
+[aspnetcore-9]: https://learn.microsoft.com/aspnet/core/release-notes/aspnetcore-9.0
 [aspnetcore-openapi]: https://www.nuget.org/packages/Microsoft.AspNetCore.OpenApi
 [build-badge]: https://github.com/martincostello/openapi-extensions/actions/workflows/build.yml/badge.svg?branch=main&event=push
 [build-status]: https://github.com/martincostello/openapi-extensions/actions?query=workflow%3Abuild+branch%3Amain+event%3Apush "Continuous Integration for this project"
@@ -46,5 +188,6 @@ This project is licensed under the [Apache 2.0][license] license.
 [package-badge]: https://buildstats.info/nuget/MartinCostello.OpenApi.Extensions?includePreReleases=true
 [package-download]: https://www.nuget.org/packages/MartinCostello.OpenApi.Extensions "Download MartinCostello.OpenApi.Extensions from NuGet"
 [repo]: https://github.com/martincostello/openapi-extensions "This project on GitHub.com"
+[sample-app]: https://github.com/martincostello/openapi-extensions/tree/main/samples/TodoApp "Sample application using the library"
 [scorecard-badge]: https://api.securityscorecards.dev/projects/github.com/martincostello/openapi-extensions/badge
 [scorecard-report]: https://securityscorecards.dev/viewer/?uri=github.com/martincostello/openapi-extensions "OpenSSF Scorecard for this project"
