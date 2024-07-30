@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace MartinCostello.OpenApi;
 
@@ -15,21 +14,9 @@ public sealed class TestFixture(
     Action<IEndpointRouteBuilder> configureEndpoints,
     ITestOutputHelper outputHelper) : WebApplicationFactory<Program>()
 {
-    public async Task<string> GetOpenApiDocumentAsync()
-    {
-        using var client = CreateDefaultClient();
-        return await client.GetStringAsync("/openapi/v1.json");
-    }
-
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.ConfigureLogging((builder) =>
-        {
-            builder.ClearProviders()
-                   .AddXUnit(outputHelper)
-                   .SetMinimumLevel(LogLevel.Information);
-        });
-
+        builder.ConfigureXUnitLogging(outputHelper);
         builder.ConfigureServices((services) =>
         {
             services.AddSingleton<IStartupFilter>(new ConfigureEndpointsFilter(configureEndpoints));

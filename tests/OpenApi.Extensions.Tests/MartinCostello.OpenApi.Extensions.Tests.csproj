@@ -24,6 +24,7 @@
     <PackageReference Include="xunit.runner.visualstudio" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\samples\TodoApp\TodoApp.csproj" />
     <ProjectReference Include="..\..\src\OpenApi.Extensions\MartinCostello.OpenApi.Extensions.csproj" />
     <ProjectReference Include="..\Models.A\Models.A.csproj" />
     <ProjectReference Include="..\Models.B\Models.B.csproj" />
@@ -37,7 +38,7 @@
   <PropertyGroup Condition=" '$(BuildingInsideVisualStudio)' != 'true' ">
     <CollectCoverage>true</CollectCoverage>
     <CoverletOutputFormat>cobertura,json</CoverletOutputFormat>
-    <Exclude>[*Models*]*,[*Test*]*,[xunit.*]*</Exclude>
+    <Exclude>[*Models*]*,[TodoApp]*,[*Test*]*,[xunit.*]*</Exclude>
     <ExcludeByAttribute>GeneratedCodeAttribute</ExcludeByAttribute>
     <Threshold>80</Threshold>
   </PropertyGroup>
