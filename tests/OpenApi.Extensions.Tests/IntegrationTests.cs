@@ -171,6 +171,11 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
                 endpoints.MapGet("/example-is-base-class-of-return-type", Hierarchicy.ExampleIsBaseClassOfReturnType);
                 endpoints.MapGet("/example-is-return-type-overridden-with-attribute", Hierarchicy.ExampleIsReturnTypeOverriddenWithAttribute);
                 endpoints.MapGet("/example-is-base-class-of-return-type-overridden-with-attribute", Hierarchicy.ExampleIsBaseClassOfReturnTypeOverriddenWithAttribute);
+                endpoints.MapGet("/example-is-endpoint-metadata", Hierarchicy.NoExample).WithMetadata(new OpenApiExampleAttribute<Cat, CatExampleProvider>());
+
+                endpoints.MapPost("/example-is-endpoint-metadata", Hierarchicy.NoExampleParameters)
+                         .WithMetadata(new OpenApiExampleAttribute<Cat, CatExampleProvider>())
+                         .WithMetadata(new OpenApiExampleAttribute("name"));
             });
     }
 
@@ -179,6 +184,11 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
         public static Cat NoExample()
         {
             return new Cat() { Name = "Garfield" };
+        }
+
+        public static Cat? NoExampleParameters([FromBody] Cat cat, [FromQuery] string? name = null)
+        {
+            return name is { } ? cat : null;
         }
 
         [OpenApiExample<Cat, CatExampleProvider>]
