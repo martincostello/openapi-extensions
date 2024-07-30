@@ -78,10 +78,10 @@ internal sealed class AddExamplesTransformer(
 
     private void Process(OpenApiSchema schema, Type type)
     {
-        if (schema.Example is null &&
-            type.GetExampleMetadata() is { } metadata)
+        if (schema.Example is null)
         {
-            schema.Example = metadata.GenerateExample(_context);
+            var metadata = type.GetExampleMetadata() ?? TryGetMetadata(type);
+            schema.Example = metadata?.GenerateExample(_context);
         }
     }
 

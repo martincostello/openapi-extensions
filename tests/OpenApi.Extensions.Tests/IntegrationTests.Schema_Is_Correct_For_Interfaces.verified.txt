@@ -42,7 +42,10 @@
             nullable: true
           }
         },
-        description: Represents an animal.
+        description: Represents an animal.,
+        example: {
+          Name: Daisy
+        }
       }
     }
   },
