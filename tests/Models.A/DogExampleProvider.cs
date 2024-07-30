@@ -6,20 +6,14 @@ using MartinCostello.OpenApi;
 namespace Models.A;
 
 /// <summary>
-/// A class representing a dog.
+/// A class representing an example provider for instances of <see cref="Dog"/>. This class cannot be inherited.
 /// </summary>
-[OpenApiExample<Dog>]
-public class Dog : Animal, IExampleProvider<Dog>
+public sealed class DogExampleProvider : IExampleProvider<Dog>
 {
-    /// <summary>
-    /// Gets or sets the breed of the dog.
-    /// </summary>
-    public string? Breed { get; set; }
-
     /// <inheritdoc/>
     public static Dog GenerateExample() => new()
     {
-        Breed = "Greyhound",
-        Name = "Santa's Little Helper",
+        Breed = "Golden Retriever",
+        Name = "Fido",
     };
 }

@@ -12,4 +12,6 @@ namespace Models.A;
 [JsonSerializable(typeof(Animal[]))]
 [JsonSerializable(typeof(Cat))]
 [JsonSerializable(typeof(Dog))]
+[JsonSerializable(typeof(Spot))]
+[JsonSerializable(typeof(Tom))]
 public sealed partial class AnimalsJsonSerializationContext : JsonSerializerContext;

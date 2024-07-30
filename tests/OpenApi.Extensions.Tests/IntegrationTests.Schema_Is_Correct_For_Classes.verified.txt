@@ -37,6 +37,10 @@
             application/json: {
               schema: {
                 $ref: #/components/schemas/Dog
+              },
+              example: {
+                Breed: Greyhound,
+                Name: Santa's Little Helper
               }
             }
           },

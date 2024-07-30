@@ -47,6 +47,9 @@ internal sealed class AddExamplesTransformer(
         return Task.CompletedTask;
     }
 
+    private static MethodInfo? TryGetMethodInfo(ApiDescription description)
+        => description.ActionDescriptor.EndpointMetadata.OfType<MethodInfo>().FirstOrDefault();
+
     private void Process(OpenApiOperation operation, ApiDescription description)
     {
         // Get all the examples that may apply to the operation through attributes
@@ -54,6 +57,11 @@ internal sealed class AddExamplesTransformer(
         var examples = description.ActionDescriptor.EndpointMetadata
             .OfType<IOpenApiExampleMetadata>()
             .ToArray();
+
+        if (TryGetMethodInfo(description) is { } methodInfo)
+        {
+            examples = [.. examples, .. methodInfo.GetExampleMetadata()];
+        }
 
         if (operation.Parameters is { Count: > 0 } parameters)
         {
@@ -71,7 +79,7 @@ internal sealed class AddExamplesTransformer(
     private void Process(OpenApiSchema schema, Type type)
     {
         if (schema.Example is null &&
-            type.GetExampleMetadata().FirstOrDefault() is { } metadata)
+            type.GetExampleMetadata() is { } metadata)
         {
             schema.Example = metadata.GenerateExample(_context);
         }
@@ -83,23 +91,13 @@ internal sealed class AddExamplesTransformer(
         IList<IOpenApiExampleMetadata> examples)
     {
         // Find the method associated with the operation and get its arguments
-        var arguments = description.ActionDescriptor.EndpointMetadata
-            .OfType<MethodInfo>()
-            .FirstOrDefault()?
-            .GetParameters()
-            .ToArray();
+        var arguments = TryGetMethodInfo(description)?.GetParameters().ToArray();
 
         if (arguments is { Length: > 0 })
         {
             foreach (var argument in arguments)
             {
-                // Find the example for the argument either as a parameter attribute,
-                // an attribute on the parameter's type, or metadata from the endpoint.
-                var metadata =
-                    argument.GetExampleMetadata().FirstOrDefault((p) => p.ExampleType == argument.ParameterType) ??
-                    argument.ParameterType.GetExampleMetadata().FirstOrDefault((p) => p.ExampleType == argument.ParameterType) ??
-                    examples.FirstOrDefault((p) => p.ExampleType == argument.ParameterType) ??
-                    TryGetMetadata(argument.ParameterType);
+                var metadata = TryGetMetadata(argument, examples);
 
                 if (metadata?.GenerateExample(_context) is { } value)
                 {
@@ -125,20 +123,11 @@ internal sealed class AddExamplesTransformer(
         }
 
         var bodyParameter = description.ParameterDescriptions.Single((p) => p.Source == BindingSource.Body);
+        var argument = TryGetMethodInfo(description)?.GetParameters().Single((p) => p.Name == bodyParameter.Name);
 
-        var metadata = description.ParameterDescriptions
-            .Single((p) => p.Source == BindingSource.Body)
-            .Type
-            .GetExampleMetadata()
-            .FirstOrDefault();
-
-        metadata ??=
-            examples.FirstOrDefault((p) => p.ExampleType == bodyParameter.Type) ??
-            TryGetMetadata(bodyParameter.Type);
-
-        if (metadata is not null)
+        if (TryGetMetadata(argument, bodyParameter, examples) is { } metadata)
         {
-            mediaType.Example ??= metadata.GenerateExample(_context);
+            mediaType.Example = metadata.GenerateExample(_context);
         }
     }
 
@@ -155,9 +144,13 @@ internal sealed class AddExamplesTransformer(
 
             if (schemaResponse.Type is { } type)
             {
+                // Try to find example metadata in the following order of precedence:
+                // 1. From the endpoint metadata
+                // 2. From the response's type
+                // 3. From examples configured in the options
                 metadata =
-                    type.GetExampleMetadata().FirstOrDefault((p) => p.ExampleType == type) ??
                     examples.FirstOrDefault((p) => p.ExampleType == type) ??
+                    type.GetExampleMetadata() ??
                     TryGetMetadata(type);
             }
 
@@ -170,6 +163,39 @@ internal sealed class AddExamplesTransformer(
                 }
             }
         }
+    }
+
+    private IOpenApiExampleMetadata? TryGetMetadata(
+        ParameterInfo? argument,
+        ApiParameterDescription bodyParameter,
+        IList<IOpenApiExampleMetadata> examples)
+    {
+        // Try to find example metadata in the following order of precedence:
+        // 1. From parameter attributes
+        // 2. From the parameter's type
+        // 3. From the endpoint metadata
+        // 4. From examples configured in the options
+        return
+            argument?.GetExampleMetadata().FirstOrDefault() ??
+            bodyParameter.Type.GetExampleMetadata() ??
+            examples.FirstOrDefault((p) => p.ExampleType == bodyParameter.Type) ??
+            TryGetMetadata(bodyParameter.Type);
+    }
+
+    private IOpenApiExampleMetadata? TryGetMetadata(
+        ParameterInfo argument,
+        IList<IOpenApiExampleMetadata> examples)
+    {
+        // Try to find example metadata in the following order of precedence:
+        // 1. From parameter attributes
+        // 2. From the parameter's type
+        // 3. From the endpoint metadata
+        // 4. From examples configured in the options
+        return
+            argument.GetExampleMetadata().FirstOrDefault((p) => p.ExampleType == argument.ParameterType) ??
+            argument.ParameterType.GetExampleMetadata() ??
+            examples.FirstOrDefault((p) => p.ExampleType == argument.ParameterType) ??
+            TryGetMetadata(argument.ParameterType);
     }
 
     private IOpenApiExampleMetadata? TryGetMetadata(Type type)

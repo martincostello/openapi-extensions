@@ -13,6 +13,8 @@ internal static class ReflectionExtensions
     public static IEnumerable<IOpenApiExampleMetadata> GetExampleMetadata(this ParameterInfo parameter)
         => parameter.GetCustomAttributes().OfType<IOpenApiExampleMetadata>();
 
-    public static IEnumerable<IOpenApiExampleMetadata> GetExampleMetadata(this Type type)
-        => type.GetCustomAttributes().OfType<IOpenApiExampleMetadata>();
+    public static IOpenApiExampleMetadata? GetExampleMetadata(this Type type)
+        => type.GetCustomAttributes(inherit: true)
+               .OfType<IOpenApiExampleMetadata>()
+               .FirstOrDefault((p) => p.ExampleType.IsAssignableFrom(type));
 }

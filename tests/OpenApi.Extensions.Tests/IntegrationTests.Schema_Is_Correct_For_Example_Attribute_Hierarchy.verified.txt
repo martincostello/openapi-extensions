@@ -1,0 +1,261 @@
+﻿{
+  openapi: 3.0.1,
+  info: {
+    title: TestApp | v1,
+    version: 1.0.0
+  },
+  paths: {
+    /no-example: {
+      get: {
+        tags: [
+          Hierarchicy
+        ],
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/Cat
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /example-is-attribute: {
+      get: {
+        tags: [
+          Hierarchicy
+        ],
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/Cat
+                },
+                example: {
+                  Color: Black,
+                  Name: Whiskers
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /example-is-parameter-attribute: {
+      post: {
+        tags: [
+          Hierarchicy
+        ],
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                $ref: #/components/schemas/Cat
+              },
+              example: {
+                Color: Black,
+                Name: Whiskers
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/Cat
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /example-is-parameter-type: {
+      post: {
+        tags: [
+          Hierarchicy
+        ],
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                $ref: #/components/schemas/Dog
+              },
+              example: {
+                Breed: Greyhound,
+                Name: Santa's Little Helper
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/Dog
+                },
+                example: {
+                  Breed: Greyhound,
+                  Name: Santa's Little Helper
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /example-is-return-type: {
+      get: {
+        tags: [
+          Hierarchicy
+        ],
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/Dog
+                },
+                example: {
+                  Breed: Greyhound,
+                  Name: Santa's Little Helper
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /example-is-base-class-of-return-type: {
+      get: {
+        tags: [
+          Hierarchicy
+        ],
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/Spot
+                },
+                example: {
+                  Breed: Greyhound,
+                  Name: Santa's Little Helper
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /example-is-return-type-overridden-with-attribute: {
+      get: {
+        tags: [
+          Hierarchicy
+        ],
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/Dog
+                },
+                example: {
+                  Breed: Golden Retriever,
+                  Name: Fido
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /example-is-base-class-of-return-type-overridden-with-attribute: {
+      get: {
+        tags: [
+          Hierarchicy
+        ],
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/Spot
+                },
+                example: {
+                  Breed: null,
+                  Name: Spot
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  components: {
+    schemas: {
+      Cat: {
+        type: object,
+        properties: {
+          color: {
+            type: string,
+            nullable: true
+          },
+          name: {
+            type: string,
+            nullable: true
+          }
+        }
+      },
+      Dog: {
+        type: object,
+        properties: {
+          breed: {
+            type: string,
+            nullable: true
+          },
+          name: {
+            type: string,
+            nullable: true
+          }
+        }
+      },
+      Spot: {
+        type: object,
+        properties: {
+          breed: {
+            type: string,
+            nullable: true
+          },
+          name: {
+            type: string,
+            nullable: true
+          }
+        }
+      }
+    }
+  },
+  tags: [
+    {
+      name: Hierarchicy
+    }
+  ]
+}
