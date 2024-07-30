@@ -11,4 +11,5 @@ namespace Models.B;
 [JsonSerializable(typeof(Car))]
 [JsonSerializable(typeof(Motorcycle))]
 [JsonSerializable(typeof(Vehicle))]
+[JsonSerializable(typeof(Vehicle[]))]
 public sealed partial class VehiclesJsonSerializationContext : JsonSerializerContext;

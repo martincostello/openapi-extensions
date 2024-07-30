@@ -3,6 +3,7 @@
     <Description>Tests for MartinCostello.OpenApi.Extensions.</Description>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+    <JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
     <NoWarn>$(NoWarn);CA1707;CA2007;SA1600</NoWarn>
     <RootNamespace>MartinCostello.OpenApi</RootNamespace>
     <TargetFramework>net9.0</TargetFramework>
