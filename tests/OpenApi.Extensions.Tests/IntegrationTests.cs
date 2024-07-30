@@ -5,6 +5,8 @@ using System.ComponentModel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Models.A;
 using Models.B;
@@ -247,6 +249,20 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
 
                 endpoints.MapPost("/example-is-from-options", Hierarchicy.ExampleProviderFromOptions);
             });
+    }
+
+    [Fact(Skip = "https://github.com/dotnet/aspnetcore/issues/56990")]
+    public async Task Schema_Is_Correct_For_Sample()
+    {
+        // Arrange
+        using var fixture = new WebApplicationFactory<TodoApp.Program>()
+            .WithWebHostBuilder((builder) => builder.ConfigureXUnitLogging(OutputHelper));
+
+        // Act
+        var actual = await fixture.GetOpenApiDocumentAsync();
+
+        // Assert
+        await VerifyJson(actual, Settings);
     }
 
     private static class Hierarchicy
