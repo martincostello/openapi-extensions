@@ -142,4 +142,86 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
                 });
             });
     }
+
+    [Fact]
+    public async Task Schema_Is_Correct_For_Example_Attribute_Hierarchy()
+    {
+        // Act and Assert
+        await VerifyOpenApiDocumentAsync(
+            (services) =>
+            {
+                services.AddOpenApi();
+                services.AddOpenApiExtensions((options) =>
+                {
+                    options.AddExamples = true;
+                    options.SerializationContext = AnimalsJsonSerializationContext.Default;
+                });
+                services.ConfigureHttpJsonOptions((options) =>
+                {
+                    options.SerializerOptions.TypeInfoResolverChain.Insert(0, AnimalsJsonSerializationContext.Default);
+                });
+            },
+            (endpoints) =>
+            {
+                endpoints.MapGet("/no-example", Hierarchicy.NoExample);
+                endpoints.MapGet("/example-is-attribute", Hierarchicy.ExampleIsAttribute);
+                endpoints.MapPost("/example-is-parameter-attribute", Hierarchicy.ExampleIsParameterAttribute);
+                endpoints.MapPost("/example-is-parameter-type", Hierarchicy.ExampleIsParameterType);
+                endpoints.MapGet("/example-is-return-type", Hierarchicy.ExampleIsReturnType);
+                endpoints.MapGet("/example-is-base-class-of-return-type", Hierarchicy.ExampleIsBaseClassOfReturnType);
+                endpoints.MapGet("/example-is-return-type-overridden-with-attribute", Hierarchicy.ExampleIsReturnTypeOverriddenWithAttribute);
+                endpoints.MapGet("/example-is-base-class-of-return-type-overridden-with-attribute", Hierarchicy.ExampleIsBaseClassOfReturnTypeOverriddenWithAttribute);
+            });
+    }
+
+    private static class Hierarchicy
+    {
+        public static Cat NoExample()
+        {
+            return new Cat() { Name = "Garfield" };
+        }
+
+        [OpenApiExample<Cat, CatExampleProvider>]
+        public static Cat ExampleIsAttribute()
+        {
+            return new Cat() { Name = "Nermal" };
+        }
+
+        public static Cat ExampleIsParameterAttribute([OpenApiExample<Cat, CatExampleProvider>] Cat cat)
+        {
+            return cat;
+        }
+
+        public static Dog ExampleIsParameterType(Dog dog)
+        {
+            return dog;
+        }
+
+        public static Dog ExampleIsReturnType()
+        {
+            return new Dog() { Name = "Snoopy" };
+        }
+
+        public static Spot ExampleIsBaseClassOfReturnType()
+        {
+            return new Spot() { Name = "Spot" };
+        }
+
+        [OpenApiExample<Dog, DogExampleProvider>]
+        public static Dog ExampleIsReturnTypeOverriddenWithAttribute()
+        {
+            return new Dog() { Name = "Scooby Doo" };
+        }
+
+        [OpenApiExample<Spot, SpotExampleProvider>]
+        public static Spot ExampleIsBaseClassOfReturnTypeOverriddenWithAttribute()
+        {
+            return new Spot() { Name = "Scooby Doo" };
+        }
+
+        private sealed class SpotExampleProvider : IExampleProvider<Spot>
+        {
+            public static Spot GenerateExample() => new() { Name = "Spot" };
+        }
+    }
 }

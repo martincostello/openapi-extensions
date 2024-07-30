@@ -8,4 +8,7 @@
     <RootNamespace>Models.A</RootNamespace>
     <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\OpenApi.Extensions\MartinCostello.OpenApi.Extensions.csproj" />
+  </ItemGroup>
 </Project>
