@@ -26,14 +26,14 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
                 {
                     options.AddExamples = true;
                     options.AddServerUrls = true;
-                    options.SerializationContext = AppJsonSerializationContext.Default;
+                    options.SerializationContexts.Add(AppJsonSerializationContext.Default);
 
                     options.AddExample<ProblemDetails, ProblemDetailsExampleProvider>();
                     options.AddXmlComments<Greeting>();
                 });
                 services.ConfigureHttpJsonOptions((options) =>
                 {
-                    options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializationContext.Default);
+                    options.SerializerOptions.TypeInfoResolverChain.Add(AppJsonSerializationContext.Default);
                 });
             },
             (endpoints) =>
@@ -73,13 +73,13 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
                 services.AddOpenApiExtensions((options) =>
                 {
                     options.AddExamples = true;
-                    options.SerializationContext = AnimalsJsonSerializationContext.Default;
+                    options.SerializationContexts.Add(AnimalsJsonSerializationContext.Default);
 
                     options.AddXmlComments<Animal>();
                 });
                 services.ConfigureHttpJsonOptions((options) =>
                 {
-                    options.SerializerOptions.TypeInfoResolverChain.Insert(0, AnimalsJsonSerializationContext.Default);
+                    options.SerializerOptions.TypeInfoResolverChain.Add(AnimalsJsonSerializationContext.Default);
                 });
             },
             (endpoints) =>
@@ -116,13 +116,13 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
                 services.AddOpenApiExtensions((options) =>
                 {
                     options.AddExamples = true;
-                    options.SerializationContext = VehiclesJsonSerializationContext.Default;
+                    options.SerializationContexts.Add(VehiclesJsonSerializationContext.Default);
 
                     options.AddXmlComments<Vehicle>();
                 });
                 services.ConfigureHttpJsonOptions((options) =>
                 {
-                    options.SerializerOptions.TypeInfoResolverChain.Insert(0, VehiclesJsonSerializationContext.Default);
+                    options.SerializerOptions.TypeInfoResolverChain.Add(VehiclesJsonSerializationContext.Default);
                 });
             },
             (endpoints) =>
@@ -154,11 +154,15 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
                 services.AddOpenApiExtensions((options) =>
                 {
                     options.AddExamples = true;
-                    options.SerializationContext = AnimalsJsonSerializationContext.Default;
+                    options.AddExample<Car, CarExampleProvider>();
+
+                    options.SerializationContexts.Add(AnimalsJsonSerializationContext.Default);
+                    options.SerializationContexts.Add(VehiclesJsonSerializationContext.Default);
                 });
                 services.ConfigureHttpJsonOptions((options) =>
                 {
-                    options.SerializerOptions.TypeInfoResolverChain.Insert(0, AnimalsJsonSerializationContext.Default);
+                    options.SerializerOptions.TypeInfoResolverChain.Add(AnimalsJsonSerializationContext.Default);
+                    options.SerializerOptions.TypeInfoResolverChain.Add(VehiclesJsonSerializationContext.Default);
                 });
             },
             (endpoints) =>
@@ -176,6 +180,8 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
                 endpoints.MapPost("/example-is-endpoint-metadata", Hierarchicy.NoExampleParameters)
                          .WithMetadata(new OpenApiExampleAttribute<Cat, CatExampleProvider>())
                          .WithMetadata(new OpenApiExampleAttribute("name"));
+
+                endpoints.MapPost("/example-is-from-options", Hierarchicy.ExampleProviderFromOptions);
             });
     }
 
@@ -229,9 +235,19 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
             return new Spot() { Name = "Scooby Doo" };
         }
 
+        public static Car ExampleProviderFromOptions(Car car)
+        {
+            return car;
+        }
+
         private sealed class SpotExampleProvider : IExampleProvider<Spot>
         {
             public static Spot GenerateExample() => new() { Name = "Spot" };
         }
+    }
+
+    private sealed class CarExampleProvider : IExampleProvider<Car>
+    {
+        public static Car GenerateExample() => new(CarType.Hatchback, 4, "MINI");
     }
 }

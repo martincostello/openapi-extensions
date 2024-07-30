@@ -278,10 +278,72 @@
           }
         }
       }
+    },
+    /example-is-from-options: {
+      post: {
+        tags: [
+          Hierarchicy
+        ],
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                $ref: #/components/schemas/Car
+              },
+              example: {
+                Type: 0,
+                Wheels: 4,
+                Manufacturer: MINI
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/Car
+                },
+                example: {
+                  Type: 0,
+                  Wheels: 4,
+                  Manufacturer: MINI
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   components: {
     schemas: {
+      Car: {
+        required: [
+          type,
+          wheels,
+          manufacturer
+        ],
+        type: object,
+        properties: {
+          type: {
+            $ref: #/components/schemas/CarType
+          },
+          wheels: {
+            type: integer,
+            format: int32
+          },
+          manufacturer: {
+            type: string
+          }
+        }
+      },
+      CarType: {
+        type: integer
+      },
       Cat: {
         type: object,
         properties: {

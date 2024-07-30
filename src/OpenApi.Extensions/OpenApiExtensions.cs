@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Martin Costello, 2024. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
+using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
 using MartinCostello.OpenApi.Transformers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -139,14 +141,19 @@ public static class OpenApiExtensions
 
             if (extensions.AddExamples)
             {
-                if (extensions.SerializationContext is null)
+                if (extensions.SerializationContexts is not { Count: > 0 } contexts)
                 {
                     throw new InvalidOperationException($"No {nameof(JsonSerializerContext)} has been configured on the {nameof(OpenApiExtensionsOptions)} instance for the OpenAPI document \"{options.DocumentName}\".");
                 }
 
+                var serializationContext =
+                    contexts.Count is 1 ?
+                    contexts[0] :
+                    new ChainedJsonSerializerContext(contexts);
+
                 var examples = new AddExamplesTransformer(
                     extensions.ExamplesMetadata,
-                    extensions.SerializationContext);
+                    serializationContext);
 
                 options.AddOperationTransformer(examples);
                 options.AddSchemaTransformer(examples);
@@ -183,5 +190,24 @@ public static class OpenApiExtensions
         });
 
         return services;
+    }
+
+    private sealed class ChainedJsonSerializerContext(ICollection<JsonSerializerContext> chain) : JsonSerializerContext(null)
+    {
+        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+        protected override JsonSerializerOptions? GeneratedSerializerOptions => throw new NotSupportedException();
+
+        public override JsonTypeInfo? GetTypeInfo(Type type)
+        {
+            foreach (var context in chain)
+            {
+                if (context.GetTypeInfo(type) is { } typeInfo)
+                {
+                    return typeInfo;
+                }
+            }
+
+            return null;
+        }
     }
 }
