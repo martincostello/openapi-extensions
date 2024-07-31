@@ -1,9 +1,5 @@
 <Project>
   <ItemGroup>
-    <!--
-    TODO Enable once basic implementation completed
-    <GlobalPackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4" PrivateAssets="All" />
-    -->
     <GlobalPackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" PrivateAssets="All" />
     <GlobalPackageReference Include="ReferenceTrimmer" Version="3.3.6" PrivateAssets="All" />
   </ItemGroup>
@@ -13,6 +9,7 @@
     <PackageVersion Include="MartinCostello.Logging.XUnit" Version="0.4.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.0-preview.7.24379.2" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0-preview.7.24379.2" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0-preview.7.24377.1" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
     <PackageVersion Include="Microsoft.OpenApi" Version="1.6.16" />
