@@ -1,0 +1,43 @@
+#nullable enable
+MartinCostello.OpenApi.IExampleProvider<T>
+MartinCostello.OpenApi.IExampleProvider<T>.GenerateExample() -> T
+MartinCostello.OpenApi.IOpenApiExampleMetadata
+MartinCostello.OpenApi.IOpenApiExampleMetadata.ExampleType.get -> System.Type!
+MartinCostello.OpenApi.IOpenApiExampleMetadata.GenerateExample(System.Text.Json.Serialization.JsonSerializerContext! context) -> Microsoft.OpenApi.Any.IOpenApiAny!
+MartinCostello.OpenApi.OpenApiEndpointConventionBuilderExtensions
+MartinCostello.OpenApi.OpenApiExampleAttribute
+MartinCostello.OpenApi.OpenApiExampleAttribute.OpenApiExampleAttribute(string! value) -> void
+MartinCostello.OpenApi.OpenApiExampleAttribute.Value.get -> string!
+MartinCostello.OpenApi.OpenApiExampleAttribute<T>
+MartinCostello.OpenApi.OpenApiExampleAttribute<T>.OpenApiExampleAttribute() -> void
+MartinCostello.OpenApi.OpenApiExampleAttribute<TSchema, TProvider>
+MartinCostello.OpenApi.OpenApiExampleAttribute<TSchema, TProvider>.ExampleType.get -> System.Type!
+MartinCostello.OpenApi.OpenApiExampleAttribute<TSchema, TProvider>.OpenApiExampleAttribute() -> void
+MartinCostello.OpenApi.OpenApiExtensions
+MartinCostello.OpenApi.OpenApiExtensionsOptions
+MartinCostello.OpenApi.OpenApiExtensionsOptions.AddExample<TSchema, TProvider>() -> MartinCostello.OpenApi.OpenApiExtensionsOptions!
+MartinCostello.OpenApi.OpenApiExtensionsOptions.AddExamples.get -> bool
+MartinCostello.OpenApi.OpenApiExtensionsOptions.AddExamples.set -> void
+MartinCostello.OpenApi.OpenApiExtensionsOptions.AddServerUrls.get -> bool
+MartinCostello.OpenApi.OpenApiExtensionsOptions.AddServerUrls.set -> void
+MartinCostello.OpenApi.OpenApiExtensionsOptions.AddXmlComments<T>() -> MartinCostello.OpenApi.OpenApiExtensionsOptions!
+MartinCostello.OpenApi.OpenApiExtensionsOptions.DefaultServerUrl.get -> string?
+MartinCostello.OpenApi.OpenApiExtensionsOptions.DefaultServerUrl.set -> void
+MartinCostello.OpenApi.OpenApiExtensionsOptions.DescriptionTransformations.get -> System.Collections.Generic.IList<System.Func<string!, string!>!>!
+MartinCostello.OpenApi.OpenApiExtensionsOptions.ExamplesMetadata.get -> System.Collections.Generic.ICollection<MartinCostello.OpenApi.IOpenApiExampleMetadata!>!
+MartinCostello.OpenApi.OpenApiExtensionsOptions.OpenApiExtensionsOptions() -> void
+MartinCostello.OpenApi.OpenApiExtensionsOptions.SerializationContexts.get -> System.Collections.Generic.IList<System.Text.Json.Serialization.JsonSerializerContext!>!
+MartinCostello.OpenApi.OpenApiExtensionsOptions.XmlDocumentationAssemblies.get -> System.Collections.Generic.IList<System.Reflection.Assembly!>!
+MartinCostello.OpenApi.OpenApiResponseAttribute
+MartinCostello.OpenApi.OpenApiResponseAttribute.Description.get -> string!
+MartinCostello.OpenApi.OpenApiResponseAttribute.HttpStatusCode.get -> int
+MartinCostello.OpenApi.OpenApiResponseAttribute.OpenApiResponseAttribute(int httpStatusCode, string! description) -> void
+override MartinCostello.OpenApi.OpenApiExampleAttribute.GenerateExample() -> string!
+static MartinCostello.OpenApi.OpenApiEndpointConventionBuilderExtensions.ProducesOpenApiResponse<TBuilder>(this TBuilder builder, int statusCode, string! description) -> TBuilder
+static MartinCostello.OpenApi.OpenApiExtensions.AddOpenApiExtensions(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static MartinCostello.OpenApi.OpenApiExtensions.AddOpenApiExtensions(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services, string! documentName) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static MartinCostello.OpenApi.OpenApiExtensions.AddOpenApiExtensions(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services, string! documentName, System.Action<MartinCostello.OpenApi.OpenApiExtensionsOptions!>! configureOptions) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static MartinCostello.OpenApi.OpenApiExtensions.AddOpenApiExtensions(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services, string! documentName, System.Action<Microsoft.AspNetCore.OpenApi.OpenApiOptions!, MartinCostello.OpenApi.OpenApiExtensionsOptions!>! configureOptions) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static MartinCostello.OpenApi.OpenApiExtensions.AddOpenApiExtensions(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services, System.Action<MartinCostello.OpenApi.OpenApiExtensionsOptions!>! configureOptions) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static MartinCostello.OpenApi.OpenApiExtensions.AddOpenApiExtensions(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services, System.Action<Microsoft.AspNetCore.OpenApi.OpenApiOptions!, MartinCostello.OpenApi.OpenApiExtensionsOptions!>! configureOptions) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+virtual MartinCostello.OpenApi.OpenApiExampleAttribute<TSchema, TProvider>.GenerateExample() -> TSchema
