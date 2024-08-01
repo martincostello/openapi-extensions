@@ -133,9 +133,15 @@ public static class OpenApiEndpointRouteBuilderExtensions
             string documentName,
             [NotNullWhen(true)] out object? instance)
         {
+            if (serviceProvider is IKeyedServiceProvider keyedServiceProvider)
+            {
+                instance = keyedServiceProvider.GetKeyedService(_documentService, documentName);
+                return instance is not null;
+            }
+
             try
             {
-                // There isn't an AoT-friendly GetKeyedService(Type serviceType, object? serviceKey) method
+                // There isn't an AoT-friendly IServiceProvider.GetKeyedService(Type serviceType, object? serviceKey) method
                 // so use the GetRequiredKeyedService() method instance and catch the exception if it is not found.
                 instance = serviceProvider.GetRequiredKeyedService(_documentService, documentName);
                 return true;
