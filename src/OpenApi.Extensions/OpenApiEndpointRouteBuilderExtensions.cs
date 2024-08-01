@@ -133,6 +133,7 @@ public static class OpenApiEndpointRouteBuilderExtensions
             string documentName,
             [NotNullWhen(true)] out object? instance)
         {
+            // TODO Simplify if API proposal if ever implemented: https://github.com/dotnet/runtime/issues/105828
             if (serviceProvider is IKeyedServiceProvider keyedServiceProvider)
             {
                 instance = keyedServiceProvider.GetKeyedService(_documentService, documentName);
