@@ -3,7 +3,9 @@
     <AssemblyTitle>OpenAPI Extensions</AssemblyTitle>
     <Description>Extensions for ASP.NET Core's OpenAPI support.</Description>
     <EnablePackageValidation>true</EnablePackageValidation>
+    <EnableRequestDelegateGenerator>true</EnableRequestDelegateGenerator>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <InterceptorsPreviewNamespaces>$(InterceptorsPreviewNamespaces);Microsoft.AspNetCore.Http.Generated</InterceptorsPreviewNamespaces>
     <IsAotCompatible>true</IsAotCompatible>
     <IsPackable>true</IsPackable>
     <OutputType>Library</OutputType>

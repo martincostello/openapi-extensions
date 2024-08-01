@@ -65,6 +65,64 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
     }
 
     [Fact]
+    public async Task Schema_Is_Correct_For_App_As_Yaml()
+    {
+        // Arrange
+        using var fixture = new TestFixture(
+            (services) =>
+            {
+                services.AddHttpContextAccessor();
+                services.AddOpenApi();
+                services.AddOpenApiExtensions((options) =>
+                {
+                    options.AddExamples = true;
+                    options.AddServerUrls = true;
+                    options.SerializationContexts.Add(AppJsonSerializationContext.Default);
+
+                    options.AddExample<ProblemDetails, ProblemDetailsExampleProvider>();
+                    options.AddXmlComments<Greeting>();
+                });
+                services.ConfigureHttpJsonOptions((options) =>
+                {
+                    options.SerializerOptions.TypeInfoResolverChain.Add(AppJsonSerializationContext.Default);
+                });
+            },
+            (endpoints) =>
+            {
+                endpoints.MapOpenApiYaml();
+                endpoints.MapGet("/hello", (
+                    [Description("The name of the person to greet.")]
+                    [OpenApiExample("Martin")]
+                    string? name) =>
+                {
+                    if (string.IsNullOrEmpty(name))
+                    {
+                        return Results.Problem("No name was provided.", statusCode: StatusCodes.Status400BadRequest);
+                    }
+
+                    var greeting = new Greeting()
+                    {
+                        Text = $"Hello, {name}!",
+                    };
+
+                    return Results.Json(greeting);
+                })
+                    .Produces<Greeting>(StatusCodes.Status200OK)
+                    .ProducesProblem(StatusCodes.Status400BadRequest)
+                    .ProducesOpenApiResponse(StatusCodes.Status200OK, "A greeting.")
+                    .ProducesOpenApiResponse(StatusCodes.Status400BadRequest, "No name was provided.");
+            },
+            OutputHelper);
+
+        // Act
+        using var client = fixture.CreateDefaultClient();
+        var actual = await client.GetStringAsync("/openapi/v1.yaml");
+
+        // Assert
+        await Verify(actual, Settings);
+    }
+
+    [Fact]
     public async Task Schema_Is_Correct_For_Classes()
     {
         // Act and Assert
@@ -265,6 +323,24 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
 
         // Assert
         await VerifyJson(actual, Settings);
+    }
+
+    [Fact]
+    public async Task Http_404_Is_Returned_If_Yaml_Document_Not_Found()
+    {
+        // Arrange
+        using var fixture = new TestFixture(
+            (services) => { },
+            (endpoints) => endpoints.MapOpenApiYaml(),
+            OutputHelper);
+
+        // Act
+        using var client = fixture.CreateDefaultClient();
+        var actual = await client.GetAsync("/openapi/does-not-exist.yaml");
+
+        // Assert
+        actual.StatusCode.ShouldBe(System.Net.HttpStatusCode.NotFound);
+        await Verify(actual.Content.ReadAsStringAsync(), Settings);
     }
 
     private static class Hierarchicy

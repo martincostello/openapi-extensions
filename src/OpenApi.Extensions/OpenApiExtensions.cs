@@ -18,9 +18,6 @@ namespace MartinCostello.OpenApi;
 /// </summary>
 public static class OpenApiExtensions
 {
-    // See https://github.com/dotnet/aspnetcore/blob/06155c05af89c957de20d2c53cee0e37171b9a09/src/OpenApi/src/Services/OpenApiConstants.cs#L10
-    private const string DefaultDocumentName = "v1";
-
     /// <summary>
     /// Adds OpenAPI extensions related to the default document to the specified <see cref="IServiceCollection"/>.
     /// </summary>
@@ -32,7 +29,7 @@ public static class OpenApiExtensions
     /// <paramref name="services"/> is <see langword="null"/>.
     /// </exception>
     public static IServiceCollection AddOpenApiExtensions(this IServiceCollection services)
-        => services.AddOpenApiExtensions(DefaultDocumentName);
+        => services.AddOpenApiExtensions(OpenApiConstants.DefaultDocumentName);
 
     /// <summary>
     /// Adds OpenAPI extensions related to the default document to the specified <see cref="IServiceCollection"/> with the specified options.
@@ -46,7 +43,7 @@ public static class OpenApiExtensions
     /// <paramref name="services"/> or <paramref name="configureOptions"/> is <see langword="null"/>.
     /// </exception>
     public static IServiceCollection AddOpenApiExtensions(this IServiceCollection services, Action<OpenApiExtensionsOptions> configureOptions)
-            => services.AddOpenApiExtensions(DefaultDocumentName, configureOptions);
+            => services.AddOpenApiExtensions(OpenApiConstants.DefaultDocumentName, configureOptions);
 
     /// <summary>
     /// Adds OpenAPI extensions related to the default document to the specified <see cref="IServiceCollection"/> with the specified options.
@@ -60,7 +57,7 @@ public static class OpenApiExtensions
     /// <paramref name="services"/> or <paramref name="configureOptions"/> is <see langword="null"/>.
     /// </exception>
     public static IServiceCollection AddOpenApiExtensions(this IServiceCollection services, Action<OpenApiOptions, OpenApiExtensionsOptions> configureOptions)
-            => services.AddOpenApiExtensions(DefaultDocumentName, configureOptions);
+            => services.AddOpenApiExtensions(OpenApiConstants.DefaultDocumentName, configureOptions);
 
     /// <summary>
     /// Adds OpenAPI extensions related to the given document name to the specified <see cref="IServiceCollection"/>.
