@@ -325,6 +325,24 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
         await VerifyJson(actual, Settings);
     }
 
+    [Fact]
+    public async Task Http_404_Is_Returned_If_Yaml_Document_Not_Found()
+    {
+        // Arrange
+        using var fixture = new TestFixture(
+            (services) => { },
+            (endpoints) => endpoints.MapOpenApiYaml(),
+            OutputHelper);
+
+        // Act
+        using var client = fixture.CreateDefaultClient();
+        var actual = await client.GetAsync("/openapi/does-not-exist.yaml");
+
+        // Assert
+        actual.StatusCode.ShouldBe(System.Net.HttpStatusCode.NotFound);
+        await Verify(actual.Content.ReadAsStringAsync(), Settings);
+    }
+
     private static class Hierarchicy
     {
         public static Cat NoExample()
