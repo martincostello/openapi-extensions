@@ -24,12 +24,6 @@ namespace MartinCostello.OpenApi;
 /// </summary>
 public static class OpenApiEndpointRouteBuilderExtensions
 {
-    // See https://github.com/dotnet/aspnetcore/blob/0fee04e2e1e507f0c993fa902d53abdd7c5dff65/src/OpenApi/src/Services/OpenApiDocumentService.cs#L55
-    private const string OpenApiAssemblyName = "Microsoft.AspNetCore.OpenApi";
-    private const string OpenApiDocumentServiceName = "Microsoft.AspNetCore.OpenApi.OpenApiDocumentService";
-    private const string OpenApiDocumentServiceFullyQualifiedName = $"{OpenApiDocumentServiceName}, {OpenApiAssemblyName}";
-    private const string GetOpenApiDocumentAsyncMethodName = "GetOpenApiDocumentAsync";
-
     /// <summary>
     /// Registers an endpoint onto the current application for resolving the OpenAPI document
     /// associated with the current application that is returned as YAML.
@@ -92,6 +86,12 @@ public static class OpenApiEndpointRouteBuilderExtensions
 
     private sealed class OpenApiDocumentService
     {
+        // See https://github.com/dotnet/aspnetcore/blob/0fee04e2e1e507f0c993fa902d53abdd7c5dff65/src/OpenApi/src/Services/OpenApiDocumentService.cs#L55
+        private const string OpenApiAssemblyName = "Microsoft.AspNetCore.OpenApi";
+        private const string OpenApiDocumentServiceName = "Microsoft.AspNetCore.OpenApi.OpenApiDocumentService";
+        private const string OpenApiDocumentServiceFullyQualifiedName = $"{OpenApiDocumentServiceName}, {OpenApiAssemblyName}";
+        private const string GetOpenApiDocumentAsyncMethodName = "GetOpenApiDocumentAsync";
+
         private readonly Type _documentService;
         private readonly MethodInfo _getDocument;
 
