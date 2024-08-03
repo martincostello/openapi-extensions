@@ -21,6 +21,7 @@ Features include:
   - OpenAPI schemas and their properties.
 - Adding application URLs to the OpenAPI document.
 - Adding OpenAPI schema documentation from XML comments.
+- Adding an HTTP endpoint to get OpenAPI documents as YAML.
 
 The library is also designed to be compatible with support for [native AoT][aspnetcore-native-aot] in ASP.NET Core 9.
 
@@ -81,6 +82,12 @@ builder.Services.AddOpenApiExtensions((options) =>
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
+
+// Configure endpoint to get OpenAPI documents as JSON
+app.MapOpenApi();
+
+// Optionally also (or instead) configure endpoint to get OpenAPI documents as YAML
+app.MapOpenApiYaml();
 
 // The [Description] attribute can be used to add parameter descriptions
 // The [OpenApiExample] can be used to add simple string examples
