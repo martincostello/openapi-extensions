@@ -1,4 +1,4 @@
-﻿// Copyright (c) Martin Costello, 2024. All rights reserved.
+// Copyright (c) Martin Costello, 2024. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 //// Based on https://github.com/dotnet/aspnetcore/blob/0fee04e2e1e507f0c993fa902d53abdd7c5dff65/src/OpenApi/src/Extensions/OpenApiEndpointRouteBuilderExtensions.cs
@@ -161,6 +161,7 @@ public static class OpenApiEndpointRouteBuilderExtensions
         }
     }
 
+    //// TODO Remove when RC.1 is available
     //// See https://github.com/dotnet/aspnetcore/blob/0fee04e2e1e507f0c993fa902d53abdd7c5dff65/src/OpenApi/src/Writers/ScrubbingOpenApiJsonWriter.cs
 
     private sealed class ScrubbingOpenApiYamlWriter(TextWriter textWriter) : OpenApiYamlWriter(textWriter)
