@@ -70,7 +70,7 @@ public class OpenApiBenchmarks : IAsyncDisposable
         }
     }
 
-    [Benchmark]
+    [Benchmark(Baseline = true)]
     public async Task<string> GetOpenApiDocumentJson()
         => await _client!.GetStringAsync("/openapi/v1.json");
 
