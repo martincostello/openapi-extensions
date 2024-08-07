@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);SA1600</NoWarn>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>MartinCostello.OpenApi</RootNamespace>
+    <TargetFramework>net9.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\samples\TodoApp\TodoApp.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="BenchmarkDotNet" />
+  </ItemGroup>
+</Project>

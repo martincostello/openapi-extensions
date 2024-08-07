@@ -4,6 +4,7 @@
     <GlobalPackageReference Include="ReferenceTrimmer" Version="3.3.6" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
+    <PackageVersion Include="BenchmarkDotNet" Version="0.14.0" />
     <PackageVersion Include="coverlet.msbuild" Version="6.0.2" />
     <PackageVersion Include="GitHubActionsTestLogger" Version="2.4.1" />
     <PackageVersion Include="MartinCostello.Logging.XUnit" Version="0.4.0" />
