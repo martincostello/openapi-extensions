@@ -128,8 +128,10 @@ public static class OpenApiExtensions
             var extensions = other.Value;
             configureOptions(options, extensions);
 
-            options.AddOperationTransformer<AddParameterDescriptionsTransformer>();
-            options.AddOperationTransformer<AddResponseDescriptionsTransformer>();
+            // Use singleton instances for better performance.
+            // See https://github.com/dotnet/aspnetcore/issues/57211.
+            options.AddOperationTransformer(new AddParameterDescriptionsTransformer());
+            options.AddOperationTransformer(new AddResponseDescriptionsTransformer());
 
             if (extensions.AddServerUrls)
             {
