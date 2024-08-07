@@ -78,6 +78,7 @@ public static class OpenApiEndpointRouteBuilderExtensions
         document.Serialize(yamlWriter, version);
 
         // See https://www.rfc-editor.org/rfc/rfc9512.html
+        // TODO Use MediaTypeNames.Application.Yaml when available. See https://github.com/dotnet/runtime/issues/105809.
         httpContext.Response.ContentType = "application/yaml";
 
         await httpContext.Response.BodyWriter.WriteAsync(stream.ToArray(), httpContext.RequestAborted);
@@ -133,7 +134,7 @@ public static class OpenApiEndpointRouteBuilderExtensions
             string documentName,
             [NotNullWhen(true)] out object? instance)
         {
-            // TODO Simplify if API proposal if ever implemented: https://github.com/dotnet/runtime/issues/105828
+            // TODO Simplify when API proposal implemented: https://github.com/dotnet/runtime/issues/105828
             if (serviceProvider is IKeyedServiceProvider keyedServiceProvider)
             {
                 instance = keyedServiceProvider.GetKeyedService(_documentService, documentName);
