@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Martin Costello, 2024. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
+using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -14,6 +15,8 @@ namespace MartinCostello.OpenApi.Transformers;
 /// </summary>
 internal sealed class AddParameterDescriptionsTransformer : IOpenApiOperationTransformer
 {
+    private readonly ConcurrentDictionary<MethodInfo, ParameterDescription[]> _methodParametersDescriptions = [];
+
     /// <inheritdoc/>
     public Task TransformAsync(
         OpenApiOperation operation,
@@ -28,33 +31,53 @@ internal sealed class AddParameterDescriptionsTransformer : IOpenApiOperationTra
         return Task.CompletedTask;
     }
 
-    private static void TryAddParameterDescriptions(
+    private void TryAddParameterDescriptions(
         IList<OpenApiParameter> parameters,
-        ApiDescription description)
+        ApiDescription apiDescription)
     {
-        var arguments = description.ActionDescriptor.EndpointMetadata
-            .OfType<MethodInfo>()
-            .FirstOrDefault()?
-            .GetParameters()
-            .ToArray();
+        var descriptions = GetMethodParameterDescriptions(apiDescription);
 
-        if (arguments is { Length: > 0 })
+        if (descriptions is { Length: > 0 })
         {
-            foreach (var argument in arguments)
+            foreach ((var argument, var description) in descriptions)
             {
-                var attribute = argument
-                    .GetCustomAttributes<DescriptionAttribute>()
-                    .FirstOrDefault();
-
-                if (attribute?.Description is { } value)
+                if (description is not null)
                 {
                     var parameter = parameters.FirstOrDefault((p) => p.Name == argument.Name);
                     if (parameter is not null)
                     {
-                        parameter.Description ??= value;
+                        parameter.Description ??= description;
                     }
                 }
             }
         }
     }
+
+    private ParameterDescription[] GetMethodParameterDescriptions(ApiDescription description)
+    {
+        var method = description.ActionDescriptor.EndpointMetadata.OfType<MethodInfo>().FirstOrDefault();
+
+        if (method is null)
+        {
+            return [];
+        }
+
+        return _methodParametersDescriptions.GetOrAdd(method, static (p) =>
+        {
+            var parameters = p.GetParameters();
+            var descriptions = new ParameterDescription[parameters.Length];
+
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                var parameter = parameters[i];
+                var description = p.GetCustomAttributes<DescriptionAttribute>().FirstOrDefault()?.Description;
+
+                descriptions[i] = new(parameter, description);
+            }
+
+            return descriptions;
+        });
+    }
+
+    private sealed record ParameterDescription(ParameterInfo Parameter, string? Description);
 }
