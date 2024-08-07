@@ -17,11 +17,7 @@ internal sealed class AddResponseDescriptionsTransformer : IOpenApiOperationTran
         OpenApiOperationTransformerContext context,
         CancellationToken cancellationToken)
     {
-        var attributes = context.Description.ActionDescriptor.EndpointMetadata
-            .OfType<OpenApiResponseAttribute>()
-            .ToArray();
-
-        foreach (var attribute in attributes)
+        foreach (var attribute in context.Description.ActionDescriptor.EndpointMetadata.OfType<OpenApiResponseAttribute>())
         {
             if (operation.Responses.TryGetValue(attribute.HttpStatusCode.ToString(CultureInfo.InvariantCulture), out var response))
             {
