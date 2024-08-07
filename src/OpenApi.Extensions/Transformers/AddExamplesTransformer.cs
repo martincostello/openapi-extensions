@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Martin Costello, 2024. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
+using System.Collections.Concurrent;
 using System.Collections.Frozen;
 using System.Reflection;
 using System.Text.Json.Serialization;
@@ -22,7 +23,7 @@ internal sealed class AddExamplesTransformer(
     IOpenApiOperationTransformer,
     IOpenApiSchemaTransformer
 {
-    private readonly FrozenDictionary<Type, IOpenApiExampleMetadata> _metadata = examplesMetadata.ToFrozenDictionary((p) => p.ExampleType, (v) => v);
+    private readonly ExamplesCache _cache = new(examplesMetadata);
     private readonly JsonSerializerContext _context = context;
 
     /// <inheritdoc/>
@@ -58,9 +59,9 @@ internal sealed class AddExamplesTransformer(
             .OfType<IOpenApiExampleMetadata>()
             .ToArray();
 
-        if (TryGetMethodInfo(description) is { } methodInfo)
+        if (_cache.GetMetadata(description) is { Length: > 0 } metadata)
         {
-            examples = [.. examples, .. methodInfo.GetExampleMetadata()];
+            examples = [.. examples, .. metadata];
         }
 
         if (operation.Parameters is { Count: > 0 } parameters)
@@ -78,10 +79,10 @@ internal sealed class AddExamplesTransformer(
 
     private void Process(OpenApiSchema schema, Type type)
     {
-        if (schema.Example is null)
+        if (schema.Example is null &&
+            _cache.TryGetMetadata(type, includeOptions: true) is { } metadata)
         {
-            var metadata = type.GetExampleMetadata() ?? TryGetMetadata(type);
-            schema.Example = metadata?.GenerateExample(_context);
+            schema.Example = metadata.GenerateExample(_context);
         }
     }
 
@@ -91,22 +92,20 @@ internal sealed class AddExamplesTransformer(
         IList<IOpenApiExampleMetadata> examples)
     {
         // Find the method associated with the operation and get its arguments
-        var arguments = TryGetMethodInfo(description)?.GetParameters().ToArray();
-
-        if (arguments is { Length: > 0 })
+        if (TryGetMethodInfo(description) is not { } method)
         {
-            foreach (var argument in arguments)
-            {
-                var metadata = TryGetMetadata(argument, examples);
+            return;
+        }
 
-                if (metadata?.GenerateExample(_context) is { } value)
+        foreach (var argument in method.GetParameters())
+        {
+            if (TryGetMetadata(argument, examples) is { } metadata)
+            {
+                // Find the parameter that corresponds to the argument and set its example
+                var parameter = parameters.FirstOrDefault((p) => p.Name == argument.Name);
+                if (parameter is not null)
                 {
-                    // Find the parameter that corresponds to the argument and set its example
-                    var parameter = parameters.FirstOrDefault((p) => p.Name == argument.Name);
-                    if (parameter is not null)
-                    {
-                        parameter.Example ??= value;
-                    }
+                    parameter.Example ??= metadata.GenerateExample(_context);
                 }
             }
         }
@@ -117,10 +116,15 @@ internal sealed class AddExamplesTransformer(
         ApiDescription description,
         IList<IOpenApiExampleMetadata> examples)
     {
+        if (TryGetMethodInfo(description) is not { } method)
+        {
+            return;
+        }
+
         foreach (var mediaType in body.Content.Values)
         {
             var bodyParameter = description.ParameterDescriptions.Single((p) => p.Source == BindingSource.Body);
-            var argument = TryGetMethodInfo(description)?.GetParameters().Single((p) => p.Name == bodyParameter.Name);
+            var argument = method.GetParameters().Single((p) => p.Name == bodyParameter.Name);
 
             if (TryGetMetadata(argument, bodyParameter, examples) is { } metadata)
             {
@@ -148,8 +152,7 @@ internal sealed class AddExamplesTransformer(
                 // 3. From examples configured in the options
                 metadata =
                     examples.FirstOrDefault((p) => p.ExampleType == type) ??
-                    type.GetExampleMetadata() ??
-                    TryGetMetadata(type);
+                    _cache.TryGetMetadata(type, includeOptions: true);
             }
 
             foreach (var responseFormat in schemaResponse.ApiResponseFormats)
@@ -164,7 +167,7 @@ internal sealed class AddExamplesTransformer(
     }
 
     private IOpenApiExampleMetadata? TryGetMetadata(
-        ParameterInfo? argument,
+        ParameterInfo argument,
         ApiParameterDescription bodyParameter,
         IList<IOpenApiExampleMetadata> examples)
     {
@@ -174,10 +177,10 @@ internal sealed class AddExamplesTransformer(
         // 3. From the endpoint metadata
         // 4. From examples configured in the options
         return
-            argument?.GetExampleMetadata().FirstOrDefault() ??
-            bodyParameter.Type.GetExampleMetadata() ??
+            _cache.TryGetMetadata(argument) ??
+            _cache.TryGetMetadata(bodyParameter.Type, includeOptions: false) ??
             examples.FirstOrDefault((p) => p.ExampleType == bodyParameter.Type) ??
-            TryGetMetadata(bodyParameter.Type);
+            _cache.TryGetMetadata(bodyParameter.Type, includeOptions: true);
     }
 
     private IOpenApiExampleMetadata? TryGetMetadata(
@@ -190,12 +193,52 @@ internal sealed class AddExamplesTransformer(
         // 3. From the endpoint metadata
         // 4. From examples configured in the options
         return
-            argument.GetExampleMetadata().FirstOrDefault((p) => p.ExampleType == argument.ParameterType) ??
-            argument.ParameterType.GetExampleMetadata() ??
+            _cache.TryGetMetadata(argument) ??
+            _cache.TryGetMetadata(argument.ParameterType, includeOptions: false) ??
             examples.FirstOrDefault((p) => p.ExampleType == argument.ParameterType) ??
-            TryGetMetadata(argument.ParameterType);
+            _cache.TryGetMetadata(argument.ParameterType, includeOptions: true);
     }
 
-    private IOpenApiExampleMetadata? TryGetMetadata(Type type)
-        => _metadata.TryGetValue(type, out var metadata) ? metadata : null;
+    private sealed class ExamplesCache(ICollection<IOpenApiExampleMetadata> examplesMetadata)
+    {
+        private readonly FrozenDictionary<Type, IOpenApiExampleMetadata> _typeMetadata = examplesMetadata.ToFrozenDictionary((p) => p.ExampleType, (v) => v);
+        private readonly ConcurrentDictionary<MethodInfo, IOpenApiExampleMetadata[]> _methodMetadataCache = [];
+        private readonly ConcurrentDictionary<ParameterInfo, IOpenApiExampleMetadata?> _parameterMetadataCache = [];
+        private readonly ConcurrentDictionary<(Type Type, bool IncludeOptions), IOpenApiExampleMetadata?> _typeMetadataCache = [];
+
+        public IOpenApiExampleMetadata[] GetMetadata(ApiDescription description)
+        {
+            if (TryGetMethodInfo(description) is not { } method)
+            {
+                return [];
+            }
+
+            return _methodMetadataCache.GetOrAdd(method, static (p) => [.. p.GetExampleMetadata()]);
+        }
+
+        public IOpenApiExampleMetadata? TryGetMetadata(Type type, bool includeOptions)
+        {
+            return _typeMetadataCache.GetOrAdd((type, includeOptions), (key) =>
+            {
+                if (key.Type.GetExampleMetadata() is { } metadata)
+                {
+                    return metadata;
+                }
+
+                if (!key.IncludeOptions)
+                {
+                    return null;
+                }
+
+                return _typeMetadata.TryGetValue(key.Type, out metadata) ? metadata : null;
+            });
+        }
+
+        public IOpenApiExampleMetadata? TryGetMetadata(ParameterInfo parameter)
+        {
+            return _parameterMetadataCache.GetOrAdd(
+                parameter,
+                static (key) => key.GetExampleMetadata().FirstOrDefault((p) => p.ExampleType == key.ParameterType));
+        }
+    }
 }
