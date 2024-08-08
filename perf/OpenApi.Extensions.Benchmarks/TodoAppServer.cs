@@ -70,12 +70,9 @@ internal sealed class TodoAppServer : IAsyncDisposable
     {
         GC.SuppressFinalize(this);
 
-        if (!_disposed)
+        if (!_disposed && _app is not null)
         {
-            if (_app is not null)
-            {
-                await _app.DisposeAsync();
-            }
+            await _app.DisposeAsync();
         }
 
         _disposed = true;
