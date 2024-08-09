@@ -4,7 +4,7 @@
 #Requires -Version 7
 
 param(
-    [Parameter(Mandatory = $false)][string] $Filter = "*",
+    [Parameter(Mandatory = $false)][string] $Filter = "",
     [Parameter(Mandatory = $false)][string] $Job = ""
 )
 
