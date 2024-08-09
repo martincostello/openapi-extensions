@@ -8,7 +8,6 @@ namespace MartinCostello.OpenApi;
 
 [EventPipeProfiler(EventPipeProfile.CpuSampling)]
 [MemoryDiagnoser]
-[ShortRunJob] // TODO Remove once https://github.com/dotnet/aspnetcore/issues/56990 is resolved
 public class OpenApiBenchmarks : IAsyncDisposable
 {
     private TodoAppServer? _app = new();
