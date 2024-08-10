@@ -1,0 +1,65 @@
+name: benchmark
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_NOLOGO: true
+  DOTNET_SYSTEM_CONSOLE_ALLOW_ANSI_COLOR_REDIRECTION: 1
+  NUGET_XMLDOC_MODE: skip
+  TERM: xterm
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - '**/*.gitattributes'
+      - '**/*.gitignore'
+      - '**/*.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    name: benchmark
+    runs-on: ubuntu-latest
+
+    concurrency:
+      group: ${{ github.workflow }}
+      cancel-in-progress: false
+
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@6bd8b7f7774af54e05809fcc5431931b3eb1ddee # v4.0.1
+
+    - name: Run benchmarks
+      shell: pwsh
+      run: ./benchmark.ps1
+
+    - name: Publish results
+      uses: benchmark-action/github-action-benchmark@4de1bed97a47495fc4c5404952da0499e31f5c29 # v1.20.3
+      with:
+        auto-push: true
+        alert-comment-cc-users: '@${{ github.repository_owner }}'
+        benchmark-data-dir-path: 'openapi-extensions'
+        comment-on-alert: true
+        fail-on-alert: true
+        gh-pages-branch: main
+        gh-repository: 'github.com/${{ github.repository_owner }}/benchmarks'
+        github-token: ${{ secrets.BENCHMARKS_TOKEN }}
+        name: 'OpenAPI Extensions Benchmarks'
+        output-file-path: BenchmarkDotNet.Artifacts/results/MartinCostello.OpenApi.OpenApiBenchmarks-report-full-compressed.json
+        tool: 'benchmarkdotnet'
+
+    - name: Output summary
+      shell: pwsh
+      run: |
+        $repoName = ${env:GITHUB_REPOSITORY}.Split("/")[-1]
+        $summary = Get-Content -Path (Join-Path ${env:GITHUB_WORKSPACE} "BenchmarkDotNet.Artifacts" "results" "MartinCostello.OpenApi.OpenApiBenchmarks-report-github.md") -Raw
+        $summary += "`n`n"
+        $summary += "View benchmark results history [here](https://benchmarks.martincostello.com/${repoName})."
+        $summary >> ${env:GITHUB_STEP_SUMMARY}
