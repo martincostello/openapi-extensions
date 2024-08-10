@@ -85,4 +85,9 @@ if (-Not [string]::IsNullOrEmpty($Job)) {
     $additionalArgs += $Job
 }
 
+if (-Not [string]::IsNullOrEmpty(${env:GITHUB_SHA})) {
+    $additionalArgs += "--exporters"
+    $additionalArgs += "json"
+}
+
 & $dotnet run --project $benchmarks --configuration "Release" -- $additionalArgs
