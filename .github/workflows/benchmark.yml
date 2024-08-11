@@ -51,7 +51,7 @@ jobs:
         gh-pages-branch: main
         gh-repository: 'github.com/${{ github.repository_owner }}/benchmarks'
         github-token: ${{ secrets.BENCHMARKS_TOKEN }}
-        name: 'OpenAPI Extensions Benchmarks'
+        name: 'OpenAPI Extensions'
         output-file-path: BenchmarkDotNet.Artifacts/results/MartinCostello.OpenApi.OpenApiBenchmarks-report-full-compressed.json
         tool: 'benchmarkdotnet'
 
