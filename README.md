@@ -90,7 +90,7 @@ app.MapOpenApi();
 app.MapOpenApiYaml();
 
 // The [Description] attribute can be used to add parameter descriptions
-// The [OpenApiExample] can be used to add simple string examples
+// The [OpenApiExample] attribute can be used to add simple string examples
 // The ProducesOpenApiResponse() method can be used to customize the description for responses
 app.MapGet("/todo", ([Description("The Todo item's ID"), OpenApiExample("42")] string id) =>
 {
