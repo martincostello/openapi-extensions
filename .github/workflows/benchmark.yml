@@ -63,6 +63,8 @@ jobs:
 
     - name: Output summary
       shell: pwsh
+      env:
+        REPO_NAME: ${{ steps.get-repo-name.outputs.repo-name }}
       run: |
         $summary = Get-Content -Path (Join-Path ${env:GITHUB_WORKSPACE} "BenchmarkDotNet.Artifacts" "results" "MartinCostello.OpenApi.OpenApiBenchmarks-report-github.md") -Raw
         $summary += "`n`n"
