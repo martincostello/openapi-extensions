@@ -9,7 +9,10 @@ env:
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - dotnet-vnext
+      - dotnet-nightly
     paths-ignore:
       - '**/*.gitattributes'
       - '**/*.gitignore'
@@ -24,10 +27,6 @@ jobs:
     name: benchmark
     runs-on: ubuntu-latest
 
-    concurrency:
-      group: ${{ github.workflow }}
-      cancel-in-progress: false
-
     steps:
 
     - name: Checkout code
@@ -40,26 +39,32 @@ jobs:
       shell: pwsh
       run: ./benchmark.ps1
 
+    - name: Get repository name
+      id: get-repo-name
+      shell: pwsh
+      run: |
+        $repoName = ${env:GITHUB_REPOSITORY}.Split("/")[-1]
+        "repo-name=${repoName}" >> ${env:GITHUB_OUTPUT}
+
     - name: Publish results
       uses: benchmark-action/github-action-benchmark@4de1bed97a47495fc4c5404952da0499e31f5c29 # v1.20.3
       with:
         auto-push: true
         alert-comment-cc-users: '@${{ github.repository_owner }}'
-        benchmark-data-dir-path: 'openapi-extensions'
+        benchmark-data-dir-path: ${{ steps.get-repo-name.outputs.repo-name }}
         comment-on-alert: true
         fail-on-alert: true
-        gh-pages-branch: main
+        gh-pages-branch: ${{ github.ref_name }}
         gh-repository: 'github.com/${{ github.repository_owner }}/benchmarks'
         github-token: ${{ secrets.BENCHMARKS_TOKEN }}
         name: 'OpenAPI Extensions'
         output-file-path: BenchmarkDotNet.Artifacts/results/MartinCostello.OpenApi.OpenApiBenchmarks-report-full-compressed.json
-        tool: 'benchmarkdotnet'
+        tool: benchmarkdotnet
 
     - name: Output summary
       shell: pwsh
       run: |
-        $repoName = ${env:GITHUB_REPOSITORY}.Split("/")[-1]
         $summary = Get-Content -Path (Join-Path ${env:GITHUB_WORKSPACE} "BenchmarkDotNet.Artifacts" "results" "MartinCostello.OpenApi.OpenApiBenchmarks-report-github.md") -Raw
         $summary += "`n`n"
-        $summary += "View benchmark results history [here](https://benchmarks.martincostello.com/${repoName})."
+        $summary += "View benchmark results history [here](https://benchmarks.martincostello.com/${env:REPO_NAME})."
         $summary >> ${env:GITHUB_STEP_SUMMARY}
