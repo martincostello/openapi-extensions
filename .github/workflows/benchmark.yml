@@ -68,5 +68,5 @@ jobs:
       run: |
         $summary = Get-Content -Path (Join-Path ${env:GITHUB_WORKSPACE} "BenchmarkDotNet.Artifacts" "results" "MartinCostello.OpenApi.OpenApiBenchmarks-report-github.md") -Raw
         $summary += "`n`n"
-        $summary += "View benchmark results history [here](https://benchmarks.martincostello.com/${env:REPO_NAME})."
+        $summary += "View benchmark results history [here](https://benchmarks.martincostello.com/${env:REPO_NAME}?branch=${env:GITHUB_REF_NAME})."
         $summary >> ${env:GITHUB_STEP_SUMMARY}
