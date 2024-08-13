@@ -55,6 +55,8 @@ builder.Services.AddOpenApi((options) =>
 builder.Services.AddOpenApiExtensions((options) =>
 {
     // Always return the server URLs in the OpenAPI document
+    // Only enable this option in production if you are sure
+    // you wish to explicitly expose your server URLs.
     options.AddServerUrls = true;
 
     // Set a default URL to use for generation of the OpenAPI document using
