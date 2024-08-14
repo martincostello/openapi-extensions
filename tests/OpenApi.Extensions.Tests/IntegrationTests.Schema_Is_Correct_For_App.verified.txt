@@ -21,8 +21,7 @@
             in: query,
             description: The name of the person to greet.,
             schema: {
-              type: string,
-              nullable: true
+              type: string
             },
             example: Martin
           }
