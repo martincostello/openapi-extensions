@@ -73,7 +73,7 @@ public static class OpenApiEndpointRouteBuilderExtensions
     {
         using var stream = new MemoryStream();
         using var streamWriter = new StreamWriter(stream);
-        var yamlWriter = new ScrubbingOpenApiYamlWriter(streamWriter);
+        var yamlWriter = new OpenApiYamlWriter(streamWriter);
 
         document.Serialize(yamlWriter, version);
 
