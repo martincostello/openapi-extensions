@@ -38,7 +38,26 @@
             content: {
               application/json: {
                 schema: {
-                  $ref: #/components/schemas/ArrayOfVehicle
+                  type: array,
+                  items: {
+                    required: [
+                      wheels,
+                      manufacturer
+                    ],
+                    type: object,
+                    properties: {
+                      wheels: {
+                        type: integer,
+                        description: The number of wheels the vehicle has.,
+                        format: int32
+                      },
+                      manufacturer: {
+                        type: string,
+                        description: The name of the manufacturer.
+                      }
+                    },
+                    description: Represents a vehicle.
+                  }
                 }
               }
             }
@@ -49,28 +68,6 @@
   },
   components: {
     schemas: {
-      ArrayOfVehicle: {
-        type: array,
-        items: {
-          required: [
-            wheels,
-            manufacturer
-          ],
-          type: object,
-          properties: {
-            wheels: {
-              type: integer,
-              description: The number of wheels the vehicle has.,
-              format: int32
-            },
-            manufacturer: {
-              type: string,
-              description: The name of the manufacturer.
-            }
-          },
-          description: Represents a vehicle.
-        }
-      },
       Car: {
         required: [
           type,
