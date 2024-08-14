@@ -241,8 +241,7 @@
             in: query,
             schema: {
               type: string,
-              default: null,
-              nullable: true
+              default: null
             },
             example: name
           }
