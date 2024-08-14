@@ -89,7 +89,10 @@
             content: {
               application/json: {
                 schema: {
-                  $ref: #/components/schemas/ArrayOfAnimal
+                  type: array,
+                  items: {
+                    $ref: #/components/schemas/Animal
+                  }
                 }
               }
             }
@@ -112,12 +115,6 @@
         description: A class representing an animal.,
         example: {
           Name: Donald
-        }
-      },
-      ArrayOfAnimal: {
-        type: array,
-        items: {
-          $ref: #/components/schemas/Animal
         }
       },
       Cat: {
