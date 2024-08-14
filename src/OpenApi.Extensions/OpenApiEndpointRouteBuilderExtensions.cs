@@ -1,4 +1,4 @@
-// Copyright (c) Martin Costello, 2024. All rights reserved.
+﻿// Copyright (c) Martin Costello, 2024. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 //// Based on https://github.com/dotnet/aspnetcore/blob/0fee04e2e1e507f0c993fa902d53abdd7c5dff65/src/OpenApi/src/Extensions/OpenApiEndpointRouteBuilderExtensions.cs
@@ -95,10 +95,11 @@ public static class OpenApiEndpointRouteBuilderExtensions
 
         private readonly Type _documentService;
         private readonly MethodInfo _getDocument;
+        private readonly bool _requiresServiceProvider; // TODO Temporary until updated to .NET 9 rc.1
 
         public OpenApiDocumentService()
         {
-            (_documentService, _getDocument) = GetOpenApiDocumentAsyncMethod();
+            (_documentService, _getDocument, _requiresServiceProvider) = GetOpenApiDocumentAsyncMethod();
         }
 
         public async Task<OpenApiDocument?> TryGetOpenApiDocumentAsync(
@@ -111,22 +112,33 @@ public static class OpenApiEndpointRouteBuilderExtensions
                 return null;
             }
 
-            return await GetOpenApiDocumentAsync(instance, cancellationToken);
+            return await GetOpenApiDocumentAsync(instance, serviceProvider, cancellationToken);
         }
 
         [DynamicDependency(GetOpenApiDocumentAsyncMethodName, OpenApiDocumentServiceName, OpenApiAssemblyName)]
-        private static (Type Type, MethodInfo Method) GetOpenApiDocumentAsyncMethod()
+        private static (Type Type, MethodInfo Method, bool RequiresServiceProvider) GetOpenApiDocumentAsyncMethod()
         {
             var type = Type.GetType(OpenApiDocumentServiceFullyQualifiedName, throwOnError: true);
             Debug.Assert(type is not null, $"Could not resolve type \"{OpenApiDocumentServiceFullyQualifiedName}\"");
 
+            bool requiresServiceProvider = false;
             var methodInfo = type.GetMethod(
                 GetOpenApiDocumentAsyncMethodName,
                 BindingFlags.Instance | BindingFlags.Public,
                 [typeof(CancellationToken)]);
 
+            // TODO Temporary until updated to .NET 9 rc.1
+            if (methodInfo is null)
+            {
+                requiresServiceProvider = true;
+                methodInfo = type.GetMethod(
+                    GetOpenApiDocumentAsyncMethodName,
+                    BindingFlags.Instance | BindingFlags.Public,
+                    [typeof(IServiceProvider), typeof(CancellationToken)]);
+            }
+
             Debug.Assert(methodInfo is not null, $"Could not resolve method {GetOpenApiDocumentAsyncMethodName} from type {OpenApiDocumentServiceName}.");
-            return (type, methodInfo!);
+            return (type, methodInfo!, requiresServiceProvider);
         }
 
         private bool TryGetServiceInstance(
@@ -155,9 +167,13 @@ public static class OpenApiEndpointRouteBuilderExtensions
             }
         }
 
-        private async Task<OpenApiDocument> GetOpenApiDocumentAsync(object instance, CancellationToken cancellationToken)
+        private async Task<OpenApiDocument> GetOpenApiDocumentAsync(
+            object instance,
+            IServiceProvider serviceProvider,
+            CancellationToken cancellationToken)
         {
-            var result = (Task<OpenApiDocument>)_getDocument.Invoke(instance, [cancellationToken])!;
+            object[] parameters = _requiresServiceProvider ? [serviceProvider, cancellationToken] : [cancellationToken];
+            var result = (Task<OpenApiDocument>)_getDocument.Invoke(instance, parameters)!;
             return await result;
         }
     }
