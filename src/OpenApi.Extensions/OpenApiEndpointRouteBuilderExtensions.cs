@@ -1,4 +1,4 @@
-// Copyright (c) Martin Costello, 2024. All rights reserved.
+﻿// Copyright (c) Martin Costello, 2024. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 //// Based on https://github.com/dotnet/aspnetcore/blob/0fee04e2e1e507f0c993fa902d53abdd7c5dff65/src/OpenApi/src/Extensions/OpenApiEndpointRouteBuilderExtensions.cs
@@ -111,7 +111,7 @@ public static class OpenApiEndpointRouteBuilderExtensions
                 return null;
             }
 
-            return await GetOpenApiDocumentAsync(instance, cancellationToken);
+            return await GetOpenApiDocumentAsync(instance, serviceProvider, cancellationToken);
         }
 
         [DynamicDependency(GetOpenApiDocumentAsyncMethodName, OpenApiDocumentServiceName, OpenApiAssemblyName)]
@@ -123,7 +123,7 @@ public static class OpenApiEndpointRouteBuilderExtensions
             var methodInfo = type.GetMethod(
                 GetOpenApiDocumentAsyncMethodName,
                 BindingFlags.Instance | BindingFlags.Public,
-                [typeof(CancellationToken)]);
+                [typeof(IServiceProvider), typeof(CancellationToken)]);
 
             Debug.Assert(methodInfo is not null, $"Could not resolve method {GetOpenApiDocumentAsyncMethodName} from type {OpenApiDocumentServiceName}.");
             return (type, methodInfo!);
@@ -155,9 +155,12 @@ public static class OpenApiEndpointRouteBuilderExtensions
             }
         }
 
-        private async Task<OpenApiDocument> GetOpenApiDocumentAsync(object instance, CancellationToken cancellationToken)
+        private async Task<OpenApiDocument> GetOpenApiDocumentAsync(
+            object instance,
+            IServiceProvider serviceProvider,
+            CancellationToken cancellationToken)
         {
-            var result = (Task<OpenApiDocument>)_getDocument.Invoke(instance, [cancellationToken])!;
+            var result = (Task<OpenApiDocument>)_getDocument.Invoke(instance, [serviceProvider, cancellationToken])!;
             return await result;
         }
     }
