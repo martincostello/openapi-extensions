@@ -144,6 +144,12 @@
             description: The breed of the dog.,
             nullable: true
           },
+          age: {
+            type: integer,
+            description: The age of the dog, if known.,
+            format: int32,
+            nullable: true
+          },
           name: {
             type: string,
             description: The name of the animal.,

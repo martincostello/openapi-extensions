@@ -369,6 +369,11 @@
             type: string,
             nullable: true
           },
+          age: {
+            type: integer,
+            format: int32,
+            nullable: true
+          },
           name: {
             type: string,
             nullable: true
@@ -384,6 +389,11 @@
         properties: {
           breed: {
             type: string,
+            nullable: true
+          },
+          age: {
+            type: integer,
+            format: int32,
             nullable: true
           },
           name: {
