@@ -47,9 +47,10 @@ jobs:
         "repo-name=${repoName}" >> ${env:GITHUB_OUTPUT}
 
     - name: Publish results
-      uses: martincostello/benchmarkdotnet-results-publisher@9a76547c1c9cbeb96ab1fb0845cf41f14f0e6bfc # v1.0.0
+      uses: martincostello/benchmarkdotnet-results-publisher@2cffdca80057f0b388e872407bdbce20b0cbf55e # v1.0.0
       with:
         branch: ${{ github.ref_name }}
+        comment-on-threshold: true
         name: 'OpenAPI Extensions'
         output-file-path: '${{ steps.get-repo-name.outputs.repo-name }}/data.json'
         repo: '${{ github.repository_owner }}/benchmarks'
@@ -60,7 +61,6 @@ jobs:
       env:
         REPO_NAME: ${{ steps.get-repo-name.outputs.repo-name }}
       run: |
-        $summary = Get-Content -Path (Join-Path ${env:GITHUB_WORKSPACE} "BenchmarkDotNet.Artifacts" "results" "MartinCostello.OpenApi.OpenApiBenchmarks-report-github.md") -Raw
         $summary += "`n`n"
         $summary += "View benchmark results history [here](https://benchmarks.martincostello.com/${env:REPO_NAME}?branch=${env:GITHUB_REF_NAME})."
         $summary >> ${env:GITHUB_STEP_SUMMARY}
