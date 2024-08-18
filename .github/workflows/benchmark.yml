@@ -47,19 +47,13 @@ jobs:
         "repo-name=${repoName}" >> ${env:GITHUB_OUTPUT}
 
     - name: Publish results
-      uses: benchmark-action/github-action-benchmark@4de1bed97a47495fc4c5404952da0499e31f5c29 # v1.20.3
+      uses: martincostello/benchmarkdotnet-results-publisher@9a76547c1c9cbeb96ab1fb0845cf41f14f0e6bfc # v1.0.0
       with:
-        auto-push: true
-        alert-comment-cc-users: '@${{ github.repository_owner }}'
-        benchmark-data-dir-path: ${{ steps.get-repo-name.outputs.repo-name }}
-        comment-on-alert: true
-        fail-on-alert: true
-        gh-pages-branch: ${{ github.ref_name }}
-        gh-repository: 'github.com/${{ github.repository_owner }}/benchmarks'
-        github-token: ${{ secrets.BENCHMARKS_TOKEN }}
+        branch: ${{ github.ref_name }}
         name: 'OpenAPI Extensions'
-        output-file-path: BenchmarkDotNet.Artifacts/results/MartinCostello.OpenApi.OpenApiBenchmarks-report-full-compressed.json
-        tool: benchmarkdotnet
+        output-file-path: '${{ steps.get-repo-name.outputs.repo-name }}/data.json'
+        repo: '${{ github.repository_owner }}/benchmarks'
+        repo-token: ${{ secrets.BENCHMARKS_TOKEN }}
 
     - name: Output summary
       shell: pwsh
