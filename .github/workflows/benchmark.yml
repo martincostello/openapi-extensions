@@ -70,5 +70,5 @@ jobs:
         REPO_NAME: ${{ steps.get-repo-name.outputs.repo-name }}
       run: |
         $summary += "`n`n"
-        $summary += "View benchmark results history [here](https://benchmarks.martincostello.com/${env:REPO_NAME}?branch=${env:GITHUB_REF_NAME})."
+        $summary += "View benchmark results history [here](https://benchmarks.martincostello.com/?repo=${env:REPO_NAME}&branch=${env:GITHUB_REF_NAME})."
         $summary >> ${env:GITHUB_STEP_SUMMARY}
