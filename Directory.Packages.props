@@ -11,7 +11,7 @@
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.0-rc.1.24421.10" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0-rc.1.24421.10" />
     <PackageVersion Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0-rc.1.24421.11" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0-rc.1.24430.7" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.11.0" />
     <PackageVersion Include="Microsoft.OpenApi" Version="1.6.18" />
     <PackageVersion Include="Microsoft.OpenApi.Readers" Version="1.6.18" />
