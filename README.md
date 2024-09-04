@@ -205,7 +205,7 @@ This project is licensed under the [Apache 2.0][license] license.
 [dotnet-sdk]: https://dotnet.microsoft.com/download "Download the .NET SDK"
 [issues]: https://github.com/martincostello/openapi-extensions/issues "Issues for this project on GitHub.com"
 [license]: https://www.apache.org/licenses/LICENSE-2.0.txt "The Apache 2.0 license"
-[package-badge]: https://buildstats.info/nuget/MartinCostello.OpenApi.Extensions?includePreReleases=true
+[package-badge]: https://img.shields.io/nuget/v/MartinCostello.OpenApi.Extensions?logo=nuget&label=NuGet&color=blue
 [package-download]: https://www.nuget.org/packages/MartinCostello.OpenApi.Extensions "Download MartinCostello.OpenApi.Extensions from NuGet"
 [repo]: https://github.com/martincostello/openapi-extensions "This project on GitHub.com"
 [sample-app]: https://github.com/martincostello/openapi-extensions/tree/main/samples/TodoApp "Sample application using the library"
