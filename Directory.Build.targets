@@ -68,10 +68,4 @@
     <WriteLinesToFile File="$(GITHUB_OUTPUT)" Lines="package-names=$(_UniquePackageNames)" />
     <WriteLinesToFile File="$(GITHUB_OUTPUT)" Lines="package-version=$(Version)" />
   </Target>
-  <!-- HACK Workaround for https://github.com/microsoft/OpenAPI.NET/issues/1810 -->
-  <Target Name="DisableVSAnalyzers" BeforeTargets="CoreCompile" Condition=" '$(RunStaticAnalysis)' == '' OR '$(RunStaticAnalysis)' == 'false' ">
-    <ItemGroup>
-      <Analyzer Remove="@(Analyzer)" Condition=" '%(Filename)' == 'Microsoft.VisualStudio.Threading.Analyzers' OR '%(Filename)' == 'Microsoft.VisualStudio.Threading.Analyzers.CSharp' " />
-    </ItemGroup>
-  </Target>
 </Project>
