@@ -73,7 +73,7 @@ public static class OpenApiEndpointRouteBuilderExtensions
     {
         using var stream = new MemoryStream();
         using var streamWriter = new StreamWriter(stream);
-        var yamlWriter = new ScrubbingOpenApiYamlWriter(streamWriter);
+        var yamlWriter = new OpenApiYamlWriter(streamWriter);
 
         document.Serialize(yamlWriter, version);
 
@@ -87,7 +87,7 @@ public static class OpenApiEndpointRouteBuilderExtensions
 
     private sealed class OpenApiDocumentService
     {
-        // See https://github.com/dotnet/aspnetcore/blob/0fee04e2e1e507f0c993fa902d53abdd7c5dff65/src/OpenApi/src/Services/OpenApiDocumentService.cs#L55
+        // See https://github.com/dotnet/aspnetcore/blob/08b60af1bca8cffff8ba0a72164fb7505ffe114d/src/OpenApi/src/Services/OpenApiDocumentService.cs#L53
         private const string OpenApiAssemblyName = "Microsoft.AspNetCore.OpenApi";
         private const string OpenApiDocumentServiceName = "Microsoft.AspNetCore.OpenApi.OpenApiDocumentService";
         private const string OpenApiDocumentServiceFullyQualifiedName = $"{OpenApiDocumentServiceName}, {OpenApiAssemblyName}";
@@ -95,11 +95,10 @@ public static class OpenApiEndpointRouteBuilderExtensions
 
         private readonly Type _documentService;
         private readonly MethodInfo _getDocument;
-        private readonly bool _requiresServiceProvider; // TODO Temporary until updated to .NET 9 rc.1
 
         public OpenApiDocumentService()
         {
-            (_documentService, _getDocument, _requiresServiceProvider) = GetOpenApiDocumentAsyncMethod();
+            (_documentService, _getDocument) = GetOpenApiDocumentAsyncMethod();
         }
 
         public async Task<OpenApiDocument?> TryGetOpenApiDocumentAsync(
@@ -116,29 +115,18 @@ public static class OpenApiEndpointRouteBuilderExtensions
         }
 
         [DynamicDependency(GetOpenApiDocumentAsyncMethodName, OpenApiDocumentServiceName, OpenApiAssemblyName)]
-        private static (Type Type, MethodInfo Method, bool RequiresServiceProvider) GetOpenApiDocumentAsyncMethod()
+        private static (Type Type, MethodInfo Method) GetOpenApiDocumentAsyncMethod()
         {
             var type = Type.GetType(OpenApiDocumentServiceFullyQualifiedName, throwOnError: true);
             Debug.Assert(type is not null, $"Could not resolve type \"{OpenApiDocumentServiceFullyQualifiedName}\"");
 
-            bool requiresServiceProvider = false;
             var methodInfo = type.GetMethod(
                 GetOpenApiDocumentAsyncMethodName,
                 BindingFlags.Instance | BindingFlags.Public,
-                [typeof(CancellationToken)]);
-
-            // TODO Temporary until updated to .NET 9 rc.1
-            if (methodInfo is null)
-            {
-                requiresServiceProvider = true;
-                methodInfo = type.GetMethod(
-                    GetOpenApiDocumentAsyncMethodName,
-                    BindingFlags.Instance | BindingFlags.Public,
-                    [typeof(IServiceProvider), typeof(CancellationToken)]);
-            }
+                [typeof(IServiceProvider), typeof(CancellationToken)]);
 
             Debug.Assert(methodInfo is not null, $"Could not resolve method {GetOpenApiDocumentAsyncMethodName} from type {OpenApiDocumentServiceName}.");
-            return (type, methodInfo!, requiresServiceProvider);
+            return (type, methodInfo!);
         }
 
         private bool TryGetServiceInstance(
@@ -172,25 +160,8 @@ public static class OpenApiEndpointRouteBuilderExtensions
             IServiceProvider serviceProvider,
             CancellationToken cancellationToken)
         {
-            object[] parameters = _requiresServiceProvider ? [serviceProvider, cancellationToken] : [cancellationToken];
-            var result = (Task<OpenApiDocument>)_getDocument.Invoke(instance, parameters)!;
+            var result = (Task<OpenApiDocument>)_getDocument.Invoke(instance, [serviceProvider, cancellationToken])!;
             return await result;
-        }
-    }
-
-    //// TODO Remove when RC.1 is available
-    //// See https://github.com/dotnet/aspnetcore/blob/0fee04e2e1e507f0c993fa902d53abdd7c5dff65/src/OpenApi/src/Writers/ScrubbingOpenApiJsonWriter.cs
-
-    private sealed class ScrubbingOpenApiYamlWriter(TextWriter textWriter) : OpenApiYamlWriter(textWriter)
-    {
-        public override void WritePropertyName(string name)
-        {
-            if (name is OpenApiConstants.SchemaId or OpenApiConstants.DescriptionId)
-            {
-                return;
-            }
-
-            base.WritePropertyName(name);
         }
     }
 }
