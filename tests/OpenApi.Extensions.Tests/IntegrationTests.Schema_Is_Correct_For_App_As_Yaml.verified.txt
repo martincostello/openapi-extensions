@@ -15,7 +15,6 @@ paths:
           description: The name of the person to greet.
           schema:
             type: string
-            nullable: true
           example: Martin
       responses:
         '200':
