@@ -311,7 +311,7 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
             });
     }
 
-    [Fact(Skip = "https://github.com/dotnet/aspnetcore/issues/56990")]
+    [Fact]
     public async Task Schema_Is_Correct_For_Sample()
     {
         // Arrange
