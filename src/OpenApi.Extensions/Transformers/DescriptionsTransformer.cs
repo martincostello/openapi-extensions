@@ -58,11 +58,19 @@ internal sealed class DescriptionsTransformer(Func<string, string> transformer) 
 
     internal static string RemoveStyleCopPrefixes(string description)
     {
-        const string GetSetPrefix = "Gets or sets ";
-        const string GetPrefix = "Gets ";
+        string[] prefixes =
+        [
+            "Gets or sets a value indicating ",
+            "Gets a value indicating ",
+            "Gets or sets ",
+            "Gets ",
+        ];
 
-        description = description.Replace(GetSetPrefix, string.Empty, StringComparison.Ordinal);
-        description = description.Replace(GetPrefix, string.Empty, StringComparison.Ordinal);
+        foreach (var prefix in prefixes)
+        {
+            description = description.Replace(prefix, string.Empty, StringComparison.Ordinal);
+        }
+
         description = char.ToUpperInvariant(description[0]) + description[1..];
 
         return description;
