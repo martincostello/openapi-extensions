@@ -40,23 +40,7 @@
                 schema: {
                   type: array,
                   items: {
-                    required: [
-                      wheels,
-                      manufacturer
-                    ],
-                    type: object,
-                    properties: {
-                      wheels: {
-                        type: integer,
-                        description: The number of wheels the vehicle has.,
-                        format: int32
-                      },
-                      manufacturer: {
-                        type: string,
-                        description: The name of the manufacturer.
-                      }
-                    },
-                    description: Represents a vehicle.
+                    $ref: #/components/schemas/Vehicle
                   }
                 }
               }
@@ -77,8 +61,7 @@
         type: object,
         properties: {
           type: {
-            type: integer,
-            description: The type of the car.
+            $ref: #/components/schemas/CarType
           },
           wheels: {
             type: integer,
@@ -91,6 +74,29 @@
           }
         },
         description: Represents a car.
+      },
+      CarType: {
+        type: integer,
+        description: The type of the car.
+      },
+      Vehicle: {
+        required: [
+          wheels,
+          manufacturer
+        ],
+        type: object,
+        properties: {
+          wheels: {
+            type: integer,
+            description: The number of wheels the vehicle has.,
+            format: int32
+          },
+          manufacturer: {
+            type: string,
+            description: The name of the manufacturer.
+          }
+        },
+        description: Represents a vehicle.
       }
     }
   },
