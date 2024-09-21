@@ -8,22 +8,22 @@ updates:
     timezone: Europe/London
   reviewers:
     - "martincostello"
-#- package-ecosystem: nuget
-#  directory: "/"
-#  groups:
-#    Microsoft.OpenApi:
-#      patterns:
-#        - Microsoft.OpenApi*
-#    xunit:
-#      patterns:
-#        - Verify.Xunit
-#        - xunit*
-#  schedule:
-#    interval: daily
-#    time: "05:30"
-#    timezone: Europe/London
-#  reviewers:
-#    - "martincostello"
-#  open-pull-requests-limit: 99
-#  ignore:
-#    - dependency-name: "Microsoft.AspNetCore.OpenApi"
+- package-ecosystem: nuget
+  directory: "/"
+  groups:
+    Microsoft.OpenApi:
+      patterns:
+        - Microsoft.OpenApi*
+    xunit:
+      patterns:
+        - Verify.Xunit
+        - xunit*
+  schedule:
+    interval: daily
+    time: "05:30"
+    timezone: Europe/London
+  reviewers:
+    - "martincostello"
+  open-pull-requests-limit: 99
+  ignore:
+    - dependency-name: "Microsoft.AspNetCore.OpenApi"
