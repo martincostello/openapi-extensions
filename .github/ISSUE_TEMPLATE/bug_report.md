@@ -2,9 +2,9 @@
 name: Bug report
 about: Create a bug report to help us improve the library
 labels: bug
+title: ''
 ---
 
-<!-- markdownlint-disable MD041 -->
 ### Describe the bug
 
 <!--
