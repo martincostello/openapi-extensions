@@ -84,6 +84,17 @@ public class OpenApiExtensionsOptions
     public IList<Assembly> XmlDocumentationAssemblies { get; } = [];
 
     /// <summary>
+    /// Adds the specified type as its own example provider to the options.
+    /// </summary>
+    /// <typeparam name="TSchema">The type of the schema.</typeparam>
+    /// <returns>
+    /// The current instance of <see cref="OpenApiExtensionsOptions"/>.
+    /// </returns>
+    public OpenApiExtensionsOptions AddExample<TSchema>()
+        where TSchema : IExampleProvider<TSchema>
+        => AddExample<TSchema, TSchema>();
+
+    /// <summary>
     /// Adds an example provider for the specified type to the options.
     /// </summary>
     /// <typeparam name="TSchema">The type of the schema.</typeparam>

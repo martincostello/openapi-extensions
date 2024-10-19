@@ -136,6 +136,8 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
                     options.SerializationContexts.Add(AnimalsJsonSerializationContext.Default);
 
                     options.AddExample<Animal, AnimalExampleProvider>();
+                    options.AddExample<Dog>();
+
                     options.AddXmlComments<Animal>();
 
                     options.DescriptionTransformations.Add((p) => p.Replace(" Secret.", string.Empty, StringComparison.Ordinal));
@@ -281,6 +283,7 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
                 {
                     options.AddExamples = true;
                     options.AddExample<Car, CarExampleProvider>();
+                    options.AddExample<Dog>();
 
                     options.SerializationContexts.Add(AnimalsJsonSerializationContext.Default);
                     options.SerializationContexts.Add(VehiclesJsonSerializationContext.Default);

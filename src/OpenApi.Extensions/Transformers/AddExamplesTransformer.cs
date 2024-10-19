@@ -230,7 +230,19 @@ internal sealed class AddExamplesTransformer(
                     return null;
                 }
 
-                return _typeMetadata.TryGetValue(key.Type, out metadata) ? metadata : null;
+                var targetType = key.Type;
+
+                while (targetType is not null)
+                {
+                    if (_typeMetadata.TryGetValue(targetType, out metadata))
+                    {
+                        return metadata;
+                    }
+
+                    targetType = targetType.BaseType;
+                }
+
+                return null;
             });
         }
 
