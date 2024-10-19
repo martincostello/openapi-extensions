@@ -17,6 +17,7 @@ MartinCostello.OpenApi.OpenApiExampleAttribute<TSchema, TProvider>.OpenApiExampl
 MartinCostello.OpenApi.OpenApiExtensions
 MartinCostello.OpenApi.OpenApiExtensionsOptions
 MartinCostello.OpenApi.OpenApiExtensionsOptions.AddExample<TSchema, TProvider>() -> MartinCostello.OpenApi.OpenApiExtensionsOptions!
+MartinCostello.OpenApi.OpenApiExtensionsOptions.AddExample<TSchema>() -> MartinCostello.OpenApi.OpenApiExtensionsOptions!
 MartinCostello.OpenApi.OpenApiExtensionsOptions.AddExamples.get -> bool
 MartinCostello.OpenApi.OpenApiExtensionsOptions.AddExamples.set -> void
 MartinCostello.OpenApi.OpenApiExtensionsOptions.AddServerUrls.get -> bool

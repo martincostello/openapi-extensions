@@ -40,6 +40,9 @@
             application/json: {
               schema: {
                 $ref: #/components/schemas/Cat
+              },
+              example: {
+                Name: Donald
               }
             }
           },
@@ -131,7 +134,10 @@
             nullable: true
           }
         },
-        description: A class representing a cat.
+        description: A class representing a cat.,
+        example: {
+          Name: Donald
+        }
       },
       Dog: {
         type: object,
