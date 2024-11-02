@@ -1,8 +1,5 @@
 # OpenAPI Extensions for ASP.NET Core
 
-> [!NOTE]
-> This project is currently experimental and depends on pre-releases of [ASP.NET Core 9][aspnetcore-9].
-
 [![NuGet][package-badge-version]][package-download]
 [![NuGet Downloads][package-badge-downloads]][package-download]
 
