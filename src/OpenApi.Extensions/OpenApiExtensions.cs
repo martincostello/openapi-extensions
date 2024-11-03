@@ -116,7 +116,15 @@ public static class OpenApiExtensions
         ArgumentNullException.ThrowIfNull(services);
         ArgumentNullException.ThrowIfNull(configureOptions);
 
-        services.AddOpenApiExtensionsCore(documentName);
+        services.AddOptions<OpenApiExtensionsOptions>(documentName);
+        services.AddKeyedSingleton<IOpenApiDocumentTransformer>(documentName, static (provider, key) =>
+        {
+            var extensionsOptions = provider.GetRequiredKeyedService<IOptions<OpenApiExtensionsOptions>>(key);
+            var httpContextAccessor = provider.GetService<IHttpContextAccessor>();
+            var forwardedHeadersOptions = provider.GetService<IOptions<ForwardedHeadersOptions>>();
+
+            return new AddServersTransformer(extensionsOptions, httpContextAccessor, forwardedHeadersOptions);
+        });
 
         services.AddOptions<OpenApiOptions>(documentName)
                 .Configure<IOptions<OpenApiExtensionsOptions>>(ConfigureExtensions);
@@ -174,21 +182,6 @@ public static class OpenApiExtensions
                 options.AddSchemaTransformer(descriptions);
             }
         }
-    }
-
-    private static IServiceCollection AddOpenApiExtensionsCore(this IServiceCollection services, string documentName)
-    {
-        services.AddOptions<OpenApiExtensionsOptions>(documentName);
-        services.AddKeyedSingleton<IOpenApiDocumentTransformer>(documentName, (provider, key) =>
-        {
-            var extensionsOptions = provider.GetRequiredKeyedService<IOptions<OpenApiExtensionsOptions>>(key);
-            var httpContextAccessor = provider.GetService<IHttpContextAccessor>();
-            var forwardedHeadersOptions = provider.GetService<IOptions<ForwardedHeadersOptions>>();
-
-            return new AddServersTransformer(extensionsOptions, httpContextAccessor, forwardedHeadersOptions);
-        });
-
-        return services;
     }
 
     private sealed class ChainedJsonSerializerContext(ICollection<JsonSerializerContext> chain) : JsonSerializerContext(null)
