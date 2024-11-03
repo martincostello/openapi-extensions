@@ -7,7 +7,7 @@ using Microsoft.OpenApi.Any;
 namespace MartinCostello.OpenApi;
 
 /// <summary>
-/// Defines a metadata for an OpenAPI example.
+/// Defines metadata for an OpenAPI example.
 /// </summary>
 public interface IOpenApiExampleMetadata
 {
