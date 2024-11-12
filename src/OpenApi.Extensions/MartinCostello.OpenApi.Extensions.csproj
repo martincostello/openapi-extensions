@@ -10,10 +10,7 @@
     <IsPackable>true</IsPackable>
     <OutputType>Library</OutputType>
     <PackageId>MartinCostello.OpenApi.Extensions</PackageId>
-    <!--
-    TODO Enable and update PublicAPI baselines once 1.0.0 published
     <PackageValidationBaselineVersion>1.0.0</PackageValidationBaselineVersion>
-    -->
     <RootNamespace>MartinCostello.OpenApi</RootNamespace>
     <Summary>$(Description)</Summary>
     <TargetFramework>net9.0</TargetFramework>
