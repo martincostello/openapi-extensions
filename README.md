@@ -1,8 +1,5 @@
 # OpenAPI Extensions for ASP.NET Core
 
-> [!NOTE]
-> This project is currently experimental and depends on pre-releases of [ASP.NET Core 9][aspnetcore-9].
-
 [![NuGet][package-badge-version]][package-download]
 [![NuGet Downloads][package-badge-downloads]][package-download]
 
@@ -196,7 +193,6 @@ The repository is hosted in [GitHub][repo]: <https://github.com/martincostello/o
 
 This project is licensed under the [Apache 2.0][license] license.
 
-[aspnetcore-9]: https://learn.microsoft.com/aspnet/core/release-notes/aspnetcore-9.0
 [aspnetcore-native-aot]: https://learn.microsoft.com/aspnet/core/fundamentals/native-aot "ASP.NET Core support for Native AOT"
 [aspnetcore-openapi]: https://www.nuget.org/packages/Microsoft.AspNetCore.OpenApi
 [build-badge]: https://github.com/martincostello/openapi-extensions/actions/workflows/build.yml/badge.svg?branch=main&event=push
