@@ -30,7 +30,7 @@ A sample application using the library can be found [here][sample-app].
 To install the library from [NuGet][package-download] using the .NET SDK run the following command:
 
 ```console
-dotnet add package MartinCostello.OpenApi.Extensions --prerelease
+dotnet add package MartinCostello.OpenApi.Extensions
 ```
 
 ## Usage
