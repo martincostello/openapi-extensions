@@ -74,7 +74,7 @@ builder.Services.AddOpenApiExtensions((options) =>
     // from the assembly that the Program class is defined in.
     options.AddXmlComments<Program>();
 
-    // Add a custom transformations for the descriptions in the OpenAPI document
+    // Add a custom transformation for the descriptions in the OpenAPI document
     options.DescriptionTransformations.Add((p) => p.ToUpper());
 });
 
