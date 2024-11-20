@@ -25,7 +25,7 @@ The library is also designed to be compatible with support for [native AoT][aspn
 
 A sample application using the library can be found [here][sample-app].
 
-An overview of the library and how it works can be found on YouTube from this talk from
+An overview of the library and how it works can be found on YouTube in this talk from
 .NET Conf 2024: [📺 _Extending ASP.NET Core OpenAPI_][dotnet-conf]
 
 ## Installation
