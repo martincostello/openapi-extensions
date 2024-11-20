@@ -25,6 +25,9 @@ The library is also designed to be compatible with support for [native AoT][aspn
 
 A sample application using the library can be found [here][sample-app].
 
+An overview of the library and how it works can be found on YouTube in this talk from
+.NET Conf 2024: [📺 _Extending ASP.NET Core OpenAPI_][dotnet-conf]
+
 ## Installation
 
 To install the library from [NuGet][package-download] using the .NET SDK run the following command:
@@ -199,6 +202,7 @@ This project is licensed under the [Apache 2.0][license] license.
 [build-status]: https://github.com/martincostello/openapi-extensions/actions?query=workflow%3Abuild+branch%3Amain+event%3Apush "Continuous Integration for this project"
 [coverage-badge]: https://codecov.io/gh/martincostello/openapi-extensions/branch/main/graph/badge.svg
 [coverage-report]: https://codecov.io/gh/martincostello/openapi-extensions "Code coverage report for this project"
+[dotnet-conf]: https://www.youtube.com/watch?v=ooP0vkST3X8 "Extending ASP.NET Core OpenAPI - .NET Conf 2024"
 [dotnet-sdk]: https://dotnet.microsoft.com/download "Download the .NET SDK"
 [issues]: https://github.com/martincostello/openapi-extensions/issues "Issues for this project on GitHub.com"
 [license]: https://www.apache.org/licenses/LICENSE-2.0.txt "The Apache 2.0 license"
