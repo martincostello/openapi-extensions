@@ -3,11 +3,6 @@
     <Using Include="System.Globalization" />
     <Using Include="System.Text" />
   </ItemGroup>
-  <ItemGroup Condition=" '$(IsTestProject)' == 'true' ">
-    <Using Include="Shouldly" />
-    <Using Include="Xunit" />
-    <Using Include="Xunit.Abstractions" />
-  </ItemGroup>
   <PropertyGroup>
     <CommitBranch Condition=" '$(CommitBranch)' == '' ">$(BUILD_SOURCEBRANCHNAME)</CommitBranch>
     <CommitBranch Condition=" '$(CommitBranch)' == '' and '$(GITHUB_REF_NAME)' != '' ">$(GITHUB_REF_NAME)</CommitBranch>

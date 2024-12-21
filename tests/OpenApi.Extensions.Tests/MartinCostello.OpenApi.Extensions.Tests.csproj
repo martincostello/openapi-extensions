@@ -5,6 +5,7 @@
     <IsTestProject>true</IsTestProject>
     <JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
     <NoWarn>$(NoWarn);CA1707;CA2007;SA1600</NoWarn>
+    <OutputType>Exe</OutputType>
     <RootNamespace>MartinCostello.OpenApi</RootNamespace>
     <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
@@ -14,14 +15,14 @@
   <ItemGroup>
     <PackageReference Include="coverlet.msbuild" />
     <PackageReference Include="GitHubActionsTestLogger" NoWarn="RT0003" />
-    <PackageReference Include="MartinCostello.Logging.XUnit" />
+    <PackageReference Include="MartinCostello.Logging.XUnit.v3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="ReportGenerator" />
     <PackageReference Include="Shouldly" />
-    <PackageReference Include="Verify.Xunit" />
-    <PackageReference Include="xunit" />
+    <PackageReference Include="Verify.XunitV3" />
     <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="xunit.v3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\samples\TodoApp\TodoApp.csproj" />
@@ -33,7 +34,6 @@
   <ItemGroup>
     <Using Include="Shouldly" />
     <Using Include="Xunit" />
-    <Using Include="Xunit.Abstractions" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(BuildingInsideVisualStudio)' != 'true' ">
     <CollectCoverage>true</CollectCoverage>
