@@ -116,7 +116,7 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
 
         // Act
         using var client = fixture.CreateDefaultClient();
-        var actual = await client.GetStringAsync("/openapi/v1.yaml");
+        var actual = await client.GetStringAsync("/openapi/v1.yaml", TestContext.Current.CancellationToken);
 
         // Assert
         await Verify(actual, Settings);
@@ -339,11 +339,11 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
 
         // Act
         using var client = fixture.CreateDefaultClient();
-        var actual = await client.GetAsync("/openapi/does-not-exist.yaml");
+        var actual = await client.GetAsync("/openapi/does-not-exist.yaml", TestContext.Current.CancellationToken);
 
         // Assert
         actual.StatusCode.ShouldBe(System.Net.HttpStatusCode.NotFound);
-        await Verify(actual.Content.ReadAsStringAsync(), Settings);
+        await Verify(actual.Content.ReadAsStringAsync(TestContext.Current.CancellationToken), Settings);
     }
 
     private static class Hierarchicy
