@@ -15,7 +15,7 @@
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageVersion Include="Microsoft.OpenApi" Version="1.6.22" />
     <PackageVersion Include="Microsoft.OpenApi.Readers" Version="1.6.22" />
-    <PackageVersion Include="ReportGenerator" Version="5.4.1" />
+    <PackageVersion Include="ReportGenerator" Version="5.4.2" />
     <PackageVersion Include="Shouldly" Version="4.2.1" />
     <PackageVersion Include="Verify.XunitV3" Version="28.7.0" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.0" />
