@@ -16,7 +16,7 @@ updates:
         - Microsoft.OpenApi*
     xunit:
       patterns:
-        - Verify.Xunit
+        - Verify.Xunit*
         - xunit*
   schedule:
     interval: daily
