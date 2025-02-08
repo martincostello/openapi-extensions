@@ -18,7 +18,7 @@ $dotnetVersion = (Get-Content $sdkFile | Out-String | ConvertFrom-Json).sdk.vers
 $installDotNetSdk = $false
 
 if (($null -eq (Get-Command "dotnet" -ErrorAction SilentlyContinue)) -and ($null -eq (Get-Command "dotnet.exe" -ErrorAction SilentlyContinue))) {
-    Write-Host "The .NET SDK is not installed."
+    Write-Output "The .NET SDK is not installed."
     $installDotNetSdk = $true
 }
 else {
@@ -30,7 +30,7 @@ else {
     }
 
     if ($installedDotNetVersion -ne $dotnetVersion) {
-        Write-Host "The required version of the .NET SDK is not installed. Expected $dotnetVersion."
+        Write-Output "The required version of the .NET SDK is not installed. Expected $dotnetVersion."
         $installDotNetSdk = $true
     }
 }
@@ -103,13 +103,13 @@ $testProjects = @(
     (Join-Path $solutionPath "tests" "OpenApi.Extensions.Tests" "MartinCostello.OpenApi.Extensions.Tests.csproj")
 )
 
-Write-Host "Packaging libraries..." -ForegroundColor Green
+Write-Output "Packaging libraries..."
 ForEach ($project in $packageProjects) {
     DotNetPack $project $Configuration
 }
 
 if (-Not $SkipTests) {
-    Write-Host "Testing $($testProjects.Count) project(s)..." -ForegroundColor Green
+    Write-Output "Testing $($testProjects.Count) project(s)..."
     ForEach ($project in $testProjects) {
         DotNetTest $project
     }

@@ -19,7 +19,7 @@ $dotnetVersion = (Get-Content $sdkFile | Out-String | ConvertFrom-Json).sdk.vers
 $installDotNetSdk = $false
 
 if (($null -eq (Get-Command "dotnet" -ErrorAction SilentlyContinue)) -and ($null -eq (Get-Command "dotnet.exe" -ErrorAction SilentlyContinue))) {
-    Write-Host "The .NET SDK is not installed."
+    Write-Output "The .NET SDK is not installed."
     $installDotNetSdk = $true
 }
 else {
@@ -31,7 +31,7 @@ else {
     }
 
     if ($installedDotNetVersion -ne $dotnetVersion) {
-        Write-Host "The required version of the .NET SDK is not installed. Expected $dotnetVersion."
+        Write-Output "The required version of the .NET SDK is not installed. Expected $dotnetVersion."
         $installDotNetSdk = $true
     }
 }
@@ -71,7 +71,7 @@ if ($installDotNetSdk) {
 
 $benchmarks = (Join-Path $solutionPath "perf" "OpenApi.Extensions.Benchmarks" "MartinCostello.OpenApi.Extensions.Benchmarks.csproj")
 
-Write-Host "Running benchmarks..." -ForegroundColor Green
+Write-Output "Running benchmarks..."
 
 $additionalArgs = @()
 
