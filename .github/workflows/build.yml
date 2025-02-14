@@ -64,7 +64,7 @@ jobs:
 
     - name: Restore tools
       run: |
-        dotnet tool install --global dotnet-validate
+        dotnet tool install --global dotnet-validate --prerelease
 
     - name: Build, Test and Package
       id: build
