@@ -52,11 +52,6 @@ jobs:
 
     steps:
 
-    - name: Restore tools
-      run: |
-        dotnet tool restore
-        dotnet tool install --global dotnet-validate
-
     - name: Checkout code
       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       with:
@@ -66,6 +61,11 @@ jobs:
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@3951f0dfe7a07e2313ec93c75700083e2005cbab # v4.3.0
       id: setup-dotnet
+
+    - name: Restore tools
+      run: |
+        dotnet tool restore
+        dotnet tool install --global dotnet-validate
 
     - name: Build, Test and Package
       id: build
