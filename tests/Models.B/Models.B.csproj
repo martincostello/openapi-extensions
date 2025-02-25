@@ -6,6 +6,6 @@
     <IsPackable>false</IsPackable>
     <OutputType>Library</OutputType>
     <RootNamespace>Models.B</RootNamespace>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
   </PropertyGroup>
 </Project>
