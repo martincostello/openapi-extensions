@@ -7,7 +7,7 @@
     <NoWarn>$(NoWarn);CA1707;CA2007;SA1600</NoWarn>
     <OutputType>Exe</OutputType>
     <RootNamespace>MartinCostello.OpenApi</RootNamespace>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="xunit.runner.json" CopyToPublishDirectory="PreserveNewest" />

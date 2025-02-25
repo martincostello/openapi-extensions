@@ -5,7 +5,7 @@
     <IsPackable>false</IsPackable>
     <IsTestProject>false</IsTestProject>
     <RootNamespace>MartinCostello.OpenApi</RootNamespace>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />

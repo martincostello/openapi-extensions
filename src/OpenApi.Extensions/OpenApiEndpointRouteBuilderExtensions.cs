@@ -36,6 +36,8 @@ public static class OpenApiEndpointRouteBuilderExtensions
     /// <exception cref="ArgumentNullException">
     /// <paramref name="endpoints"/> is <see langword="null"/>.
     /// </exception>
+    [RequiresDynamicCode()]
+    [RequiresUnreferencedCode()]
     public static IEndpointConventionBuilder MapOpenApiYaml(
         this IEndpointRouteBuilder endpoints,
         [StringSyntax("Route")] string pattern = OpenApiConstants.DefaultOpenApiRouteAsYaml)
