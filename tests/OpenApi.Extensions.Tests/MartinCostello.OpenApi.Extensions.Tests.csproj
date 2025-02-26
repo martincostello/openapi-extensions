@@ -7,7 +7,12 @@
     <NoWarn>$(NoWarn);CA1707;CA2007;SA1600</NoWarn>
     <OutputType>Exe</OutputType>
     <RootNamespace>MartinCostello.OpenApi</RootNamespace>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
+    <!--
+    TODO Add .NET 10 once mutli-targeting verify tests added.
+    See https://github.com/orgs/VerifyTests/discussions/1409.
+    <TargetFrameworks>net10.0;net9.0</TargetFrameworks>
+    -->
   </PropertyGroup>
   <ItemGroup>
     <Content Include="xunit.runner.json" CopyToPublishDirectory="PreserveNewest" />
