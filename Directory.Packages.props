@@ -1,7 +1,7 @@
 <Project>
   <ItemGroup>
     <GlobalPackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" PrivateAssets="All" />
-    <GlobalPackageReference Include="ReferenceTrimmer" Version="3.3.10" PrivateAssets="All" />
+    <GlobalPackageReference Include="ReferenceTrimmer" Version="3.3.11" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="BenchmarkDotNet" Version="0.14.0" />
