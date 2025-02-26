@@ -119,7 +119,7 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
         var actual = await client.GetStringAsync("/openapi/v1.yaml", TestContext.Current.CancellationToken);
 
         // Assert
-        await Verify(actual, Settings);
+        await Verify(actual, Settings).UniqueForTargetFrameworkAndVersion();
     }
 
     [Fact]
@@ -325,7 +325,7 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
         var actual = await fixture.GetOpenApiDocumentAsync();
 
         // Assert
-        await VerifyJson(actual, Settings);
+        await VerifyJson(actual, Settings).UniqueForTargetFrameworkAndVersion();
     }
 
     [Fact]

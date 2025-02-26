@@ -11,9 +11,6 @@ updates:
 - package-ecosystem: nuget
   directory: "/"
   groups:
-    Microsoft.OpenApi:
-      patterns:
-        - Microsoft.OpenApi*
     xunit:
       patterns:
         - Verify.Xunit*
@@ -27,3 +24,4 @@ updates:
   open-pull-requests-limit: 99
   ignore:
     - dependency-name: "Microsoft.AspNetCore.OpenApi"
+    - dependency-name: "Microsoft.OpenApi*"

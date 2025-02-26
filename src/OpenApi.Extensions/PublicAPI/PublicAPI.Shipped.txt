@@ -3,9 +3,7 @@ MartinCostello.OpenApi.IExampleProvider<T>
 MartinCostello.OpenApi.IExampleProvider<T>.GenerateExample() -> T
 MartinCostello.OpenApi.IOpenApiExampleMetadata
 MartinCostello.OpenApi.IOpenApiExampleMetadata.ExampleType.get -> System.Type!
-MartinCostello.OpenApi.IOpenApiExampleMetadata.GenerateExample(System.Text.Json.Serialization.JsonSerializerContext! context) -> Microsoft.OpenApi.Any.IOpenApiAny!
 MartinCostello.OpenApi.OpenApiEndpointConventionBuilderExtensions
-MartinCostello.OpenApi.OpenApiEndpointRouteBuilderExtensions
 MartinCostello.OpenApi.OpenApiExampleAttribute
 MartinCostello.OpenApi.OpenApiExampleAttribute.OpenApiExampleAttribute(string! value) -> void
 MartinCostello.OpenApi.OpenApiExampleAttribute.Value.get -> string!
@@ -36,7 +34,6 @@ MartinCostello.OpenApi.OpenApiResponseAttribute.HttpStatusCode.get -> int
 MartinCostello.OpenApi.OpenApiResponseAttribute.OpenApiResponseAttribute(int httpStatusCode, string! description) -> void
 override MartinCostello.OpenApi.OpenApiExampleAttribute.GenerateExample() -> string!
 static MartinCostello.OpenApi.OpenApiEndpointConventionBuilderExtensions.ProducesOpenApiResponse<TBuilder>(this TBuilder builder, int statusCode, string! description) -> TBuilder
-static MartinCostello.OpenApi.OpenApiEndpointRouteBuilderExtensions.MapOpenApiYaml(this Microsoft.AspNetCore.Routing.IEndpointRouteBuilder! endpoints, string! pattern = "/openapi/{documentName}.yaml") -> Microsoft.AspNetCore.Builder.IEndpointConventionBuilder!
 static MartinCostello.OpenApi.OpenApiExtensions.AddOpenApiExtensions(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
 static MartinCostello.OpenApi.OpenApiExtensions.AddOpenApiExtensions(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services, string! documentName) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
 static MartinCostello.OpenApi.OpenApiExtensions.AddOpenApiExtensions(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services, string! documentName, System.Action<MartinCostello.OpenApi.OpenApiExtensionsOptions!>! configureOptions) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!

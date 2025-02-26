@@ -74,7 +74,7 @@ internal sealed class AddExamplesTransformer(
             TryAddRequestExamples(body, description, examples);
         }
 
-        TryAddResponseExamples(operation.Responses, description, examples);
+        TryAddResponseExamples(operation.Responses ?? [], description, examples);
     }
 
     private void Process(OpenApiSchema schema, Type type)

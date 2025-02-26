@@ -18,7 +18,7 @@ public static partial class ExampleFormatterTests
         var actual = Serialize(value);
 
         // Assert
-        await VerifyJson(actual).UseParameters(value);
+        await VerifyJson(actual).UseParameters(value).UniqueForTargetFrameworkAndVersion();
     }
 
     [Fact]
@@ -31,7 +31,7 @@ public static partial class ExampleFormatterTests
         var actual = Serialize(value);
 
         // Assert
-        await VerifyJson(actual);
+        await VerifyJson(actual).UniqueForTargetFrameworkAndVersion();
     }
 
     [Fact]
@@ -44,7 +44,7 @@ public static partial class ExampleFormatterTests
         var actual = Serialize(value);
 
         // Assert
-        await VerifyJson(actual);
+        await VerifyJson(actual).UniqueForTargetFrameworkAndVersion();
     }
 
     [Fact]
@@ -57,7 +57,7 @@ public static partial class ExampleFormatterTests
         var actual = Serialize(value);
 
         // Assert
-        await VerifyJson(actual);
+        await VerifyJson(actual).UniqueForTargetFrameworkAndVersion();
     }
 
     [Fact]
@@ -70,7 +70,7 @@ public static partial class ExampleFormatterTests
         var actual = Serialize(value);
 
         // Assert
-        await VerifyJson(actual);
+        await VerifyJson(actual).UniqueForTargetFrameworkAndVersion();
     }
 
     [Fact]
@@ -121,10 +121,10 @@ public static partial class ExampleFormatterTests
         var actual = Serialize(value);
 
         // Assert
-        await VerifyJson(actual, DocumentTests.Settings);
+        await VerifyJson(actual, DocumentTests.Settings).UniqueForTargetFrameworkAndVersion();
     }
 
-    private static string Serialize<T>(T value)
+    private static string? Serialize<T>(T value)
     {
         var actual = ExampleFormatter.AsJson(value, ReflectionJsonSerializerContext.Default);
 

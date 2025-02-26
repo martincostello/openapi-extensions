@@ -19,7 +19,8 @@ internal sealed class AddResponseDescriptionsTransformer : IOpenApiOperationTran
     {
         foreach (var attribute in context.Description.ActionDescriptor.EndpointMetadata.OfType<OpenApiResponseAttribute>())
         {
-            if (operation.Responses.TryGetValue(attribute.HttpStatusCode.ToString(CultureInfo.InvariantCulture), out var response))
+            if (operation.Responses is not null &&
+                operation.Responses.TryGetValue(attribute.HttpStatusCode.ToString(CultureInfo.InvariantCulture), out var response))
             {
                 response.Description = attribute.Description;
             }

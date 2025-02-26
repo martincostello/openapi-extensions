@@ -24,7 +24,7 @@ public abstract class DocumentTests(ITestOutputHelper outputHelper)
         var actual = await fixture.GetOpenApiDocumentAsync();
 
         // Assert
-        await VerifyJson(actual, settings ?? Settings);
+        await VerifyJson(actual, settings ?? Settings).UniqueForTargetFrameworkAndVersion();
     }
 
     private static VerifySettings CreateSettings()
