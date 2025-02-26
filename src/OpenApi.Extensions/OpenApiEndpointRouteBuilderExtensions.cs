@@ -3,6 +3,8 @@
 
 //// Based on https://github.com/dotnet/aspnetcore/blob/0fee04e2e1e507f0c993fa902d53abdd7c5dff65/src/OpenApi/src/Extensions/OpenApiEndpointRouteBuilderExtensions.cs
 
+#if NET9_0
+
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
@@ -165,3 +167,5 @@ public static class OpenApiEndpointRouteBuilderExtensions
         }
     }
 }
+
+#endif

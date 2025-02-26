@@ -1,0 +1,4 @@
+#nullable enable
+MartinCostello.OpenApi.IOpenApiExampleMetadata.GenerateExample(System.Text.Json.Serialization.JsonSerializerContext! context) -> Microsoft.OpenApi.Any.IOpenApiAny!
+MartinCostello.OpenApi.OpenApiEndpointRouteBuilderExtensions
+static MartinCostello.OpenApi.OpenApiEndpointRouteBuilderExtensions.MapOpenApiYaml(this Microsoft.AspNetCore.Routing.IEndpointRouteBuilder! endpoints, string! pattern = "/openapi/{documentName}.yaml") -> Microsoft.AspNetCore.Builder.IEndpointConventionBuilder!

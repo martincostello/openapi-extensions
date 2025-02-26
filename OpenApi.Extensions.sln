@@ -51,6 +51,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ISSUE_TEMPLATE", "ISSUE_TEM
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{E514EAAF-D67D-46E7-A0A5-394BAEAB3081}"
 	ProjectSection(SolutionItems) = preProject
+		.github\workflows\benchmark.yml = .github\workflows\benchmark.yml
 		.github\workflows\build.yml = .github\workflows\build.yml
 		.github\workflows\bump-version.yml = .github\workflows\bump-version.yml
 		.github\workflows\code-scan.yml = .github\workflows\code-scan.yml

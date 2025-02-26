@@ -20,13 +20,19 @@ internal sealed class DescriptionsTransformer(Func<string, string> transformer) 
         OpenApiOperationTransformerContext context,
         CancellationToken cancellationToken)
     {
-        foreach (var response in operation.Responses.Values)
+        if (operation.Responses is { } responses)
         {
-            foreach (var model in response.Content.Values)
+            foreach (var response in responses.Values)
             {
-                foreach (var property in model.Schema.Properties.Values.Where((p) => p.Description is not null))
+                foreach (var model in response.Content.Values)
                 {
-                    property.Description = transformer(property.Description);
+                    if (model.Schema?.Properties is { } properties)
+                    {
+                        foreach (var property in properties.Values.Where((p) => p.Description is not null))
+                        {
+                            property.Description = transformer(property.Description);
+                        }
+                    }
                 }
             }
         }
