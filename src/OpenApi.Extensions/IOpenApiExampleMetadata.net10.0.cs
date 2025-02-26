@@ -17,7 +17,7 @@ public partial interface IOpenApiExampleMetadata
     /// <returns>
     /// The example to use.
     /// </returns>
-    JsonNode GenerateExample(JsonSerializerContext context);
+    JsonNode? GenerateExample(JsonSerializerContext context);
 }
 
 #endif

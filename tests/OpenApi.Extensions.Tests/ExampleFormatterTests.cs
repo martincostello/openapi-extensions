@@ -137,7 +137,7 @@ public static partial class ExampleFormatterTests
 
         return stringWriter.ToString();
 #else
-        return actual.ToJsonString();
+        return actual?.ToJsonString();
 #endif
     }
 

@@ -12,7 +12,7 @@ public partial class OpenApiExampleAttribute<TSchema, TProvider> : Attribute, IO
     where TProvider : IExampleProvider<TSchema>
 {
     /// <inheritdoc/>
-    JsonNode IOpenApiExampleMetadata.GenerateExample(JsonSerializerContext context)
+    JsonNode? IOpenApiExampleMetadata.GenerateExample(JsonSerializerContext context)
         => ExampleFormatter.AsJson(GenerateExample(), context);
 }
 

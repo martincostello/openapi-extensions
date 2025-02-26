@@ -21,84 +21,17 @@ internal static partial class ExampleFormatter
     /// <param name="example">The example value to format as JSON.</param>
     /// <param name="context">The JSON serializer context to use.</param>
     /// <returns>
-    /// The <see cref="JsonNode"/> to use as the example.
+    /// The <see cref="JsonNode"/> to use as the example, if any.
     /// </returns>
     /// <exception cref="ArgumentNullException">
     /// <paramref name="context"/> is <see langword="null"/>.
     /// </exception>
-    public static JsonNode AsJson<T>(T example, JsonSerializerContext context)
+    public static JsonNode? AsJson<T>(T example, JsonSerializerContext context)
     {
         ArgumentNullException.ThrowIfNull(context);
 
         string? json = JsonSerializer.Serialize(example, typeof(T), context);
-        using var document = JsonDocument.Parse(json);
-
-        if (!TryParse(document.RootElement, out var any) || any is null)
-        {
-            any = new JsonObject();
-        }
-
-        return any;
-    }
-
-    private static bool TryParse(JsonElement token, out JsonNode? any)
-    {
-        any = null;
-
-        switch (token.ValueKind)
-        {
-            case JsonValueKind.Array:
-                var array = new JsonArray();
-
-                foreach (var value in token.EnumerateArray())
-                {
-                    if (TryParse(value, out var child))
-                    {
-                        array.Add(child);
-                    }
-                }
-
-                any = array;
-                return true;
-
-            case JsonValueKind.False:
-                any = JsonValue.Create(false);
-                return true;
-
-            case JsonValueKind.True:
-                any = JsonValue.Create(true);
-                return true;
-
-            case JsonValueKind.Number:
-                any = JsonValue.Create(token.GetDouble());
-                return true;
-
-            case JsonValueKind.String:
-                any = JsonValue.Create(token.GetString());
-                return true;
-
-            case JsonValueKind.Object:
-                var obj = new JsonObject();
-
-                foreach (var child in token.EnumerateObject())
-                {
-                    if (TryParse(child.Value, out var value))
-                    {
-                        obj[child.Name] = value;
-                    }
-                }
-
-                any = obj;
-                return true;
-
-            case JsonValueKind.Null:
-                any = JsonValue.Create(new bool?());
-                return true;
-
-            case JsonValueKind.Undefined:
-            default:
-                return false;
-        }
+        return JsonValue.Parse(json);
     }
 }
 
