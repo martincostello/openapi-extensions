@@ -90,6 +90,20 @@ public class TodoRepository(TimeProvider timeProvider, TodoContext context) : IT
             .ToListAsync(cancellationToken);
     }
 
+    /// <inheritdoc/>
+    public async Task<IList<TodoItem>> FindAsync(
+        string prefix,
+        bool isCompleted,
+        CancellationToken cancellationToken = default)
+    {
+        await EnsureDatabaseAsync(cancellationToken);
+
+        return await context.Items
+            .Where(x => x.Text.StartsWith(prefix))
+            .Where(x => x.CompletedAt.HasValue == isCompleted)
+            .ToListAsync(cancellationToken);
+    }
+
     private async Task EnsureDatabaseAsync(CancellationToken cancellationToken)
         => await context.Database.EnsureCreatedAsync(cancellationToken);
 

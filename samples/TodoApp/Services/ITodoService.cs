@@ -58,4 +58,14 @@ public interface ITodoService
     /// A <see cref="Task{TResult}"/> representing the asynchronous operation that returns the list of Todo items.
     /// </returns>
     Task<TodoListViewModel> GetListAsync(CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Finds a list of Todo items by filter.
+    /// </summary>
+    /// <param name="filter">The <see cref="TodoItemFilterModel"/> to search by.</param>
+    /// <param name="cancellationToken">The <see cref="CancellationToken"/> to use.</param>
+    /// <returns>
+    /// A <see cref="Task{TResult}"/> representing the asynchronous operation that returns the list of Todo items.
+    /// </returns>
+    Task<TodoListViewModel> FindAsync(TodoItemFilterModel filter, CancellationToken cancellationToken);
 }

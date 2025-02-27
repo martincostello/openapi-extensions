@@ -263,6 +263,56 @@
           }
         }
       }
+    },
+    /api/items/find: {
+      get: {
+        tags: [
+          TodoApp
+        ],
+        summary: Searches for Todo item by given filter.,
+        operationId: FindTodo,
+        parameters: [
+          {
+            name: Text,
+            in: query,
+            description: Gets or sets the text of filter.,
+            required: true,
+            schema: {
+              type: string
+            }
+          },
+          {
+            name: IsCompleted,
+            in: query,
+            description: Gets or sets a value indicating whether search by completed Todo items.,
+            required: true,
+            schema: {
+              type: boolean
+            }
+          }
+        ],
+        responses: {
+          200: {
+            description: Found Todo items.,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/TodoListViewModel
+                },
+                example: {
+                  items: [
+                    {
+                      id: a03952ca-880e-4af7-9cfa-630be0feb4a5,
+                      text: Buy eggs 🥚,
+                      isCompleted: false
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   components: {

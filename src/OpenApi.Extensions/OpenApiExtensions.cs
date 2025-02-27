@@ -171,7 +171,10 @@ public static class OpenApiExtensions
                 foreach (var assembly in assemblies)
                 {
                     var documentation = new AddXmlDocumentationTransformer(assembly);
+                    var operation = new AddOperationXmlDocumentationTransformer(assembly);
+
                     options.AddSchemaTransformer(documentation);
+                    options.AddOperationTransformer(operation);
                 }
             }
 

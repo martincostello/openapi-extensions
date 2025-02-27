@@ -174,6 +174,11 @@ public static class ApiEndpoints
                 .ProducesProblem(StatusCodes.Status404NotFound)
                 .ProducesOpenApiResponse(StatusCodes.Status204NoContent, "The Todo item was deleted.")
                 .ProducesOpenApiResponse(StatusCodes.Status404NotFound, "The Todo item was not found.");
+
+            group.MapGet("/find", FindTodoItem)
+                .WithName("FindTodo")
+                .Produces<TodoListViewModel>()
+                .ProducesOpenApiResponse(StatusCodes.Status200OK, "Found Todo items.");
         }
 
         // Redirect to OpenAPI (SwaggerUI) documentation
@@ -182,4 +187,13 @@ public static class ApiEndpoints
 
         return builder;
     }
+
+    /// <summary>
+    /// Searches for Todo item by given filter.
+    /// </summary>
+    private static async Task<TodoListViewModel> FindTodoItem(
+        [AsParameters] TodoItemFilterModel todoItemFilterModel,
+        ITodoService service,
+        CancellationToken cancellationToken) =>
+        await service.FindAsync(todoItemFilterModel, cancellationToken);
 }
