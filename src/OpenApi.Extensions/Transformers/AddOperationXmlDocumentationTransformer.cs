@@ -37,7 +37,7 @@ internal sealed class AddOperationXmlDocumentationTransformer(Assembly assembly)
         OpenApiOperation operation,
         OpenApiOperationTransformerContext context)
     {
-        if (TryGetMethodInfo(context.Description) is not { } methodInfo)
+        if (operation.Summary is not null || TryGetMethodInfo(context.Description) is not { } methodInfo)
         {
             return;
         }
@@ -65,7 +65,7 @@ internal sealed class AddOperationXmlDocumentationTransformer(Assembly assembly)
 
             var parameter = operation.Parameters.FirstOrDefault(p => p.Name == contextParameterDescription.Name);
 
-            if (parameter is not null)
+            if (parameter is not null && parameter.Description is null)
             {
                 parameter.Description = parameterDescription;
             }
