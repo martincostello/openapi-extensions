@@ -2,6 +2,7 @@
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using System.Reflection;
+using MartinCostello.OpenApi.Services;
 using MartinCostello.OpenApi.Utils;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -13,11 +14,12 @@ namespace MartinCostello.OpenApi.Transformers;
 /// <summary>
 /// A class that adds XML documentation for operations. This class cannot be inherited.
 /// </summary>
-/// <param name="assembly">The assembly to add XML descriptions to the operations of.</param>
-internal sealed class AddOperationXmlDocumentationTransformer(Assembly assembly) :
-    XmlTransformer(assembly),
-    IOpenApiOperationTransformer
+/// <param name="descriptionService">A service for work with descriptions.</param>
+internal sealed class AddOperationXmlDocumentationTransformer(IDescriptionService descriptionService)
+    : IOpenApiOperationTransformer
 {
+    private readonly IDescriptionService _descriptionService = descriptionService;
+
     /// <inheritdoc/>
     public Task TransformAsync(
         OpenApiOperation operation,
@@ -30,20 +32,39 @@ internal sealed class AddOperationXmlDocumentationTransformer(Assembly assembly)
         return Task.CompletedTask;
     }
 
-    private static MethodInfo? TryGetMethodInfo(ApiDescription description)
+    private static string? GetXmlMethodName(OpenApiOperationTransformerContext context) =>
+        GetMethodInfo(context.Description) is not { } methodInfo
+        || XmlCommentsNodeNameHelper.GetMemberNameForMethod(methodInfo) is not { Length: > 0 } xmlMethodName
+            ? null
+            : xmlMethodName;
+
+    private static MethodInfo? GetMethodInfo(ApiDescription description)
         => description.ActionDescriptor.EndpointMetadata.OfType<MethodInfo>().FirstOrDefault();
+
+    private static bool TryApplyParameterDescription(
+        OpenApiOperation operation,
+        ApiParameterDescription parameterDescription,
+        string description)
+    {
+        var parameter = operation.Parameters.FirstOrDefault(p => p.Name == parameterDescription.Name);
+
+        if (parameter is null)
+        {
+            return false;
+        }
+
+        parameter.Description ??= description;
+
+        return true;
+    }
 
     private void ApplyOperationDescription(
         OpenApiOperation operation,
         OpenApiOperationTransformerContext context)
     {
-        if (operation.Summary is not null || TryGetMethodInfo(context.Description) is not { } methodInfo)
-        {
-            return;
-        }
-
-        if (XmlCommentsNodeNameHelper.GetMemberNameForMethod(methodInfo) is { Length: > 0 } xmlMethodName
-            && GetDescription(xmlMethodName) is { Length: > 0 } methodSummary)
+        if (operation.Summary is null
+            && GetXmlMethodName(context) is { Length: > 0 } xmlMethodName
+            && _descriptionService.GetDescription(xmlMethodName) is { Length: > 0 } methodSummary)
         {
             operation.Summary = methodSummary;
         }
@@ -53,22 +74,49 @@ internal sealed class AddOperationXmlDocumentationTransformer(Assembly assembly)
         OpenApiOperation operation,
         OpenApiOperationTransformerContext context)
     {
-        foreach (var contextParameterDescription in context.Description.ParameterDescriptions)
+        if (operation.Parameters is null)
         {
-            if (contextParameterDescription.ParameterDescriptor is not IParameterInfoParameterDescriptor parameterDescriptor
-                || XmlCommentsNodeNameHelper.GetMemberNameForFieldOrProperty(parameterDescriptor.ParameterInfo.Member)
-                    is not { Length: > 0 } xmlParameterName
-                || GetDescription(xmlParameterName) is not { Length: > 0 } parameterDescription)
+            return;
+        }
+
+        foreach (var parameterDescription in context.Description.ParameterDescriptions)
+        {
+            if (TryApplyModelParameterDescription(operation, parameterDescription))
             {
                 continue;
             }
 
-            var parameter = operation.Parameters.FirstOrDefault(p => p.Name == contextParameterDescription.Name);
-
-            if (parameter is not null && parameter.Description is null)
-            {
-                parameter.Description = parameterDescription;
-            }
+            TryApplyEndpointParameterDescription(operation, context, parameterDescription);
         }
+    }
+
+    private bool TryApplyModelParameterDescription(
+        OpenApiOperation operation,
+        ApiParameterDescription parameterDescription)
+    {
+        if (parameterDescription.ParameterDescriptor is not IParameterInfoParameterDescriptor parameterDescriptor
+            || XmlCommentsNodeNameHelper.GetMemberNameForFieldOrProperty(parameterDescriptor.ParameterInfo.Member)
+                is not { Length: > 0 } xmlParameterName
+            || _descriptionService.GetDescription(xmlParameterName) is not { Length: > 0 } parameterSummary)
+        {
+            return false;
+        }
+
+        return TryApplyParameterDescription(operation, parameterDescription, parameterSummary);
+    }
+
+    private bool TryApplyEndpointParameterDescription(
+        OpenApiOperation operation,
+        OpenApiOperationTransformerContext context,
+        ApiParameterDescription parameterDescription)
+    {
+        if (GetXmlMethodName(context) is { Length: > 0 } xmlMethodName
+            && _descriptionService.GetDescription(xmlMethodName, parameterDescription.Name)
+                is { Length: > 0 } parameterSummary)
+        {
+            return TryApplyParameterDescription(operation, parameterDescription, parameterSummary);
+        }
+
+        return false;
     }
 }

@@ -4,6 +4,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
+using MartinCostello.OpenApi.Services;
 using MartinCostello.OpenApi.Transformers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -170,11 +171,15 @@ public static class OpenApiExtensions
             {
                 foreach (var assembly in assemblies)
                 {
-                    var documentation = new AddXmlDocumentationTransformer(assembly);
-                    var operation = new AddOperationXmlDocumentationTransformer(assembly);
+                    var documentationService = new XMLDescriptionService(assembly);
 
-                    options.AddSchemaTransformer(documentation);
-                    options.AddOperationTransformer(operation);
+                    var modelsXmlDocumentationTransformer =
+                        new AddSchemaModelsXmlDocumentationTransformer(assembly, documentationService);
+                    var operationXmlDocumentationTransformer =
+                        new AddOperationXmlDocumentationTransformer(documentationService);
+
+                    options.AddSchemaTransformer(modelsXmlDocumentationTransformer);
+                    options.AddOperationTransformer(operationXmlDocumentationTransformer);
                 }
             }
 

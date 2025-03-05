@@ -6,36 +6,43 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.XPath;
 
-namespace MartinCostello.OpenApi.Transformers;
+namespace MartinCostello.OpenApi.Services;
 
 /// <summary>
-/// The base class for transformers that adds XML documentation.
+/// Represents a service for work with XML descriptions.
 /// </summary>
-/// <param name="assembly">The assembly to get XML descriptions from.</param>
-internal abstract class XmlTransformer(Assembly assembly)
+/// <param name="assembly">The assembly to search XML descriptions from.</param>
+// ReSharper disable once InconsistentNaming
+internal class XMLDescriptionService(Assembly assembly) : IDescriptionService
 {
     private readonly Assembly _assembly = assembly;
     private readonly ConcurrentDictionary<string, string?> _descriptions = [];
     private XPathNavigator? _navigator;
 
-    protected Assembly Assembly => _assembly;
-
-    protected string? GetDescription(string memberName)
+    /// <inheritdoc/>
+    public string? GetDescription(string memberName, string? parameterName = null)
     {
-        if (_descriptions.TryGetValue(memberName, out var description))
+        var cacheKey = memberName +
+                       (!string.IsNullOrEmpty(parameterName)
+                           ? $"/{parameterName}"
+                           : string.Empty);
+        if (_descriptions.TryGetValue(cacheKey, out var description))
         {
             return description;
         }
 
         var navigator = CreateNavigator();
-        var node = navigator.SelectSingleNode($"/doc/members/member[@name='{memberName}']/summary");
+        var xmlPath = !string.IsNullOrEmpty(parameterName)
+            ? $"/doc/members/member[@name='{memberName}']/param[@name='{parameterName}']"
+            : $"/doc/members/member[@name='{memberName}']/summary";
+        var node = navigator.SelectSingleNode(xmlPath);
 
         if (node is not null)
         {
             description = node.Value.Trim();
         }
 
-        _descriptions[memberName] = description;
+        _descriptions[cacheKey] = description;
 
         return description;
     }

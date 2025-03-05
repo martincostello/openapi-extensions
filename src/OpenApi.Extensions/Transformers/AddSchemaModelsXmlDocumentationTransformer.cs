@@ -3,6 +3,7 @@
 
 using System.Reflection;
 using System.Text.Json.Serialization.Metadata;
+using MartinCostello.OpenApi.Services;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi.Models;
 
@@ -12,10 +13,13 @@ namespace MartinCostello.OpenApi.Transformers;
 /// A class that adds XML documentation descriptions to OpenAPI schemas. This class cannot be inherited.
 /// </summary>
 /// <param name="assembly">The assembly to add XML descriptions to the types of.</param>
-internal sealed class AddXmlDocumentationTransformer(Assembly assembly) :
-    XmlTransformer(assembly),
-    IOpenApiSchemaTransformer
+/// <param name="descriptionService">A service for work with descriptions.</param>
+internal sealed class AddSchemaModelsXmlDocumentationTransformer(Assembly assembly, IDescriptionService descriptionService)
+    : IOpenApiSchemaTransformer
 {
+    private readonly Assembly _assembly = assembly;
+    private readonly IDescriptionService _descriptionService = descriptionService;
+
     /// <inheritdoc/>
     public Task TransformAsync(
         OpenApiSchema schema,
@@ -24,7 +28,7 @@ internal sealed class AddXmlDocumentationTransformer(Assembly assembly) :
     {
         if (schema.Description is null &&
             GetMemberName(context.JsonTypeInfo, context.JsonPropertyInfo) is { Length: > 0 } memberName &&
-            GetDescription(memberName) is { Length: > 0 } description)
+            _descriptionService.GetDescription(memberName) is { Length: > 0 } description)
         {
             schema.Description = description;
         }
@@ -34,8 +38,8 @@ internal sealed class AddXmlDocumentationTransformer(Assembly assembly) :
 
     private string? GetMemberName(JsonTypeInfo typeInfo, JsonPropertyInfo? propertyInfo)
     {
-        if (typeInfo.Type.Assembly != Assembly &&
-            propertyInfo?.DeclaringType.Assembly != Assembly)
+        if (typeInfo.Type.Assembly != _assembly &&
+            propertyInfo?.DeclaringType.Assembly != _assembly)
         {
             return null;
         }
