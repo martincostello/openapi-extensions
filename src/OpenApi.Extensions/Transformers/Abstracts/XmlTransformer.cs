@@ -9,7 +9,7 @@ using System.Xml.XPath;
 namespace MartinCostello.OpenApi.Transformers.Abstracts;
 
 /// <summary>
-/// A base class that helps in getting XML documentation.
+/// The base class for transformers that adds XML documentation.
 /// </summary>
 /// <param name="assembly">The assembly to get XML descriptions from.</param>
 internal abstract class XmlTransformer(Assembly assembly)

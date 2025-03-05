@@ -14,7 +14,7 @@ namespace MartinCostello.OpenApi.Transformers;
 /// <summary>
 /// A class that adds XML documentation for operations. This class cannot be inherited.
 /// </summary>
-/// <param name="assembly">The assembly to add XML descriptions to the types of.</param>
+/// <param name="assembly">The assembly to add XML descriptions to the operations of.</param>
 internal sealed class AddOperationXmlDocumentationTransformer(Assembly assembly) :
     XmlTransformer(assembly),
     IOpenApiOperationTransformer

@@ -61,10 +61,10 @@ public interface ITodoRepository
     /// Finds a list of Todo items.
     /// </summary>
     /// <param name="prefix">The prefix to search by.</param>
-    /// <param name="isCompleted">Whether search by completed items.</param>
+    /// <param name="isCompleted">Whether to search completed items.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> to use.</param>
     /// <returns>
-    /// A <see cref="Task{TResult}"/> representing the asynchronous operation that returns the list of Todo items.
+    /// A <see cref="Task{TResult}"/> representing the asynchronous operation that returns the list of found Todo items.
     /// </returns>
     Task<IList<TodoItem>> FindAsync(string prefix, bool isCompleted, CancellationToken cancellationToken = default);
 }
