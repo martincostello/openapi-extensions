@@ -269,7 +269,7 @@
         tags: [
           TodoApp
         ],
-        summary: Searches for Todo item by given filter.,
+        summary: Searches for Todo items by given filter.,
         operationId: FindTodo,
         parameters: [
           {
@@ -289,6 +289,50 @@
             schema: {
               type: boolean
             }
+          }
+        ],
+        responses: {
+          200: {
+            description: Found Todo items.,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/TodoListViewModel
+                },
+                example: {
+                  items: [
+                    {
+                      id: a03952ca-880e-4af7-9cfa-630be0feb4a5,
+                      text: Buy eggs 🥚,
+                      isCompleted: false
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /api/items/getAfter: {
+      get: {
+        tags: [
+          TodoApp
+        ],
+        summary: Searches for Todo items created after given datetime.,
+        operationId: GetAfterDate,
+        parameters: [
+          {
+            name: dateTime,
+            in: query,
+            description: Datetime to look for items created after.,
+            required: true,
+            schema: {
+              type: string,
+              format: date-time,
+              example: 2025-03-05T16:43:44.5274103+05:00
+            },
+            example: 2025-03-05T16:43:44.5274103+05:00
           }
         ],
         responses: {

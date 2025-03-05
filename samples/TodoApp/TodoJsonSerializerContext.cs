@@ -14,6 +14,7 @@ namespace TodoApp;
 [JsonSerializable(typeof(CreateTodoItemModel))]
 [JsonSerializable(typeof(CreatedTodoItemModel))]
 [JsonSerializable(typeof(Guid))]
+[JsonSerializable(typeof(DateTime))]
 [JsonSerializable(typeof(JsonObject))]
 [JsonSerializable(typeof(ProblemDetails))]
 [JsonSerializable(typeof(TodoItemFilterModel))]

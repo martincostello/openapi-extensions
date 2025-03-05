@@ -104,6 +104,16 @@ public class TodoRepository(TimeProvider timeProvider, TodoContext context) : IT
             .ToListAsync(cancellationToken);
     }
 
+    /// <inheritdoc/>
+    public async Task<IList<TodoItem>> GetAfterDateAsync(DateTime dateTime, CancellationToken cancellationToken)
+    {
+        await EnsureDatabaseAsync(cancellationToken);
+
+        return await context.Items
+            .Where(x => x.CreatedAt > dateTime)
+            .ToListAsync(cancellationToken);
+    }
+
     private async Task EnsureDatabaseAsync(CancellationToken cancellationToken)
         => await context.Database.EnsureCreatedAsync(cancellationToken);
 

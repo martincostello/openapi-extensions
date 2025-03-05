@@ -179,6 +179,11 @@ public static class ApiEndpoints
                  .WithName("FindTodo")
                  .Produces<TodoListViewModel>()
                  .ProducesOpenApiResponse(StatusCodes.Status200OK, "Found Todo items.");
+
+            group.MapGet("/getAfter", GetAfterDate)
+                 .WithName("GetAfterDate")
+                 .Produces<TodoListViewModel>()
+                 .ProducesOpenApiResponse(StatusCodes.Status200OK, "Found Todo items.");
         }
 
         // Redirect to OpenAPI (SwaggerUI) documentation
@@ -189,11 +194,21 @@ public static class ApiEndpoints
     }
 
     /// <summary>
-    /// Searches for Todo item by given filter.
+    /// Searches for Todo items by given filter.
     /// </summary>
     private static async Task<TodoListViewModel> FindTodoItem(
         [AsParameters] TodoItemFilterModel todoItemFilterModel,
         ITodoService service,
         CancellationToken cancellationToken) =>
         await service.FindAsync(todoItemFilterModel, cancellationToken);
+
+    /// <summary>
+    /// Searches for Todo items created after given datetime.
+    /// </summary>
+    /// <param name="dateTime">Datetime to look for items created after.</param>
+    private static async Task<TodoListViewModel> GetAfterDate(
+        DateTime dateTime,
+        ITodoService service,
+        CancellationToken cancellationToken) =>
+        await service.GetAfterDateAsync(dateTime, cancellationToken);
 }
