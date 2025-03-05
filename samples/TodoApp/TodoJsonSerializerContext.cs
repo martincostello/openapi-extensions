@@ -16,9 +16,9 @@ namespace TodoApp;
 [JsonSerializable(typeof(Guid))]
 [JsonSerializable(typeof(JsonObject))]
 [JsonSerializable(typeof(ProblemDetails))]
+[JsonSerializable(typeof(TodoItemFilterModel))]
 [JsonSerializable(typeof(TodoItemModel))]
 [JsonSerializable(typeof(TodoListViewModel))]
-[JsonSerializable(typeof(TodoItemFilterModel))]
 [JsonSourceGenerationOptions(
     DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,

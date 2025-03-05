@@ -3,7 +3,6 @@
 
 using System.Reflection;
 using System.Text.Json.Serialization.Metadata;
-using MartinCostello.OpenApi.Transformers.Abstracts;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi.Models;
 

@@ -176,9 +176,9 @@ public static class ApiEndpoints
                 .ProducesOpenApiResponse(StatusCodes.Status404NotFound, "The Todo item was not found.");
 
             group.MapGet("/find", FindTodoItem)
-                .WithName("FindTodo")
-                .Produces<TodoListViewModel>()
-                .ProducesOpenApiResponse(StatusCodes.Status200OK, "Found Todo items.");
+                 .WithName("FindTodo")
+                 .Produces<TodoListViewModel>()
+                 .ProducesOpenApiResponse(StatusCodes.Status200OK, "Found Todo items.");
         }
 
         // Redirect to OpenAPI (SwaggerUI) documentation

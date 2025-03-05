@@ -2,7 +2,6 @@
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using System.Reflection;
-using MartinCostello.OpenApi.Transformers.Abstracts;
 using MartinCostello.OpenApi.Utils;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -54,21 +53,21 @@ internal sealed class AddOperationXmlDocumentationTransformer(Assembly assembly)
         OpenApiOperation operation,
         OpenApiOperationTransformerContext context)
     {
-        foreach (var parameterDescription in context.Description.ParameterDescriptions)
+        foreach (var contextParameterDescription in context.Description.ParameterDescriptions)
         {
-            if (parameterDescription.ParameterDescriptor is not IParameterInfoParameterDescriptor parameterDescriptor
+            if (contextParameterDescription.ParameterDescriptor is not IParameterInfoParameterDescriptor parameterDescriptor
                 || XmlCommentsNodeNameHelper.GetMemberNameForFieldOrProperty(parameterDescriptor.ParameterInfo.Member)
                     is not { Length: > 0 } xmlParameterName
-                || GetDescription(xmlParameterName) is not { Length: > 0 } parameterSummary)
+                || GetDescription(xmlParameterName) is not { Length: > 0 } parameterDescription)
             {
                 continue;
             }
 
-            var parameter = operation.Parameters.FirstOrDefault(p => p.Name == parameterDescription.Name);
+            var parameter = operation.Parameters.FirstOrDefault(p => p.Name == contextParameterDescription.Name);
 
             if (parameter is not null)
             {
-                parameter.Description = parameterSummary;
+                parameter.Description = parameterDescription;
             }
         }
     }

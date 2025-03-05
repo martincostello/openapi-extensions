@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.XPath;
 
-namespace MartinCostello.OpenApi.Transformers.Abstracts;
+namespace MartinCostello.OpenApi.Transformers;
 
 /// <summary>
 /// The base class for transformers that adds XML documentation.
