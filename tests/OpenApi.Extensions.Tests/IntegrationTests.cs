@@ -89,7 +89,12 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
             },
             (endpoints) =>
             {
+#if NET9_0
                 endpoints.MapOpenApiYaml();
+#else
+                endpoints.MapOpenApi("/openapi/{documentName}.yaml");
+#endif
+
                 endpoints.MapGet("/hello", (
                     [Description("The name of the person to greet.")]
                     [OpenApiExample("Martin")]
@@ -328,6 +333,7 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
         await VerifyJson(actual, Settings).UniqueForTargetFrameworkAndVersion();
     }
 
+#if NET9_0
     [Fact]
     public async Task Http_404_Is_Returned_If_Yaml_Document_Not_Found()
     {
@@ -345,6 +351,7 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
         actual.StatusCode.ShouldBe(System.Net.HttpStatusCode.NotFound);
         await Verify(actual.Content.ReadAsStringAsync(TestContext.Current.CancellationToken), Settings);
     }
+#endif
 
     private static class Hierarchicy
     {

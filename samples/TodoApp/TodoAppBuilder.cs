@@ -130,7 +130,12 @@ public static class TodoAppBuilder
 
         // Add endpoints for OpenAPI
         app.MapOpenApi();
+
+#if NET9_0
         app.MapOpenApiYaml();
+#else
+        app.MapOpenApi("/openapi/{documentName}.yaml");
+#endif
 
         // Add the HTTP endpoints
         app.MapTodoApiRoutes();
