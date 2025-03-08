@@ -69,6 +69,7 @@ public static class TodoAppBuilder
 
             // Add custom example providers for GUIDs and ProblemDetails
             options.AddExample<Guid, GuidExampleProvider>();
+            options.AddExample<DateTime, DateTimeExampleProvider>();
             options.AddExample<ProblemDetails, ProblemDetailsExampleProvider>();
 
             // Configure XML comments for the schemas in the OpenAPI document

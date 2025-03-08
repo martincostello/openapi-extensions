@@ -20,22 +20,8 @@ internal sealed class DescriptionsTransformer(Func<string, string> transformer) 
         OpenApiOperationTransformerContext context,
         CancellationToken cancellationToken)
     {
-        if (operation.Responses is { } responses)
-        {
-            foreach (var response in responses.Values)
-            {
-                foreach (var model in response.Content.Values)
-                {
-                    if (model.Schema?.Properties is { } properties)
-                    {
-                        foreach (var property in properties.Values.Where((p) => p.Description is not null))
-                        {
-                            property.Description = transformer(property.Description);
-                        }
-                    }
-                }
-            }
-        }
+        ApplyResponseDescriptions(operation);
+        ApplyParametersDescriptions(operation);
 
         return Task.CompletedTask;
     }
@@ -80,5 +66,39 @@ internal sealed class DescriptionsTransformer(Func<string, string> transformer) 
         description = char.ToUpperInvariant(description[0]) + description[1..];
 
         return description;
+    }
+
+    private void ApplyResponseDescriptions(OpenApiOperation operation)
+    {
+        if (operation.Responses is { } responses)
+        {
+            foreach (var response in responses.Values)
+            {
+                foreach (var model in response.Content.Values)
+                {
+                    if (model.Schema?.Properties is { } properties)
+                    {
+                        foreach (var property in properties.Values.Where((p) => p.Description is not null))
+                        {
+                            property.Description = transformer(property.Description);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void ApplyParametersDescriptions(OpenApiOperation operation)
+    {
+        if (operation.Parameters is not null)
+        {
+            foreach (var parameter in operation.Parameters)
+            {
+                if (!string.IsNullOrEmpty(parameter.Description))
+                {
+                    parameter.Description = transformer(parameter.Description);
+                }
+            }
+        }
     }
 }

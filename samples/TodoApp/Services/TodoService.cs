@@ -42,7 +42,25 @@ public class TodoService(ITodoRepository repository) : ITodoService
     public async Task<TodoListViewModel> GetListAsync(CancellationToken cancellationToken)
     {
         var items = await repository.GetItemsAsync(cancellationToken);
+        return MapItems(items);
+    }
 
+    /// <inheritdoc/>
+    public async Task<TodoListViewModel> FindAsync(TodoItemFilterModel filter, CancellationToken cancellationToken)
+    {
+        var items = await repository.FindAsync(filter.Text, filter.IsCompleted, cancellationToken);
+        return MapItems(items);
+    }
+
+    /// <inheritdoc/>
+    public async Task<TodoListViewModel> GetAfterDateAsync(DateTime dateTime, CancellationToken cancellationToken)
+    {
+        var items = await repository.GetAfterDateAsync(dateTime, cancellationToken);
+        return MapItems(items);
+    }
+
+    private static TodoListViewModel MapItems(IList<TodoItem> items)
+    {
         var result = new List<TodoItemModel>(items.Count);
 
         foreach (var todo in items)
