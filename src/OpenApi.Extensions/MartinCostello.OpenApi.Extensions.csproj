@@ -10,7 +10,6 @@
     <IsPackable>true</IsPackable>
     <OutputType>Library</OutputType>
     <PackageId>MartinCostello.OpenApi.Extensions</PackageId>
-    <PackageValidationBaselineVersion>1.0.0</PackageValidationBaselineVersion>
     <RootNamespace>MartinCostello.OpenApi</RootNamespace>
     <Summary>$(Description)</Summary>
     <TargetFramework>net9.0</TargetFramework>

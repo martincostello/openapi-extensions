@@ -11,6 +11,7 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <PackageTags>openapi</PackageTags>
     <UseArtifactsOutput>true</UseArtifactsOutput>
+    <PackageValidationBaselineVersion>1.0.0</PackageValidationBaselineVersion>
     <VersionPrefix>1.0.1</VersionPrefix>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(EnableReferenceTrimmer)' != 'false' AND '$(GenerateDocumentationFile)' != 'true' ">
