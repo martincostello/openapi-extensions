@@ -2,8 +2,6 @@
   <PropertyGroup>
     <Description>Test application.</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <IsPackable>false</IsPackable>
-    <IsTestProject>false</IsTestProject>
     <RootNamespace>MartinCostello.OpenApi</RootNamespace>
     <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
