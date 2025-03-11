@@ -70,7 +70,7 @@ public interface ITodoService
     Task<TodoListViewModel> FindAsync(TodoItemFilterModel filter, CancellationToken cancellationToken);
 
     /// <summary>
-    /// Gets a list of Todo items created after given datetime.
+    /// Gets a list of Todo items created after a given date and time.
     /// </summary>
     /// <param name="dateTime"><see cref="DateTime"/> to look for items created after.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> to use.</param>

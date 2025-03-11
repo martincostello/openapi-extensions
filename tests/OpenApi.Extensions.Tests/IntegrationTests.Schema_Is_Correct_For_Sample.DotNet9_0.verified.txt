@@ -319,7 +319,7 @@
         tags: [
           TodoApp
         ],
-        summary: Searches for Todo items created after given datetime.,
+        summary: Searches for Todo items created after a given date and time.,
         operationId: GetAfterDate,
         parameters: [
           {
@@ -330,9 +330,9 @@
             schema: {
               type: string,
               format: date-time,
-              example: 2025-03-05T16:43:44.5274103+05:00
+              example: 2025-03-05T16:43:44
             },
-            example: 2025-03-05T16:43:44.5274103+05:00
+            example: 2025-03-05T16:43:44
           }
         ],
         responses: {

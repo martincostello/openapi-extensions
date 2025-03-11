@@ -69,7 +69,7 @@ public interface ITodoRepository
     Task<IList<TodoItem>> FindAsync(string prefix, bool isCompleted, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets a list of Todo items created after given datetime.
+    /// Gets a list of Todo items created after a given date and time.
     /// </summary>
     /// <param name="dateTime"><see cref="DateTime"/> to look for items created after.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> to use.</param>

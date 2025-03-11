@@ -203,7 +203,7 @@ public static class ApiEndpoints
         await service.FindAsync(todoItemFilterModel, cancellationToken);
 
     /// <summary>
-    /// Searches for Todo items created after given datetime.
+    /// Searches for Todo items created after a given date and time.
     /// </summary>
     /// <param name="dateTime">Datetime to look for items created after.</param>
     private static async Task<TodoListViewModel> GetAfterDate(

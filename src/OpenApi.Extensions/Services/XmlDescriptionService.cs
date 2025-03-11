@@ -12,8 +12,7 @@ namespace MartinCostello.OpenApi.Services;
 /// Represents a service for work with XML descriptions.
 /// </summary>
 /// <param name="assembly">The assembly to search XML descriptions from.</param>
-// ReSharper disable once InconsistentNaming
-internal class XMLDescriptionService(Assembly assembly) : IDescriptionService
+internal class XmlDescriptionService(Assembly assembly) : IDescriptionService
 {
     private readonly Assembly _assembly = assembly;
     private readonly ConcurrentDictionary<string, string?> _descriptions = [];
@@ -23,9 +22,10 @@ internal class XMLDescriptionService(Assembly assembly) : IDescriptionService
     public string? GetDescription(string memberName, string? parameterName = null)
     {
         var cacheKey = memberName +
-                       (!string.IsNullOrEmpty(parameterName)
-                           ? $"/{parameterName}"
-                           : string.Empty);
+                             (!string.IsNullOrEmpty(parameterName)
+                                 ? $"/{parameterName}"
+                                 : string.Empty);
+
         if (_descriptions.TryGetValue(cacheKey, out var description))
         {
             return description;

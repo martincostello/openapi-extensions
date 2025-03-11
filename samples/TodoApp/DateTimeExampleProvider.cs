@@ -11,7 +11,7 @@ namespace TodoApp;
 public sealed class DateTimeExampleProvider : IExampleProvider<DateTime>
 {
     private static readonly DateTime Value =
-        DateTime.Parse("2025-03-05T16:43:44.5274103+05:00", CultureInfo.InvariantCulture);
+        new DateTimeOffset(2025, 03, 05, 16, 43, 44, TimeSpan.FromHours(-5)).DateTime;
 
     /// <inheritdoc/>
     public static DateTime GenerateExample() => Value;
