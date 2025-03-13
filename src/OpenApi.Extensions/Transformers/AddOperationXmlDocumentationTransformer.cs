@@ -2,7 +2,6 @@
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using System.Reflection;
-using MartinCostello.OpenApi.Services;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -15,9 +14,9 @@ namespace MartinCostello.OpenApi.Transformers;
 /// A class that adds XML documentation for OpenAPI operations. This class cannot be inherited.
 /// </summary>
 /// <param name="service">The <see cref="IDescriptionService"/> to use.</param>
-internal sealed class AddOperationXmlDocumentationTransformer(IDescriptionService service) : IOpenApiOperationTransformer
+internal sealed class AddOperationXmlDocumentationTransformer(XmlDescriptionService service) : IOpenApiOperationTransformer
 {
-    private readonly IDescriptionService _service = service;
+    private readonly XmlDescriptionService _service = service;
 
     /// <inheritdoc/>
     public Task TransformAsync(

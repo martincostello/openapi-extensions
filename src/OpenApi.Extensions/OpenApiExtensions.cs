@@ -4,7 +4,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
-using MartinCostello.OpenApi.Services;
 using MartinCostello.OpenApi.Transformers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
