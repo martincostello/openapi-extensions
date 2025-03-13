@@ -2,6 +2,7 @@
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using System.Numerics;
+using System.Xml;
 
 namespace MartinCostello.OpenApi;
 
@@ -24,6 +25,8 @@ public static class XmlCommentsHelperTests
 
         // Assert
         actual.ShouldBe(expected);
+
+        AssertNodeExists(actual);
     }
 
     [Theory]
@@ -39,6 +42,8 @@ public static class XmlCommentsHelperTests
 
         // Assert
         actual.ShouldBe(expected);
+
+        AssertNodeExists(actual);
     }
 
     [Theory]
@@ -58,6 +63,17 @@ public static class XmlCommentsHelperTests
 
         // Assert
         actual.ShouldBe(expected);
+
+        AssertNodeExists(actual);
+    }
+
+    private static void AssertNodeExists(string? name)
+    {
+        var document = new XmlDocument();
+        document.Load("MartinCostello.OpenApi.Extensions.Tests.xml");
+
+        var node = document.SelectSingleNode($"/doc/members/member[@name='{name}']");
+        node.ShouldNotBeNull();
     }
 
     private sealed class SomeStruct
