@@ -19,12 +19,12 @@ internal class XmlDescriptionService(Assembly assembly) : IDescriptionService
     private XPathNavigator? _navigator;
 
     /// <inheritdoc/>
-    public string? GetDescription(string memberName, string? parameterName = null)
+    public string? GetDescription(string memberName, string? parameterName = null, string? section = "summary")
     {
         var cacheKey = memberName +
                              (!string.IsNullOrEmpty(parameterName)
                                  ? $"/{parameterName}"
-                                 : string.Empty);
+                                 : $"/{section}");
 
         if (_descriptions.TryGetValue(cacheKey, out var description))
         {
@@ -34,7 +34,7 @@ internal class XmlDescriptionService(Assembly assembly) : IDescriptionService
         var navigator = CreateNavigator();
         var xmlPath = !string.IsNullOrEmpty(parameterName)
             ? $"/doc/members/member[@name='{memberName}']/param[@name='{parameterName}']"
-            : $"/doc/members/member[@name='{memberName}']/summary";
+            : $"/doc/members/member[@name='{memberName}']/{section}";
         var node = navigator.SelectSingleNode(xmlPath);
 
         if (node is not null)

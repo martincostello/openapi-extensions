@@ -320,6 +320,7 @@
           TodoApp
         ],
         summary: Searches for Todo items created after a given date and time.,
+        description: Returns completed and uncompleted items.,
         operationId: GetAfterDate,
         parameters: [
           {

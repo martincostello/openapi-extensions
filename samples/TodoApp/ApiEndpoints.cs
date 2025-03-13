@@ -206,6 +206,7 @@ public static class ApiEndpoints
     /// Searches for Todo items created after a given date and time.
     /// </summary>
     /// <param name="dateTime">Datetime to look for items created after.</param>
+    /// <remarks>Returns completed and uncompleted items.</remarks>
     private static async Task<TodoListViewModel> GetAfterDate(
         DateTime dateTime,
         ITodoService service,

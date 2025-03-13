@@ -13,6 +13,7 @@ internal interface IDescriptionService
     /// </summary>
     /// <param name="memberName">Member full name.</param>
     /// <param name="paramName">Parameter name of member. Optional.</param>
+    /// <param name="section">Section to get. Default is "summary".</param>
     /// <returns>Description for given member.</returns>
-    string? GetDescription(string memberName, string? paramName = null);
+    string? GetDescription(string memberName, string? paramName = null, string? section = "summary");
 }

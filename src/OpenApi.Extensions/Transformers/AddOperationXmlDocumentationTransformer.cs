@@ -5,6 +5,7 @@ using System.Reflection;
 using MartinCostello.OpenApi.Services;
 using MartinCostello.OpenApi.Utils;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi.Models;
@@ -39,7 +40,14 @@ internal sealed class AddOperationXmlDocumentationTransformer(IDescriptionServic
             : xmlMethodName;
 
     private static MethodInfo? GetMethodInfo(ApiDescription description)
-        => description.ActionDescriptor.EndpointMetadata.OfType<MethodInfo>().FirstOrDefault();
+    {
+        if (description.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
+        {
+            return controllerActionDescriptor.MethodInfo;
+        }
+
+        return description.ActionDescriptor.EndpointMetadata.OfType<MethodInfo>().FirstOrDefault();
+    }
 
     private static bool TryApplyParameterDescription(
         OpenApiOperation operation,
@@ -62,11 +70,21 @@ internal sealed class AddOperationXmlDocumentationTransformer(IDescriptionServic
         OpenApiOperation operation,
         OpenApiOperationTransformerContext context)
     {
+        if (GetXmlMethodName(context) is not { Length: > 0 } xmlMethodName)
+        {
+            return;
+        }
+
         if (operation.Summary is null
-            && GetXmlMethodName(context) is { Length: > 0 } xmlMethodName
             && _descriptionService.GetDescription(xmlMethodName) is { Length: > 0 } methodSummary)
         {
             operation.Summary = methodSummary;
+        }
+
+        if (operation.Description is null
+            && _descriptionService.GetDescription(xmlMethodName, section: "remarks") is { Length: > 0 } methodRemarks)
+        {
+            operation.Description = methodRemarks;
         }
     }
 
