@@ -21,6 +21,12 @@ internal static class XmlCommentsHelper
             .Append('.')
             .Append(method.Name);
 
+        if (method.GetGenericArguments() is { Length: > 0 } typeParameters)
+        {
+            builder.Append("``")
+                   .Append(typeParameters.Length);
+        }
+
         if (method.GetParameters() is { Length: > 0 } parameters)
         {
             string?[] names = [.. parameters.Select(GetName)];
@@ -128,7 +134,7 @@ internal static class XmlCommentsHelper
     private static string? GetNameForType(Type type)
     {
         return type.IsGenericParameter ?
-            FormattableString.Invariant($"`{type.GenericParameterPosition}") :
+            FormattableString.Invariant($"``{type.GenericParameterPosition}") :
             QualifiedNameFor(type, expandGenericArguments: true);
     }
 }
