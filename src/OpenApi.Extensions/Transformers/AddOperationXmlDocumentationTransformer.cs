@@ -3,7 +3,6 @@
 
 using System.Reflection;
 using MartinCostello.OpenApi.Services;
-using MartinCostello.OpenApi.Utils;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -35,7 +34,7 @@ internal sealed class AddOperationXmlDocumentationTransformer(IDescriptionServic
 
     private static string? GetXmlMethodName(OpenApiOperationTransformerContext context) =>
         GetMethodInfo(context.Description) is not { } methodInfo
-        || XmlCommentsNodeNameHelper.GetMemberNameForMethod(methodInfo) is not { Length: > 0 } xmlMethodName
+        || XmlCommentsHelper.GetMemberNameForMethod(methodInfo) is not { Length: > 0 } xmlMethodName
             ? null
             : xmlMethodName;
 
@@ -113,7 +112,7 @@ internal sealed class AddOperationXmlDocumentationTransformer(IDescriptionServic
         ApiParameterDescription parameterDescription)
     {
         if (parameterDescription.ParameterDescriptor is not IParameterInfoParameterDescriptor parameterDescriptor
-            || XmlCommentsNodeNameHelper.GetMemberNameForFieldOrProperty(parameterDescriptor.ParameterInfo.Member)
+            || XmlCommentsHelper.GetMemberNameForFieldOrProperty(parameterDescriptor.ParameterInfo.Member)
                 is not { Length: > 0 } xmlParameterName
             || _descriptionService.GetDescription(xmlParameterName) is not { Length: > 0 } parameterSummary)
         {

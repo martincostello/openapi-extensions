@@ -3,12 +3,12 @@
 
 using System.Reflection;
 
-namespace MartinCostello.OpenApi.Utils;
+namespace MartinCostello.OpenApi;
 
 /// <summary>
 /// A class that helps in building node names for XML.
 /// </summary>
-internal static class XmlCommentsNodeNameHelper
+internal static class XmlCommentsHelper
 {
     public static string? GetMemberNameForMethod(MethodInfo method)
     {

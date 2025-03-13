@@ -6,13 +6,10 @@ using MartinCostello.OpenApi;
 namespace TodoApp;
 
 /// <summary>
-/// A class representing an example provider for DateTime.
+/// A class representing an example provider for <see cref="DateTime"/> values.
 /// </summary>
 public sealed class DateTimeExampleProvider : IExampleProvider<DateTime>
 {
-    private static readonly DateTime Value =
-        new DateTimeOffset(2025, 03, 05, 16, 43, 44, TimeSpan.FromHours(-5)).DateTime;
-
     /// <inheritdoc/>
-    public static DateTime GenerateExample() => Value;
+    public static DateTime GenerateExample() => new(2025, 03, 05, 16, 43, 44, DateTimeKind.Utc);
 }

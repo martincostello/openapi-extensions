@@ -178,12 +178,12 @@ public static class ApiEndpoints
             group.MapGet("/find", FindTodoItem)
                  .WithName("FindTodo")
                  .Produces<TodoListViewModel>()
-                 .ProducesOpenApiResponse(StatusCodes.Status200OK, "Found Todo items.");
+                 .ProducesOpenApiResponse(StatusCodes.Status200OK, "The Todo items that matched the filter.");
 
             group.MapGet("/getAfter", GetAfterDate)
                  .WithName("GetAfterDate")
                  .Produces<TodoListViewModel>()
-                 .ProducesOpenApiResponse(StatusCodes.Status200OK, "Found Todo items.");
+                 .ProducesOpenApiResponse(StatusCodes.Status200OK, "The Todo items created after the specified date.");
         }
 
         // Redirect to OpenAPI (SwaggerUI) documentation
@@ -194,22 +194,22 @@ public static class ApiEndpoints
     }
 
     /// <summary>
-    /// Searches for Todo items by given filter.
+    /// Searches for Todo items using the specified filter.
     /// </summary>
     private static async Task<TodoListViewModel> FindTodoItem(
-        [AsParameters] TodoItemFilterModel todoItemFilterModel,
+        [AsParameters] TodoItemFilterModel filter,
         ITodoService service,
         CancellationToken cancellationToken) =>
-        await service.FindAsync(todoItemFilterModel, cancellationToken);
+        await service.FindAsync(filter, cancellationToken);
 
     /// <summary>
-    /// Searches for Todo items created after a given date and time.
+    /// Searches for Todo items created after the specified date and time.
     /// </summary>
-    /// <param name="dateTime">Datetime to look for items created after.</param>
-    /// <remarks>Returns completed and uncompleted items.</remarks>
+    /// <param name="value">The date and time to look for items created after.</param>
+    /// <remarks>Returns both completed and uncompleted items.</remarks>
     private static async Task<TodoListViewModel> GetAfterDate(
-        DateTime dateTime,
+        DateTime value,
         ITodoService service,
         CancellationToken cancellationToken) =>
-        await service.GetAfterDateAsync(dateTime, cancellationToken);
+        await service.GetAfterDateAsync(value, cancellationToken);
 }

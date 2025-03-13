@@ -4,16 +4,16 @@
 namespace MartinCostello.OpenApi.Services;
 
 /// <summary>
-/// Represents a service for work with descriptions.
+/// Represents a service for working with descriptions.
 /// </summary>
 internal interface IDescriptionService
 {
     /// <summary>
-    /// Gets description for member.
+    /// Gets the description for a member.
     /// </summary>
-    /// <param name="memberName">Member full name.</param>
-    /// <param name="paramName">Parameter name of member. Optional.</param>
-    /// <param name="section">Section to get. Default is "summary".</param>
-    /// <returns>Description for given member.</returns>
+    /// <param name="memberName">The member's full name.</param>
+    /// <param name="paramName">The optional parameter of the member.</param>
+    /// <param name="section">The default section to get the description from.</param>
+    /// <returns>The description for the specified member, if found.</returns>
     string? GetDescription(string memberName, string? paramName = null, string? section = "summary");
 }

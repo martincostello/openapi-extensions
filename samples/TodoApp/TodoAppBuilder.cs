@@ -67,9 +67,9 @@ public static class TodoAppBuilder
             // Add JSON serialization context to use to serialize examples
             options.SerializationContexts.Add(TodoJsonSerializerContext.Default);
 
-            // Add custom example providers for GUIDs, DateTimes and ProblemDetails
-            options.AddExample<Guid, GuidExampleProvider>();
+            // Add custom example providers for DateTimes, GUIDs and ProblemDetails
             options.AddExample<DateTime, DateTimeExampleProvider>();
+            options.AddExample<Guid, GuidExampleProvider>();
             options.AddExample<ProblemDetails, ProblemDetailsExampleProvider>();
 
             // Configure XML comments for the schemas in the OpenAPI document

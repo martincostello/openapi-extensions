@@ -269,7 +269,7 @@
         tags: [
           TodoApp
         ],
-        summary: Searches for Todo items by given filter.,
+        summary: Searches for Todo items using the specified filter.,
         operationId: FindTodo,
         parameters: [
           {
@@ -293,7 +293,7 @@
         ],
         responses: {
           200: {
-            description: Found Todo items.,
+            description: The Todo items that matched the filter.,
             content: {
               application/json: {
                 schema: {
@@ -319,26 +319,26 @@
         tags: [
           TodoApp
         ],
-        summary: Searches for Todo items created after a given date and time.,
-        description: Returns completed and uncompleted items.,
+        summary: Searches for Todo items created after the specified date and time.,
+        description: Returns both completed and uncompleted items.,
         operationId: GetAfterDate,
         parameters: [
           {
-            name: dateTime,
+            name: value,
             in: query,
-            description: Datetime to look for items created after.,
+            description: The date and time to look for items created after.,
             required: true,
             schema: {
               type: string,
               format: date-time,
-              example: 2025-03-05T16:43:44
+              example: 2025-03-05T16:43:44Z
             },
-            example: 2025-03-05T16:43:44
+            example: 2025-03-05T16:43:44Z
           }
         ],
         responses: {
           200: {
-            description: Found Todo items.,
+            description: The Todo items created after the specified date.,
             content: {
               application/json: {
                 schema: {

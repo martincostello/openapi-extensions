@@ -53,9 +53,9 @@ public class TodoService(ITodoRepository repository) : ITodoService
     }
 
     /// <inheritdoc/>
-    public async Task<TodoListViewModel> GetAfterDateAsync(DateTime dateTime, CancellationToken cancellationToken)
+    public async Task<TodoListViewModel> GetAfterDateAsync(DateTime value, CancellationToken cancellationToken)
     {
-        var items = await repository.GetAfterDateAsync(dateTime, cancellationToken);
+        var items = await repository.GetAfterDateAsync(value, cancellationToken);
         return MapItems(items);
     }
 
