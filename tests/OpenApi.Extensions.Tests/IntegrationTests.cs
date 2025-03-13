@@ -68,7 +68,7 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
     public async Task Schema_Is_Correct_For_App_As_Yaml()
     {
         // Arrange
-        using var fixture = new TestFixture(
+        using var fixture = new MinimalFixture(
             (services) =>
             {
                 services.AddHttpContextAccessor();
@@ -332,7 +332,7 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
     public async Task Http_404_Is_Returned_If_Yaml_Document_Not_Found()
     {
         // Arrange
-        using var fixture = new TestFixture(
+        using var fixture = new MinimalFixture(
             (services) => { },
             (endpoints) => endpoints.MapOpenApiYaml(),
             OutputHelper);

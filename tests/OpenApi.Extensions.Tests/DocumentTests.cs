@@ -18,7 +18,7 @@ public abstract class DocumentTests(ITestOutputHelper outputHelper)
         VerifySettings? settings = null)
     {
         // Arrange
-        using var fixture = new TestFixture(configureServices, configureEndpoints, OutputHelper);
+        using var fixture = new MinimalFixture(configureServices, configureEndpoints, OutputHelper);
 
         // Act
         var actual = await fixture.GetOpenApiDocumentAsync();
