@@ -92,12 +92,9 @@ internal sealed class DescriptionsTransformer(Func<string, string> transformer) 
     {
         if (operation.Parameters is not null)
         {
-            foreach (var parameter in operation.Parameters)
+            foreach (var parameter in operation.Parameters.Where((p) => !string.IsNullOrEmpty(p.Description)))
             {
-                if (!string.IsNullOrEmpty(parameter.Description))
-                {
-                    parameter.Description = transformer(parameter.Description);
-                }
+                parameter.Description = transformer(parameter.Description);
             }
         }
     }
