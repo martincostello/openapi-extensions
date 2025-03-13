@@ -56,4 +56,25 @@ public interface ITodoRepository
     /// A <see cref="Task{TResult}"/> representing the asynchronous operation that returns the list of Todo items.
     /// </returns>
     Task<IList<TodoItem>> GetItemsAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Finds a list of Todo items.
+    /// </summary>
+    /// <param name="prefix">The prefix to search by.</param>
+    /// <param name="isCompleted">Whether to search completed items.</param>
+    /// <param name="cancellationToken">The <see cref="CancellationToken"/> to use.</param>
+    /// <returns>
+    /// A <see cref="Task{TResult}"/> representing the asynchronous operation that returns the list of found Todo items.
+    /// </returns>
+    Task<IList<TodoItem>> FindAsync(string prefix, bool isCompleted, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Gets a list of Todo items created after a given date and time.
+    /// </summary>
+    /// <param name="dateTime"><see cref="DateTime"/> to look for items created after.</param>
+    /// <param name="cancellationToken">The <see cref="CancellationToken"/> to use.</param>
+    /// <returns>
+    /// A <see cref="Task{TResult}"/> representing the asynchronous operation that returns the list of found Todo items.
+    /// </returns>
+    Task<IList<TodoItem>> GetAfterDateAsync(DateTime dateTime, CancellationToken cancellationToken);
 }

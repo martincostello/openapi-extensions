@@ -263,6 +263,101 @@
           }
         }
       }
+    },
+    /api/items/find: {
+      get: {
+        tags: [
+          TodoApp
+        ],
+        summary: Searches for Todo items by given filter.,
+        operationId: FindTodo,
+        parameters: [
+          {
+            name: Text,
+            in: query,
+            description: The text of the filter.,
+            required: true,
+            schema: {
+              type: string
+            }
+          },
+          {
+            name: IsCompleted,
+            in: query,
+            description: Whether to search completed Todo items.,
+            required: true,
+            schema: {
+              type: boolean
+            }
+          }
+        ],
+        responses: {
+          200: {
+            description: Found Todo items.,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/TodoListViewModel
+                },
+                example: {
+                  items: [
+                    {
+                      id: a03952ca-880e-4af7-9cfa-630be0feb4a5,
+                      text: Buy eggs 🥚,
+                      isCompleted: false
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /api/items/getAfter: {
+      get: {
+        tags: [
+          TodoApp
+        ],
+        summary: Searches for Todo items created after a given date and time.,
+        description: Returns completed and uncompleted items.,
+        operationId: GetAfterDate,
+        parameters: [
+          {
+            name: dateTime,
+            in: query,
+            description: Datetime to look for items created after.,
+            required: true,
+            schema: {
+              type: string,
+              format: date-time,
+              example: 2025-03-05T16:43:44
+            },
+            example: 2025-03-05T16:43:44
+          }
+        ],
+        responses: {
+          200: {
+            description: Found Todo items.,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/TodoListViewModel
+                },
+                example: {
+                  items: [
+                    {
+                      id: a03952ca-880e-4af7-9cfa-630be0feb4a5,
+                      text: Buy eggs 🥚,
+                      isCompleted: false
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   components: {

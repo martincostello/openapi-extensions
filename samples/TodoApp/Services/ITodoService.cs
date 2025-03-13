@@ -58,4 +58,24 @@ public interface ITodoService
     /// A <see cref="Task{TResult}"/> representing the asynchronous operation that returns the list of Todo items.
     /// </returns>
     Task<TodoListViewModel> GetListAsync(CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Finds a list of Todo items by filter.
+    /// </summary>
+    /// <param name="filter">The <see cref="TodoItemFilterModel"/> to use to search.</param>
+    /// <param name="cancellationToken">The <see cref="CancellationToken"/> to use.</param>
+    /// <returns>
+    /// A <see cref="Task{TResult}"/> representing the asynchronous operation that returns the list of found Todo items.
+    /// </returns>
+    Task<TodoListViewModel> FindAsync(TodoItemFilterModel filter, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Gets a list of Todo items created after a given date and time.
+    /// </summary>
+    /// <param name="dateTime"><see cref="DateTime"/> to look for items created after.</param>
+    /// <param name="cancellationToken">The <see cref="CancellationToken"/> to use.</param>
+    /// <returns>
+    /// A <see cref="Task{TResult}"/> representing the asynchronous operation that returns the list of found Todo items.
+    /// </returns>
+    Task<TodoListViewModel> GetAfterDateAsync(DateTime dateTime, CancellationToken cancellationToken);
 }
