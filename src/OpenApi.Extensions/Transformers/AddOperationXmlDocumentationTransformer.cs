@@ -12,13 +12,12 @@ using Microsoft.OpenApi.Models;
 namespace MartinCostello.OpenApi.Transformers;
 
 /// <summary>
-/// A class that adds XML documentation for operations. This class cannot be inherited.
+/// A class that adds XML documentation for OpenAPI operations. This class cannot be inherited.
 /// </summary>
-/// <param name="descriptionService">A service for work with descriptions.</param>
-internal sealed class AddOperationXmlDocumentationTransformer(IDescriptionService descriptionService)
-    : IOpenApiOperationTransformer
+/// <param name="service">The <see cref="IDescriptionService"/> to use.</param>
+internal sealed class AddOperationXmlDocumentationTransformer(IDescriptionService service) : IOpenApiOperationTransformer
 {
-    private readonly IDescriptionService _descriptionService = descriptionService;
+    private readonly IDescriptionService _service = service;
 
     /// <inheritdoc/>
     public Task TransformAsync(
@@ -33,16 +32,14 @@ internal sealed class AddOperationXmlDocumentationTransformer(IDescriptionServic
     }
 
     private static string? GetXmlMethodName(OpenApiOperationTransformerContext context) =>
-        GetMethodInfo(context.Description) is not { } methodInfo
-        || XmlCommentsHelper.GetMemberNameForMethod(methodInfo) is not { Length: > 0 } xmlMethodName
-            ? null
-            : xmlMethodName;
+        GetMethodInfo(context.Description) is not { } methodInfo ||
+        XmlCommentsHelper.GetMemberNameForMethod(methodInfo) is not { Length: > 0 } name ? null : name;
 
     private static MethodInfo? GetMethodInfo(ApiDescription description)
     {
-        if (description.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
+        if (description.ActionDescriptor is ControllerActionDescriptor descriptor)
         {
-            return controllerActionDescriptor.MethodInfo;
+            return descriptor.MethodInfo;
         }
 
         return description.ActionDescriptor.EndpointMetadata.OfType<MethodInfo>().FirstOrDefault();
@@ -53,7 +50,7 @@ internal sealed class AddOperationXmlDocumentationTransformer(IDescriptionServic
         ApiParameterDescription parameterDescription,
         string description)
     {
-        var parameter = operation.Parameters.FirstOrDefault(p => p.Name == parameterDescription.Name);
+        var parameter = operation.Parameters.FirstOrDefault((p) => p.Name == parameterDescription.Name);
 
         if (parameter is null)
         {
@@ -69,21 +66,21 @@ internal sealed class AddOperationXmlDocumentationTransformer(IDescriptionServic
         OpenApiOperation operation,
         OpenApiOperationTransformerContext context)
     {
-        if (GetXmlMethodName(context) is not { Length: > 0 } xmlMethodName)
+        if (GetXmlMethodName(context) is not { Length: > 0 } methodName)
         {
             return;
         }
 
-        if (operation.Summary is null
-            && _descriptionService.GetDescription(xmlMethodName) is { Length: > 0 } methodSummary)
+        if (operation.Summary is null &&
+            _service.GetDescription(methodName) is { Length: > 0 } summary)
         {
-            operation.Summary = methodSummary;
+            operation.Summary = summary;
         }
 
-        if (operation.Description is null
-            && _descriptionService.GetDescription(xmlMethodName, section: "remarks") is { Length: > 0 } methodRemarks)
+        if (operation.Description is null &&
+            _service.GetDescription(methodName, section: "remarks") is { Length: > 0 } remarks)
         {
-            operation.Description = methodRemarks;
+            operation.Description = remarks;
         }
     }
 
@@ -96,42 +93,40 @@ internal sealed class AddOperationXmlDocumentationTransformer(IDescriptionServic
             return;
         }
 
-        foreach (var parameterDescription in context.Description.ParameterDescriptions)
+        foreach (var description in context.Description.ParameterDescriptions)
         {
-            if (TryApplyModelParameterDescription(operation, parameterDescription))
+            if (TryApplyModelParameterDescription(operation, description))
             {
                 continue;
             }
 
-            TryApplyEndpointParameterDescription(operation, context, parameterDescription);
+            TryApplyEndpointParameterDescription(operation, context, description);
         }
     }
 
     private bool TryApplyModelParameterDescription(
         OpenApiOperation operation,
-        ApiParameterDescription parameterDescription)
+        ApiParameterDescription description)
     {
-        if (parameterDescription.ParameterDescriptor is not IParameterInfoParameterDescriptor parameterDescriptor
-            || XmlCommentsHelper.GetMemberNameForFieldOrProperty(parameterDescriptor.ParameterInfo.Member)
-                is not { Length: > 0 } xmlParameterName
-            || _descriptionService.GetDescription(xmlParameterName) is not { Length: > 0 } parameterSummary)
+        if (description.ParameterDescriptor is not IParameterInfoParameterDescriptor descriptor ||
+            XmlCommentsHelper.GetMemberNameForFieldOrProperty(descriptor.ParameterInfo.Member) is not { Length: > 0 } name ||
+            _service.GetDescription(name) is not { Length: > 0 } summary)
         {
             return false;
         }
 
-        return TryApplyParameterDescription(operation, parameterDescription, parameterSummary);
+        return TryApplyParameterDescription(operation, description, summary);
     }
 
     private bool TryApplyEndpointParameterDescription(
         OpenApiOperation operation,
         OpenApiOperationTransformerContext context,
-        ApiParameterDescription parameterDescription)
+        ApiParameterDescription description)
     {
-        if (GetXmlMethodName(context) is { Length: > 0 } xmlMethodName
-            && _descriptionService.GetDescription(xmlMethodName, parameterDescription.Name)
-                is { Length: > 0 } parameterSummary)
+        if (GetXmlMethodName(context) is { Length: > 0 } methodName &&
+            _service.GetDescription(methodName, description.Name) is { Length: > 0 } summary)
         {
-            return TryApplyParameterDescription(operation, parameterDescription, parameterSummary);
+            return TryApplyParameterDescription(operation, description, summary);
         }
 
         return false;

@@ -173,7 +173,7 @@ public static class OpenApiExtensions
                 {
                     var descriptions = new XmlDescriptionService(assembly);
 
-                    options.AddSchemaTransformer(new AddSchemaModelsXmlDocumentationTransformer(assembly, descriptions));
+                    options.AddSchemaTransformer(new AddSchemaXmlDocumentationTransformer(assembly, descriptions));
                     options.AddOperationTransformer(new AddOperationXmlDocumentationTransformer(descriptions));
                 }
             }

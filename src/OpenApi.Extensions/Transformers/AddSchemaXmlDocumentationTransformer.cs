@@ -10,15 +10,15 @@ using Microsoft.OpenApi.Models;
 namespace MartinCostello.OpenApi.Transformers;
 
 /// <summary>
-/// A class that adds XML documentation descriptions to OpenAPI schemas. This class cannot be inherited.
+/// A class that adds XML documentation to OpenAPI schemas. This class cannot be inherited.
 /// </summary>
-/// <param name="assembly">The assembly to add XML descriptions to the types of.</param>
-/// <param name="descriptionService">A service for work with descriptions.</param>
-internal sealed class AddSchemaModelsXmlDocumentationTransformer(Assembly assembly, IDescriptionService descriptionService)
+/// <param name="assembly">The assembly to add XML documentation to the types of.</param>
+/// <param name="service">The <see cref="IDescriptionService"/> to use.</param>
+internal sealed class AddSchemaXmlDocumentationTransformer(Assembly assembly, IDescriptionService service)
     : IOpenApiSchemaTransformer
 {
     private readonly Assembly _assembly = assembly;
-    private readonly IDescriptionService _descriptionService = descriptionService;
+    private readonly IDescriptionService _service = service;
 
     /// <inheritdoc/>
     public Task TransformAsync(
@@ -28,7 +28,7 @@ internal sealed class AddSchemaModelsXmlDocumentationTransformer(Assembly assemb
     {
         if (schema.Description is null &&
             GetMemberName(context.JsonTypeInfo, context.JsonPropertyInfo) is { Length: > 0 } memberName &&
-            _descriptionService.GetDescription(memberName) is { Length: > 0 } description)
+            _service.GetDescription(memberName) is { Length: > 0 } description)
         {
             schema.Description = description;
         }
