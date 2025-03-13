@@ -60,22 +60,22 @@ public interface ITodoService
     Task<TodoListViewModel> GetListAsync(CancellationToken cancellationToken);
 
     /// <summary>
-    /// Finds a list of Todo items by filter.
+    /// Gets a list of Todo items that match the specified criteria.
     /// </summary>
     /// <param name="filter">The <see cref="TodoItemFilterModel"/> to use to search.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> to use.</param>
     /// <returns>
-    /// A <see cref="Task{TResult}"/> representing the asynchronous operation that returns the list of found Todo items.
+    /// A <see cref="Task{TResult}"/> representing the asynchronous operation that returns the list of matching Todo items.
     /// </returns>
     Task<TodoListViewModel> FindAsync(TodoItemFilterModel filter, CancellationToken cancellationToken);
 
     /// <summary>
-    /// Gets a list of Todo items created after a given date and time.
+    /// Gets a list of Todo items created after the specified date and time.
     /// </summary>
-    /// <param name="dateTime"><see cref="DateTime"/> to look for items created after.</param>
+    /// <param name="value">The date and time to look for items created after.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> to use.</param>
     /// <returns>
-    /// A <see cref="Task{TResult}"/> representing the asynchronous operation that returns the list of found Todo items.
+    /// A <see cref="Task{TResult}"/> representing the asynchronous operation that returns the list of matching Todo items.
     /// </returns>
-    Task<TodoListViewModel> GetAfterDateAsync(DateTime dateTime, CancellationToken cancellationToken);
+    Task<TodoListViewModel> GetAfterDateAsync(DateTime value, CancellationToken cancellationToken);
 }

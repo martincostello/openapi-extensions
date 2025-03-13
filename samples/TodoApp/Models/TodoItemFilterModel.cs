@@ -22,9 +22,12 @@ public sealed class TodoItemFilterModel : IExampleProvider<TodoItemFilterModel>
     public bool IsCompleted { get; set; }
 
     /// <inheritdoc/>
-    public static TodoItemFilterModel GenerateExample() => new()
+    public static TodoItemFilterModel GenerateExample()
     {
-        Text = "Buy eggs 🥚",
-        IsCompleted = false,
-    };
+        return new()
+        {
+            IsCompleted = false,
+            Text = "Buy eggs 🥚",
+        };
+    }
 }

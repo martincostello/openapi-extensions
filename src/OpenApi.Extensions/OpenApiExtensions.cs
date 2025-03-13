@@ -171,15 +171,10 @@ public static class OpenApiExtensions
             {
                 foreach (var assembly in assemblies)
                 {
-                    var documentationService = new XmlDescriptionService(assembly);
+                    var descriptions = new XmlDescriptionService(assembly);
 
-                    var schemaXmlDocumentationTransformer =
-                        new AddSchemaModelsXmlDocumentationTransformer(assembly, documentationService);
-                    var operationXmlDocumentationTransformer =
-                        new AddOperationXmlDocumentationTransformer(documentationService);
-
-                    options.AddSchemaTransformer(schemaXmlDocumentationTransformer);
-                    options.AddOperationTransformer(operationXmlDocumentationTransformer);
+                    options.AddSchemaTransformer(new AddSchemaModelsXmlDocumentationTransformer(assembly, descriptions));
+                    options.AddOperationTransformer(new AddOperationXmlDocumentationTransformer(descriptions));
                 }
             }
 

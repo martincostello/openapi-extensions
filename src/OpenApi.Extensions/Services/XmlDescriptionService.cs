@@ -8,11 +8,7 @@ using System.Xml.XPath;
 
 namespace MartinCostello.OpenApi.Services;
 
-/// <summary>
-/// Represents a service for work with XML descriptions.
-/// </summary>
-/// <param name="assembly">The assembly to search XML descriptions from.</param>
-internal class XmlDescriptionService(Assembly assembly) : IDescriptionService
+internal sealed class XmlDescriptionService(Assembly assembly) : IDescriptionService
 {
     private readonly Assembly _assembly = assembly;
     private readonly ConcurrentDictionary<string, string?> _descriptions = [];
@@ -21,10 +17,9 @@ internal class XmlDescriptionService(Assembly assembly) : IDescriptionService
     /// <inheritdoc/>
     public string? GetDescription(string memberName, string? parameterName = null, string? section = "summary")
     {
-        var cacheKey = memberName +
-                             (!string.IsNullOrEmpty(parameterName)
-                                 ? $"/{parameterName}"
-                                 : $"/{section}");
+        var cacheKey =
+            memberName +
+            (!string.IsNullOrEmpty(parameterName) ? $"/{parameterName}" : $"/{section}");
 
         if (_descriptions.TryGetValue(cacheKey, out var description))
         {
@@ -32,12 +27,13 @@ internal class XmlDescriptionService(Assembly assembly) : IDescriptionService
         }
 
         var navigator = CreateNavigator();
-        var xmlPath = !string.IsNullOrEmpty(parameterName)
-            ? $"/doc/members/member[@name='{memberName}']/param[@name='{parameterName}']"
-            : $"/doc/members/member[@name='{memberName}']/{section}";
-        var node = navigator.SelectSingleNode(xmlPath);
 
-        if (node is not null)
+        var xmlPath =
+            !string.IsNullOrEmpty(parameterName) ?
+            $"/doc/members/member[@name='{memberName}']/param[@name='{parameterName}']" :
+            $"/doc/members/member[@name='{memberName}']/{section}";
+
+        if (navigator.SelectSingleNode(xmlPath) is { Value.Length: > 0 } node)
         {
             description = node.Value.Trim();
         }
