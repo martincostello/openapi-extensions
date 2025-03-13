@@ -1,62 +1,64 @@
 ﻿// Copyright (c) Martin Costello, 2024. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
+using System.Diagnostics;
 using System.Reflection;
 
 namespace MartinCostello.OpenApi;
 
-/// <summary>
-/// A class that helps in building node names for XML.
-/// </summary>
 internal static class XmlCommentsHelper
 {
-    public static string? GetMemberNameForMethod(MethodInfo method)
+    public static string? GetMemberName(MethodInfo method)
     {
-        var builder = new StringBuilder("M:");
-
         if (method.DeclaringType is null)
         {
             return null;
         }
 
-        builder.Append(QualifiedNameFor(method.DeclaringType));
-        builder.Append(CultureInfo.InvariantCulture, $".{method.Name}");
+        var builder = new StringBuilder()
+            .Append("M:")
+            .Append(QualifiedNameFor(method.DeclaringType))
+            .Append('.')
+            .Append(method.Name);
 
-        var parameters = method.GetParameters();
-        if (parameters.Length > 0)
+        if (method.GetParameters() is { Length: > 0 } parameters)
         {
-            var parametersNames = parameters.Select(p =>
-                p.ParameterType.IsGenericParameter
-                    ? $"`{p.ParameterType.GenericParameterPosition}"
-                    : QualifiedNameFor(p.ParameterType, expandGenericArgs: true))
-                .ToArray();
+            string?[] names = [.. parameters.Select(GetName)];
 
-            if (parametersNames.Any(p => p is null))
+            if (names.Any((p) => p is null))
             {
                 return null;
             }
 
-            builder.Append(CultureInfo.InvariantCulture, $"({string.Join(",", parametersNames)})");
+            builder.Append('(')
+                   .Append(string.Join(',', names))
+                   .Append(')');
         }
 
         return builder.ToString();
+
+        static string? GetName(ParameterInfo parameter)
+            => GetNameForType(parameter.ParameterType);
     }
 
-    public static string? GetMemberNameForFieldOrProperty(MemberInfo fieldOrPropertyInfo)
+    public static string? GetMemberName(MemberInfo member)
     {
-        if (fieldOrPropertyInfo.DeclaringType is null)
+        if (member.DeclaringType is null)
         {
             return null;
         }
 
-        var builder = new StringBuilder((fieldOrPropertyInfo.MemberType & MemberTypes.Field) != 0 ? "F:" : "P:");
-        builder.Append(QualifiedNameFor(fieldOrPropertyInfo.DeclaringType));
-        builder.Append(CultureInfo.InvariantCulture, $".{fieldOrPropertyInfo.Name}");
+        var builder = new StringBuilder()
+            .Append((member.MemberType & MemberTypes.Field) != 0 ? 'F' : 'P')
+            .Append(':')
+            .Append(QualifiedNameFor(member.DeclaringType))
+            .Append('.')
+            .Append(member.Name);
 
         return builder.ToString();
     }
 
-    private static string? QualifiedNameFor(Type type, bool expandGenericArgs = false)
+    private static string? QualifiedNameFor(Type type, bool expandGenericArguments = false)
     {
         if (type.IsArray)
         {
@@ -67,33 +69,38 @@ internal static class XmlCommentsHelper
                 return null;
             }
 
-            return elementType.IsGenericParameter
-                ? $"`{elementType.GenericParameterPosition}[]"
-                : $"{QualifiedNameFor(elementType, expandGenericArgs)}[]";
+            return GetNameForType(elementType) + "[]";
         }
 
         var builder = new StringBuilder();
 
         if (!string.IsNullOrEmpty(type.Namespace))
         {
-            builder.Append(CultureInfo.InvariantCulture, $"{type.Namespace}.");
+            builder.Append(type.Namespace)
+                   .Append('.');
         }
 
         if (type.IsNested)
         {
-            builder.Append(CultureInfo.InvariantCulture, $"{string.Join(".", GetNestedTypeNames(type))}.");
+            builder.Append(string.Join('.', GetNestedTypeNames(type)))
+                   .Append('.');
         }
 
-        if (type.IsConstructedGenericType && expandGenericArgs)
+        if (type.IsConstructedGenericType && expandGenericArguments)
         {
-            var nameSansGenericArgs = type.Name.Split('`').First();
-            builder.Append(nameSansGenericArgs);
+            int index = type.Name.IndexOf('`', StringComparison.Ordinal);
 
-            var genericArgsNames = type.GetGenericArguments().Select(t => t.IsGenericParameter
-                ? $"`{t.GenericParameterPosition}"
-                : QualifiedNameFor(t, true));
+            Debug.Assert(index is not -1, "Backtick was not found in generic type name.");
 
-            builder.Append(CultureInfo.InvariantCulture, $"{{{string.Join(",", genericArgsNames)}}}");
+            builder.Append(type.Name.AsSpan(..index));
+
+            var argumentNames = type
+                .GetGenericArguments()
+                .Select(GetNameForType);
+
+            builder.Append('{')
+                   .Append(string.Join(',', argumentNames))
+                   .Append('}');
         }
         else
         {
@@ -105,16 +112,23 @@ internal static class XmlCommentsHelper
 
     private static IEnumerable<string> GetNestedTypeNames(Type type)
     {
-        if (!type.IsNested || type.DeclaringType == null)
+        if (!type.IsNested || type.DeclaringType is null)
         {
             yield break;
         }
 
-        foreach (var nestedTypeName in GetNestedTypeNames(type.DeclaringType))
+        foreach (var name in GetNestedTypeNames(type.DeclaringType))
         {
-            yield return nestedTypeName;
+            yield return name;
         }
 
         yield return type.DeclaringType.Name;
+    }
+
+    private static string? GetNameForType(Type type)
+    {
+        return type.IsGenericParameter ?
+            FormattableString.Invariant($"`{type.GenericParameterPosition}") :
+            QualifiedNameFor(type, expandGenericArguments: true);
     }
 }

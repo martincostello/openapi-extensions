@@ -33,7 +33,7 @@ internal sealed class AddOperationXmlDocumentationTransformer(IDescriptionServic
 
     private static string? GetXmlMethodName(OpenApiOperationTransformerContext context) =>
         GetMethodInfo(context.Description) is not { } methodInfo ||
-        XmlCommentsHelper.GetMemberNameForMethod(methodInfo) is not { Length: > 0 } name ? null : name;
+        XmlCommentsHelper.GetMemberName(methodInfo) is not { Length: > 0 } name ? null : name;
 
     private static MethodInfo? GetMethodInfo(ApiDescription description)
     {
@@ -109,7 +109,7 @@ internal sealed class AddOperationXmlDocumentationTransformer(IDescriptionServic
         ApiParameterDescription description)
     {
         if (description.ParameterDescriptor is not IParameterInfoParameterDescriptor descriptor ||
-            XmlCommentsHelper.GetMemberNameForFieldOrProperty(descriptor.ParameterInfo.Member) is not { Length: > 0 } name ||
+            XmlCommentsHelper.GetMemberName(descriptor.ParameterInfo.Member) is not { Length: > 0 } name ||
             _service.GetDescription(name) is not { Length: > 0 } summary)
         {
             return false;
