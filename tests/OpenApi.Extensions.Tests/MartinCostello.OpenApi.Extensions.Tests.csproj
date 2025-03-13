@@ -27,6 +27,7 @@
     <ProjectReference Include="..\Models.A\Models.A.csproj" />
     <ProjectReference Include="..\Models.B\Models.B.csproj" />
     <ProjectReference Include="..\TestApp\TestApp.csproj" />
+    <ProjectReference Include="..\WebApi\WebApi.csproj" />
   </ItemGroup>
   <PropertyGroup>
     <CollectCoverage>true</CollectCoverage>
@@ -36,5 +37,6 @@
     <CoverletExclude Include="$([MSBuild]::Escape('[*Models*]*'))" />
     <CoverletExclude Include="$([MSBuild]::Escape('[TestApp]*'))" />
     <CoverletExclude Include="$([MSBuild]::Escape('[TodoApp]*'))" />
+    <CoverletExclude Include="$([MSBuild]::Escape('[WebApi]*'))" />
   </ItemGroup>
 </Project>

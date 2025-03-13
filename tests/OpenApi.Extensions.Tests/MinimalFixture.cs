@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace MartinCostello.OpenApi;
 
-public sealed class TestFixture(
+public sealed class MinimalFixture(
     Action<IServiceCollection> configureServices,
     Action<IEndpointRouteBuilder> configureEndpoints,
     ITestOutputHelper outputHelper) : WebApplicationFactory<Program>()
