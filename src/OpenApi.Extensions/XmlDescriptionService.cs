@@ -6,15 +6,14 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.XPath;
 
-namespace MartinCostello.OpenApi.Services;
+namespace MartinCostello.OpenApi;
 
-internal sealed class XmlDescriptionService(Assembly assembly) : IDescriptionService
+internal sealed class XmlDescriptionService(Assembly assembly)
 {
     private readonly Assembly _assembly = assembly;
     private readonly ConcurrentDictionary<string, string?> _descriptions = [];
     private XPathNavigator? _navigator;
 
-    /// <inheritdoc/>
     public string? GetDescription(string memberName, string? parameterName = null, string? section = "summary")
     {
         var cacheKey =

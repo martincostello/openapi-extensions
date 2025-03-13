@@ -3,7 +3,6 @@
 
 using System.Reflection;
 using System.Text.Json.Serialization.Metadata;
-using MartinCostello.OpenApi.Services;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi.Models;
 
@@ -14,11 +13,11 @@ namespace MartinCostello.OpenApi.Transformers;
 /// </summary>
 /// <param name="assembly">The assembly to add XML documentation to the types of.</param>
 /// <param name="service">The <see cref="IDescriptionService"/> to use.</param>
-internal sealed class AddSchemaXmlDocumentationTransformer(Assembly assembly, IDescriptionService service)
+internal sealed class AddSchemaXmlDocumentationTransformer(Assembly assembly, XmlDescriptionService service)
     : IOpenApiSchemaTransformer
 {
     private readonly Assembly _assembly = assembly;
-    private readonly IDescriptionService _service = service;
+    private readonly XmlDescriptionService _service = service;
 
     /// <inheritdoc/>
     public Task TransformAsync(
