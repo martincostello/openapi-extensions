@@ -49,7 +49,7 @@ internal sealed class AddOperationXmlDocumentationTransformer(XmlDescriptionServ
         ApiParameterDescription parameterDescription,
         string description)
     {
-        var parameter = operation.Parameters.FirstOrDefault((p) => p.Name == parameterDescription.Name);
+        var parameter = operation.Parameters?.FirstOrDefault((p) => p.Name == parameterDescription.Name);
 
         if (parameter is null)
         {
