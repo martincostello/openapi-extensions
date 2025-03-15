@@ -1,0 +1,59 @@
+﻿{
+  openapi: 3.1.1,
+  info: {
+    title: TestApp | v1,
+    version: 1.0.0
+  },
+  paths: {
+    /register: {
+      post: {
+        tags: [
+          TestApp
+        ],
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                $ref: #/components/schemas/IAnimal
+              },
+              example: {
+                Name: Daisy
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          201: {
+            description: Created
+          }
+        }
+      }
+    }
+  },
+  components: {
+    schemas: {
+      IAnimal: {
+        type: object,
+        properties: {
+          name: {
+            type: [
+              null,
+              string
+            ],
+            description: The name of the animal.
+          }
+        },
+        description: Represents an animal.,
+        example: {
+          Name: Daisy
+        }
+      }
+    }
+  },
+  tags: [
+    {
+      name: TestApp
+    }
+  ]
+}
