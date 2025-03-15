@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "components": [
-    "Microsoft.NetCore.Component.Runtime.9.0",
+    "Microsoft.NetCore.Component.Runtime.10.0",
     "Microsoft.NetCore.Component.SDK",
     "Microsoft.VisualStudio.Component.CoreEditor",
     "Microsoft.VisualStudio.Component.Roslyn.Compiler",
