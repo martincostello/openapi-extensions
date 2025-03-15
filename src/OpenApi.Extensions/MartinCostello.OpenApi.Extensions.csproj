@@ -12,7 +12,7 @@
     <PackageId>MartinCostello.OpenApi.Extensions</PackageId>
     <RootNamespace>MartinCostello.OpenApi</RootNamespace>
     <Summary>$(Description)</Summary>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFrameworks>net10.0;net9.0</TargetFrameworks>
     <Title>$(AssemblyTitle)</Title>
   </PropertyGroup>
   <ItemGroup>
