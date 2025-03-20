@@ -18,6 +18,8 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
     [Fact]
     public async Task Schema_Is_Correct_For_App()
     {
+        Assert.SkipWhen(Environment.Version.Major is 10, "https://github.com/dotnet/aspnetcore/issues/61038");
+
         // Act and Assert
         await VerifyOpenApiDocumentAsync(
             (services) =>
@@ -67,6 +69,8 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
     [Fact]
     public async Task Schema_Is_Correct_For_App_As_Yaml()
     {
+        Assert.SkipWhen(Environment.Version.Major is 10, "https://github.com/dotnet/aspnetcore/issues/61038");
+
         // Arrange
         using var fixture = new MinimalFixture(
             (services) =>
@@ -130,6 +134,8 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
     [Fact]
     public async Task Schema_Is_Correct_For_Classes()
     {
+        Assert.SkipWhen(Environment.Version.Major is 10, "https://github.com/dotnet/aspnetcore/issues/61038");
+
         // Act and Assert
         await VerifyOpenApiDocumentAsync(
             (services) =>
@@ -212,6 +218,8 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
     [Fact]
     public async Task Schema_Is_Correct_For_Records()
     {
+        Assert.SkipWhen(Environment.Version.Major is 10, "https://github.com/dotnet/aspnetcore/issues/61038");
+
         // Act and Assert
         await VerifyOpenApiDocumentAsync(
             (services) =>
@@ -279,6 +287,8 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
     [Fact]
     public async Task Schema_Is_Correct_For_Example_Attribute_Hierarchy()
     {
+        Assert.SkipWhen(Environment.Version.Major is 10, "https://github.com/dotnet/aspnetcore/issues/61038");
+
         // Act and Assert
         await VerifyOpenApiDocumentAsync(
             (services) =>
@@ -322,6 +332,8 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
     [Fact]
     public async Task Schema_Is_Correct_For_Sample()
     {
+        Assert.SkipWhen(Environment.Version.Major is 10, "https://github.com/dotnet/aspnetcore/issues/61038");
+
         // Arrange
         using var fixture = new WebApplicationFactory<TodoApp.Program>()
             .WithWebHostBuilder((builder) => builder.ConfigureXUnitLogging(OutputHelper));
