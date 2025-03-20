@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi.Models;
 
+#if NET10_0_OR_GREATER
+using OpenApiParameter = Microsoft.OpenApi.Models.Interfaces.IOpenApiParameter;
+#endif
+
 namespace MartinCostello.OpenApi.Transformers;
 
 /// <summary>
