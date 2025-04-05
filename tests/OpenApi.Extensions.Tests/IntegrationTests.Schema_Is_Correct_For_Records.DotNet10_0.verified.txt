@@ -1,0 +1,108 @@
+﻿{
+  openapi: 3.1.1,
+  info: {
+    title: TestApp | v1,
+    version: 1.0.0
+  },
+  paths: {
+    /car: {
+      post: {
+        tags: [
+          TestApp
+        ],
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                $ref: #/components/schemas/Car
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          204: {
+            description: No Content
+          }
+        }
+      }
+    },
+    /vehicles: {
+      get: {
+        tags: [
+          TestApp
+        ],
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              application/json: {
+                schema: {
+                  type: array,
+                  items: {
+                    $ref: #/components/schemas/Vehicle
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  components: {
+    schemas: {
+      Car: {
+        required: [
+          type,
+          wheels,
+          manufacturer
+        ],
+        type: object,
+        properties: {
+          type: {
+            $ref: #/components/schemas/CarType
+          },
+          wheels: {
+            type: integer,
+            description: The number of wheels the vehicle has.,
+            format: int32
+          },
+          manufacturer: {
+            type: string,
+            description: The name of the manufacturer.
+          }
+        },
+        description: Represents a car.
+      },
+      CarType: {
+        type: integer,
+        description: The type of the car.
+      },
+      Vehicle: {
+        required: [
+          wheels,
+          manufacturer
+        ],
+        type: object,
+        properties: {
+          wheels: {
+            type: integer,
+            description: The number of wheels the vehicle has.,
+            format: int32
+          },
+          manufacturer: {
+            type: string,
+            description: The name of the manufacturer.
+          }
+        },
+        description: Represents a vehicle.
+      }
+    }
+  },
+  tags: [
+    {
+      name: TestApp
+    }
+  ]
+}
