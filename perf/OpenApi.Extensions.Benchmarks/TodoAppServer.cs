@@ -85,7 +85,7 @@ internal sealed class TodoAppServer : IAsyncDisposable
 
         do
         {
-            string? solutionPath = Directory.EnumerateFiles(directoryInfo.FullName, "TodoApp.sln").FirstOrDefault();
+            string? solutionPath = Directory.EnumerateFiles(directoryInfo.FullName, "TodoApp.slnx").FirstOrDefault();
 
             if (solutionPath is not null)
             {
