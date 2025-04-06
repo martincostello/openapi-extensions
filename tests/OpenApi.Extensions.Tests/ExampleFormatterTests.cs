@@ -162,5 +162,6 @@ public static partial class ExampleFormatterTests
     [JsonSerializable(typeof(DateTime))]
     [JsonSerializable(typeof(DateTimeOffset))]
     [JsonSerializable(typeof(Custom))]
+    [JsonSourceGenerationOptions(NumberHandling = JsonNumberHandling.Strict)]
     private sealed partial class ReflectionJsonSerializerContext : JsonSerializerContext;
 }

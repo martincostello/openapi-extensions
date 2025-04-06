@@ -12,4 +12,5 @@ namespace Models.B;
 [JsonSerializable(typeof(Motorcycle))]
 [JsonSerializable(typeof(Vehicle))]
 [JsonSerializable(typeof(Vehicle[]))]
+[JsonSourceGenerationOptions(NumberHandling = JsonNumberHandling.Strict)]
 public sealed partial class VehiclesJsonSerializationContext : JsonSerializerContext;

@@ -15,4 +15,5 @@ namespace Models.A;
 [JsonSerializable(typeof(IAnimal))]
 [JsonSerializable(typeof(Spot))]
 [JsonSerializable(typeof(Tom))]
+[JsonSourceGenerationOptions(NumberHandling = JsonNumberHandling.Strict)]
 public sealed partial class AnimalsJsonSerializationContext : JsonSerializerContext;

@@ -2,6 +2,7 @@
   <PropertyGroup>
     <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IsAotCompatible>false</IsAotCompatible>
     <IsPackable>false</IsPackable>
     <NoWarn>$(NoWarn);CA1019;CA1050;CA1813;CS1591;IDE0130</NoWarn>
     <RootNamespace>TodoApp</RootNamespace>
