@@ -12,5 +12,8 @@ namespace MartinCostello.OpenApi;
 [JsonSerializable(typeof(Greeting))]
 [JsonSerializable(typeof(ProblemDetails))]
 [JsonSerializable(typeof(string))]
-[JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase, WriteIndented = true)]
+[JsonSourceGenerationOptions(
+    NumberHandling = JsonNumberHandling.Strict,
+    PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
+    WriteIndented = true)]
 public sealed partial class AppJsonSerializationContext : JsonSerializerContext;

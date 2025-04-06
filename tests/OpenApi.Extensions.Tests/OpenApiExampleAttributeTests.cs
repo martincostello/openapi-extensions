@@ -134,10 +134,14 @@ public static partial class OpenApiExampleAttributeTests
     }
 
     [JsonSerializable(typeof(Person))]
-    [JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
+    [JsonSourceGenerationOptions(
+        NumberHandling = JsonNumberHandling.Strict,
+        PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
     private sealed partial class PersonJsonSerializationContextCamel : JsonSerializerContext;
 
     [JsonSerializable(typeof(Person))]
-    [JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.Unspecified)]
+    [JsonSourceGenerationOptions(
+        NumberHandling = JsonNumberHandling.Strict,
+        PropertyNamingPolicy = JsonKnownNamingPolicy.Unspecified)]
     private sealed partial class PersonJsonSerializationContextPascal : JsonSerializerContext;
 }

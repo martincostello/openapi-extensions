@@ -55,6 +55,10 @@ public static class ApiEndpoints
         // Configure JSON source generation for the Todo API
         services.ConfigureHttpJsonOptions((options) =>
         {
+            options.SerializerOptions.DefaultIgnoreCondition = TodoJsonSerializerContext.Default.Options.DefaultIgnoreCondition;
+            options.SerializerOptions.NumberHandling = TodoJsonSerializerContext.Default.Options.NumberHandling;
+            options.SerializerOptions.PropertyNamingPolicy = TodoJsonSerializerContext.Default.Options.PropertyNamingPolicy;
+            options.SerializerOptions.WriteIndented = TodoJsonSerializerContext.Default.Options.WriteIndented;
             options.SerializerOptions.TypeInfoResolverChain.Add(TodoJsonSerializerContext.Default);
         });
 
