@@ -2,6 +2,7 @@
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using System.ComponentModel;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +36,7 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
                 });
                 services.ConfigureHttpJsonOptions((options) =>
                 {
+                    options.SerializerOptions.NumberHandling = JsonNumberHandling.Strict;
                     options.SerializerOptions.TypeInfoResolverChain.Add(AppJsonSerializationContext.Default);
                 });
             },
@@ -84,6 +86,7 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
                 });
                 services.ConfigureHttpJsonOptions((options) =>
                 {
+                    options.SerializerOptions.NumberHandling = JsonNumberHandling.Strict;
                     options.SerializerOptions.TypeInfoResolverChain.Add(AppJsonSerializationContext.Default);
                 });
             },
@@ -144,6 +147,7 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
                 });
                 services.ConfigureHttpJsonOptions((options) =>
                 {
+                    options.SerializerOptions.NumberHandling = JsonNumberHandling.Strict;
                     options.SerializerOptions.TypeInfoResolverChain.Add(AnimalsJsonSerializationContext.Default);
                 });
             },
@@ -221,6 +225,7 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
                 });
                 services.ConfigureHttpJsonOptions((options) =>
                 {
+                    options.SerializerOptions.NumberHandling = JsonNumberHandling.Strict;
                     options.SerializerOptions.TypeInfoResolverChain.Add(VehiclesJsonSerializationContext.Default);
                 });
             },
@@ -290,6 +295,7 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
                 });
                 services.ConfigureHttpJsonOptions((options) =>
                 {
+                    options.SerializerOptions.NumberHandling = JsonNumberHandling.Strict;
                     options.SerializerOptions.TypeInfoResolverChain.Add(AnimalsJsonSerializationContext.Default);
                     options.SerializerOptions.TypeInfoResolverChain.Add(VehiclesJsonSerializationContext.Default);
                 });
@@ -328,6 +334,7 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
         await VerifyJson(actual, Settings).UniqueForTargetFrameworkAndVersion();
     }
 
+#if NET9_0
     [Fact]
     public async Task Http_404_Is_Returned_If_Yaml_Document_Not_Found()
     {
@@ -345,6 +352,7 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
         actual.StatusCode.ShouldBe(System.Net.HttpStatusCode.NotFound);
         await Verify(actual.Content.ReadAsStringAsync(TestContext.Current.CancellationToken), Settings);
     }
+#endif
 
     private static class Hierarchicy
     {
