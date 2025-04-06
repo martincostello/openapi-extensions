@@ -10,6 +10,7 @@ namespace MartinCostello.WebApi;
 [JsonSerializable(typeof(TimeModel))]
 [JsonSourceGenerationOptions(
     DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+    NumberHandling = JsonNumberHandling.Strict,
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
     WriteIndented = true)]
 public sealed partial class MvcSerializerContext : JsonSerializerContext;
