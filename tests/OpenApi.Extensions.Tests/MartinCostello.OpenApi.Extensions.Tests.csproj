@@ -35,8 +35,6 @@
   </ItemGroup>
   <PropertyGroup>
     <CollectCoverage>true</CollectCoverage>
-    <!-- HACK Workaround for https://github.com/dotnet/aspnetcore/issues/61038 -->
-    <Threshold>60</Threshold>
   </PropertyGroup>
   <ItemGroup>
     <CoverletExclude Include="$([MSBuild]::Escape('[*Models*]*'))" />
