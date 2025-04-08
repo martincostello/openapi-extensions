@@ -52,6 +52,7 @@ public static class OpenApiEndpointRouteBuilderExtensions
                 var document = await documentService.TryGetOpenApiDocumentAsync(
                     context.RequestServices,
                     documentName,
+                    context,
                     context.RequestAborted);
 
                 if (document is null)
@@ -97,15 +98,17 @@ public static class OpenApiEndpointRouteBuilderExtensions
 
         private readonly Type _documentService;
         private readonly MethodInfo _getDocument;
+        private readonly int _parameterCount;
 
         public OpenApiDocumentService()
         {
-            (_documentService, _getDocument) = GetOpenApiDocumentAsyncMethod();
+            (_documentService, _getDocument, _parameterCount) = GetOpenApiDocumentAsyncMethod();
         }
 
         public async Task<OpenApiDocument?> TryGetOpenApiDocumentAsync(
             IServiceProvider serviceProvider,
             string documentName,
+            HttpContext httpContext,
             CancellationToken cancellationToken)
         {
             if (!TryGetServiceInstance(serviceProvider, documentName, out var instance))
@@ -113,11 +116,11 @@ public static class OpenApiEndpointRouteBuilderExtensions
                 return null;
             }
 
-            return await GetOpenApiDocumentAsync(instance, serviceProvider, cancellationToken);
+            return await GetOpenApiDocumentAsync(instance, serviceProvider, httpContext.Request, cancellationToken);
         }
 
         [DynamicDependency(GetOpenApiDocumentAsyncMethodName, OpenApiDocumentServiceName, OpenApiAssemblyName)]
-        private static (Type Type, MethodInfo Method) GetOpenApiDocumentAsyncMethod()
+        private static (Type Type, MethodInfo Method, int ParameterCount) GetOpenApiDocumentAsyncMethod()
         {
             var type = Type.GetType(OpenApiDocumentServiceFullyQualifiedName, throwOnError: true);
             Debug.Assert(type is not null, $"Could not resolve type \"{OpenApiDocumentServiceFullyQualifiedName}\"");
@@ -127,8 +130,14 @@ public static class OpenApiEndpointRouteBuilderExtensions
                 BindingFlags.Instance | BindingFlags.Public,
                 [typeof(IServiceProvider), typeof(CancellationToken)]);
 
+            // The signature of the method was changed in Microsoft.AspNetCore.OpenApi 9.0.4
+            methodInfo ??= type.GetMethod(
+                GetOpenApiDocumentAsyncMethodName,
+                BindingFlags.Instance | BindingFlags.Public,
+                [typeof(IServiceProvider), typeof(HttpRequest), typeof(CancellationToken)]);
+
             Debug.Assert(methodInfo is not null, $"Could not resolve method {GetOpenApiDocumentAsyncMethodName} from type {OpenApiDocumentServiceName}.");
-            return (type, methodInfo!);
+            return (type, methodInfo!, methodInfo.GetParameters().Length);
         }
 
         private bool TryGetServiceInstance(
@@ -160,9 +169,14 @@ public static class OpenApiEndpointRouteBuilderExtensions
         private async Task<OpenApiDocument> GetOpenApiDocumentAsync(
             object instance,
             IServiceProvider serviceProvider,
+            HttpRequest httpRequest,
             CancellationToken cancellationToken)
         {
-            var result = (Task<OpenApiDocument>)_getDocument.Invoke(instance, [serviceProvider, cancellationToken])!;
+            // The signature of the method was changed in Microsoft.AspNetCore.OpenApi 9.0.4
+            var result = (Task<OpenApiDocument>)_getDocument.Invoke(
+                instance,
+                _parameterCount is 2 ? [serviceProvider, cancellationToken] : [serviceProvider, httpRequest, cancellationToken])!;
+
             return await result;
         }
     }
