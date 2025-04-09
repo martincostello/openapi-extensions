@@ -331,9 +331,9 @@
             schema: {
               type: string,
               format: date-time,
-              example: 2025-03-05T16:43:44.0000000+00:00
+              example: 2025-03-05T16:43:44Z
             },
-            example: 2025-03-05T16:43:44.0000000+00:00
+            example: 2025-03-05T16:43:44Z
           }
         ],
         responses: {
