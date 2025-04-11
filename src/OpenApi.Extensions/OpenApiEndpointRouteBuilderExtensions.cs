@@ -145,7 +145,7 @@ public static class OpenApiEndpointRouteBuilderExtensions
             string documentName,
             [NotNullWhen(true)] out object? instance)
         {
-            // TODO Simplify when API proposal implemented: https://github.com/dotnet/runtime/issues/102816
+            // Simplify with https://github.com/dotnet/runtime/issues/102816 if added to net10.0 target
             if (serviceProvider is IKeyedServiceProvider keyedServiceProvider)
             {
                 instance = keyedServiceProvider.GetKeyedService(_documentService, documentName);
