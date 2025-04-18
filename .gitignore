@@ -14,6 +14,7 @@ bin
 Bin
 coverage
 coverage.*
+junit.xml
 MSBuild_Logs/
 node_modules
 obj
