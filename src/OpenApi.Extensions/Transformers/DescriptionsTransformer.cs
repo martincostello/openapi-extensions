@@ -37,9 +37,15 @@ internal sealed class DescriptionsTransformer(Func<string, string> transformer) 
             schema.Description = transformer(schemaDescription);
         }
 
-        foreach (var property in schema.Properties.Values.Where((p) => p.Description is not null))
+        if (schema.Properties is { } properties)
         {
-            property.Description = transformer(property.Description);
+            foreach (var property in properties.Values)
+            {
+                if (property.Description is { } propertyDescription)
+                {
+                    property.Description = transformer(propertyDescription);
+                }
+            }
         }
 
         return Task.CompletedTask;
@@ -74,13 +80,21 @@ internal sealed class DescriptionsTransformer(Func<string, string> transformer) 
         {
             foreach (var response in responses.Values)
             {
-                foreach (var model in response.Content.Values)
+                if (response.Content is not { } content)
+                {
+                    continue;
+                }
+
+                foreach (var model in content.Values)
                 {
                     if (model.Schema?.Properties is { } properties)
                     {
-                        foreach (var property in properties.Values.Where((p) => p.Description is not null))
+                        foreach (var property in properties.Values)
                         {
-                            property.Description = transformer(property.Description);
+                            if (property.Description is { } description)
+                            {
+                                property.Description = transformer(description);
+                            }
                         }
                     }
                 }
@@ -90,11 +104,14 @@ internal sealed class DescriptionsTransformer(Func<string, string> transformer) 
 
     private void ApplyParametersDescriptions(OpenApiOperation operation)
     {
-        if (operation.Parameters is not null)
+        if (operation.Parameters is { } parameters)
         {
-            foreach (var parameter in operation.Parameters.Where((p) => !string.IsNullOrEmpty(p.Description)))
+            foreach (var parameter in parameters)
             {
-                parameter.Description = transformer(parameter.Description);
+                if (parameter.Description is { } description)
+                {
+                    parameter.Description = transformer(description);
+                }
             }
         }
     }

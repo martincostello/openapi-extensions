@@ -121,14 +121,17 @@ internal sealed class AddExamplesTransformer(
             return;
         }
 
-        foreach (var mediaType in body.Content.Values)
+        if (body.Content is { } content)
         {
-            var bodyParameter = description.ParameterDescriptions.Single((p) => p.Source == BindingSource.Body);
-            var argument = method.GetParameters().Single((p) => p.Name == bodyParameter.Name);
-
-            if (TryGetMetadata(argument, bodyParameter, examples) is { } metadata)
+            foreach (var mediaType in content.Values)
             {
-                mediaType.Example ??= metadata.GenerateExample(_context);
+                var bodyParameter = description.ParameterDescriptions.Single((p) => p.Source == BindingSource.Body);
+                var argument = method.GetParameters().Single((p) => p.Name == bodyParameter.Name);
+
+                if (TryGetMetadata(argument, bodyParameter, examples) is { } metadata)
+                {
+                    mediaType.Example ??= metadata.GenerateExample(_context);
+                }
             }
         }
     }
@@ -158,7 +161,7 @@ internal sealed class AddExamplesTransformer(
             foreach (var responseFormat in schemaResponse.ApiResponseFormats)
             {
                 if (responses.TryGetValue(schemaResponse.StatusCode.ToString(CultureInfo.InvariantCulture), out var response) &&
-                    response.Content.TryGetValue(responseFormat.MediaType, out var mediaType))
+                    response.Content?.TryGetValue(responseFormat.MediaType, out var mediaType) is true)
                 {
                     mediaType.Example ??= metadata?.GenerateExample(_context);
                 }
