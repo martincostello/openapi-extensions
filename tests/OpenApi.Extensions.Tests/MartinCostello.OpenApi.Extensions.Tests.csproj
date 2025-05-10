@@ -2,7 +2,8 @@
   <PropertyGroup>
     <Description>Tests for MartinCostello.OpenApi.Extensions.</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <InterceptorsPreviewNamespaces>$(InterceptorsPreviewNamespaces);Microsoft.AspNetCore.Http.Generated</InterceptorsPreviewNamespaces>
+    <InterceptorsNamespaces>$(InterceptorsNamespaces);Microsoft.AspNetCore.Http.Generated</InterceptorsNamespaces>
+    <InterceptorsNamespaces>$(InterceptorsNamespaces);Microsoft.AspNetCore.OpenApi.Generated</InterceptorsNamespaces>
     <IsAotCompatible>false</IsAotCompatible>
     <JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
     <OutputType>Exe</OutputType>
@@ -15,7 +16,6 @@
     <PackageReference Include="JunitXml.TestLogger" NoWarn="RT0003" />
     <PackageReference Include="MartinCostello.Logging.XUnit.v3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" GeneratePathProperty="true" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="ReportGenerator" />
     <PackageReference Include="Shouldly" />
@@ -41,14 +41,4 @@
     <CoverletExclude Include="$([MSBuild]::Escape('[TodoApp]*'))" />
     <CoverletExclude Include="$([MSBuild]::Escape('[WebApi]*'))" />
   </ItemGroup>
-  <!--
-    HACK Workaround for:
-    - https://github.com/dotnet/aspnetcore/issues/61019
-    - https://github.com/dotnet/aspnetcore/issues/61037
-  -->
-  <Target Name="DisableCompileTimeOpenApiXmlGenerator" BeforeTargets="CoreCompile">
-    <ItemGroup>
-      <Analyzer Remove="$(PkgMicrosoft_AspNetCore_OpenApi)\analyzers\dotnet\cs\Microsoft.AspNetCore.OpenApi.SourceGenerators.dll" />
-    </ItemGroup>
-  </Target>
 </Project>
