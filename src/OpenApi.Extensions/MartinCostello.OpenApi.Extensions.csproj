@@ -5,8 +5,7 @@
     <EnablePackageValidation>true</EnablePackageValidation>
     <EnableRequestDelegateGenerator>true</EnableRequestDelegateGenerator>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <!-- TODO Remove in .NET 10 preview.5 -->
-    <InterceptorsPreviewNamespaces>$(InterceptorsPreviewNamespaces);Microsoft.AspNetCore.Http.Generated</InterceptorsPreviewNamespaces>
+    <InterceptorsNamespaces>$(InterceptorsPreviewNamespaces);Microsoft.AspNetCore.Http.Generated</InterceptorsNamespaces>
     <IsAotCompatible>true</IsAotCompatible>
     <IsPackable>true</IsPackable>
     <OutputType>Library</OutputType>

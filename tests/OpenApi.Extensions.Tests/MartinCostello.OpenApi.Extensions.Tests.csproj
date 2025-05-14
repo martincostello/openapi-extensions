@@ -2,8 +2,7 @@
   <PropertyGroup>
     <Description>Tests for MartinCostello.OpenApi.Extensions.</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <!-- TODO Remove in .NET 10 preview.5 -->
-    <InterceptorsPreviewNamespaces>$(InterceptorsPreviewNamespaces);Microsoft.AspNetCore.Http.Generated</InterceptorsPreviewNamespaces>
+    <InterceptorsNamespaces>$(InterceptorsPreviewNamespaces);Microsoft.AspNetCore.Http.Generated</InterceptorsNamespaces>
     <IsAotCompatible>false</IsAotCompatible>
     <JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
     <OutputType>Exe</OutputType>
