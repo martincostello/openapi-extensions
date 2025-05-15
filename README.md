@@ -23,7 +23,7 @@ Features include:
 
 The library is also designed to be compatible with support for [native AoT][aspnetcore-native-aot] in ASP.NET Core 9.
 
-A sample application using the library can be found [here][sample-app].
+There is also [a sample application using the library][sample-app].
 
 An overview of the library and how it works can be found on YouTube in this talk from
 .NET Conf 2024: [📺 _Extending ASP.NET Core OpenAPI_][dotnet-conf]
