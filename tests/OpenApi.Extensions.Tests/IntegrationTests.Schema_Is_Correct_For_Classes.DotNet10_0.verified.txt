@@ -1,0 +1,192 @@
+﻿{
+  openapi: 3.1.1,
+  info: {
+    title: TestApp | v1,
+    version: 1.0.0
+  },
+  servers: [
+    {
+      url: http://localhost/
+    }
+  ],
+  paths: {
+    /register: {
+      post: {
+        tags: [
+          TestApp
+        ],
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                $ref: #/components/schemas/Animal
+              },
+              example: {
+                Name: Donald
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          201: {
+            description: Created
+          }
+        }
+      }
+    },
+    /adopt/cat: {
+      post: {
+        tags: [
+          TestApp
+        ],
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                $ref: #/components/schemas/Cat
+              },
+              example: {
+                Name: Donald
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          204: {
+            description: No Content
+          }
+        }
+      }
+    },
+    /adopt/dog: {
+      post: {
+        tags: [
+          TestApp
+        ],
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                $ref: #/components/schemas/Dog
+              },
+              example: {
+                Breed: Greyhound,
+                Name: Santa's Little Helper
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          204: {
+            description: No Content
+          }
+        }
+      }
+    },
+    /animals: {
+      get: {
+        tags: [
+          TestApp
+        ],
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              application/json: {
+                schema: {
+                  type: array,
+                  items: {
+                    $ref: #/components/schemas/Animal
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  components: {
+    schemas: {
+      Animal: {
+        type: object,
+        properties: {
+          name: {
+            type: [
+              null,
+              string
+            ],
+            description: The name of the animal.
+          }
+        },
+        description: A class representing an animal.,
+        example: {
+          Name: Donald
+        }
+      },
+      Cat: {
+        type: object,
+        properties: {
+          color: {
+            type: [
+              null,
+              string
+            ],
+            description: The color of the cat.
+          },
+          name: {
+            type: [
+              null,
+              string
+            ],
+            description: The name of the animal.
+          }
+        },
+        description: A class representing a cat.,
+        example: {
+          Name: Donald
+        }
+      },
+      Dog: {
+        type: object,
+        properties: {
+          breed: {
+            type: [
+              null,
+              string
+            ],
+            description: The breed of the dog.
+          },
+          age: {
+            type: [
+              null,
+              integer
+            ],
+            description: The age of the dog, if known.,
+            format: int32
+          },
+          name: {
+            type: [
+              null,
+              string
+            ],
+            description: The name of the animal.
+          }
+        },
+        description: A class representing a dog.,
+        example: {
+          Breed: Greyhound,
+          Name: Santa's Little Helper
+        }
+      }
+    }
+  },
+  tags: [
+    {
+      name: TestApp
+    }
+  ]
+}
