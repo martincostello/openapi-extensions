@@ -23,4 +23,11 @@
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.3" />
     <PackageVersion Include="xunit.v3" Version="3.0.0" />
   </ItemGroup>
+  <ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net10.0'))">
+    <PackageVersion Update="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.0-preview.4.25258.110" />
+    <PackageVersion Update="Microsoft.AspNetCore.OpenApi" Version="10.0.0-preview.4.25258.110" />
+    <PackageVersion Update="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0-preview.4.25258.110" />
+    <PackageVersion Update="Microsoft.OpenApi" Version="2.0.0-preview.17" />
+    <PackageVersion Update="Microsoft.OpenApi.Readers" Version="2.0.0-preview.17" />
+  </ItemGroup>
 </Project>
