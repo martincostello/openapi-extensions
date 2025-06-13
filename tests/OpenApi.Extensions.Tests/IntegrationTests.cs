@@ -92,7 +92,12 @@ public class IntegrationTests(ITestOutputHelper outputHelper) : DocumentTests(ou
             },
             (endpoints) =>
             {
+#if NET9_0
                 endpoints.MapOpenApiYaml();
+#else
+                endpoints.MapOpenApi("/openapi/{documentName}.yaml");
+#endif
+
                 endpoints.MapGet("/hello", (
                     [Description("The name of the person to greet.")]
                     [OpenApiExample("Martin")]
