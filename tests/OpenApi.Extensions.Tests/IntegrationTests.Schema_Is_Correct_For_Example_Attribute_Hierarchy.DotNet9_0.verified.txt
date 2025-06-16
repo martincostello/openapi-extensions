@@ -4,11 +4,6 @@
     title: TestApp | v1,
     version: 1.0.0
   },
-  servers: [
-    {
-      url: http://localhost/
-    }
-  ],
   paths: {
     /no-example: {
       get: {
