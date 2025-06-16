@@ -4,11 +4,6 @@
     title: WebApi | v1,
     version: 1.0.0
   },
-  servers: [
-    {
-      url: http://localhost/
-    }
-  ],
   paths: {
     /api/Time: {
       get: {

@@ -81,7 +81,7 @@ internal sealed class TodoAppServer : IAsyncDisposable
     private static string GetContentRoot()
     {
         string contentRoot = string.Empty;
-        var directoryInfo = new DirectoryInfo(Path.GetDirectoryName(typeof(OpenApiBenchmarks).Assembly.Location)!);
+        var directoryInfo = new DirectoryInfo(AppContext.BaseDirectory);
 
         do
         {
