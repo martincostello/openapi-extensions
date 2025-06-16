@@ -90,7 +90,7 @@ if (-Not [string]::IsNullOrEmpty(${env:GITHUB_SHA})) {
     $additionalArgs += "json"
 }
 
-& $dotnet run --project $benchmarks --configuration "Release" --framework "net9.0" -- $additionalArgs
+& $dotnet run --project $benchmarks --configuration "Release" --framework "net10.0" -- $additionalArgs
 
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Benchmarks failed with exit code $LASTEXITCODE."
