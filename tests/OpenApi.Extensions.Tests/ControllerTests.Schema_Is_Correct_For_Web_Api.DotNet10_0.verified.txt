@@ -19,7 +19,7 @@
         description: The current date and time is returned in Coordinated Universal Time (UTC).,
         responses: {
           200: {
-            description: OK,
+            description: The current date and time.,
             content: {
               text/plain: {
                 schema: {
