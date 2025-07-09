@@ -21,11 +21,6 @@ using OpenApiResponses = Microsoft.OpenApi.OpenApiResponses;
 using OpenApiSchema = Microsoft.OpenApi.OpenApiSchema;
 #endif
 
-#if NET10_0_OR_GREATER
-using OpenApiParameter = Microsoft.OpenApi.Models.Interfaces.IOpenApiParameter;
-using OpenApiRequestBody = Microsoft.OpenApi.Models.Interfaces.IOpenApiRequestBody;
-#endif
-
 namespace MartinCostello.OpenApi.Transformers;
 
 /// <summary>
