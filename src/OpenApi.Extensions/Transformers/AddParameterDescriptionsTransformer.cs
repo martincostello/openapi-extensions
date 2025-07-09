@@ -17,10 +17,6 @@ using Microsoft.OpenApi;
 using OpenApiParameter = Microsoft.OpenApi.IOpenApiParameter;
 #endif
 
-#if NET10_0_OR_GREATER
-using OpenApiParameter = Microsoft.OpenApi.Models.Interfaces.IOpenApiParameter;
-#endif
-
 namespace MartinCostello.OpenApi.Transformers;
 
 /// <summary>
