@@ -6,7 +6,12 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.OpenApi;
+
+#if NET9_0
 using Microsoft.OpenApi.Models;
+#else
+using Microsoft.OpenApi;
+#endif
 
 namespace MartinCostello.OpenApi.Transformers;
 
