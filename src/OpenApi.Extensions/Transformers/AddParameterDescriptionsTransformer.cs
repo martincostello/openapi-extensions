@@ -6,10 +6,15 @@ using System.ComponentModel;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.OpenApi;
+
+#if NET9_0
 using Microsoft.OpenApi.Models;
+#else
+using Microsoft.OpenApi;
+#endif
 
 #if NET10_0_OR_GREATER
-using OpenApiParameter = Microsoft.OpenApi.Models.Interfaces.IOpenApiParameter;
+using OpenApiParameter = Microsoft.OpenApi.IOpenApiParameter;
 #endif
 
 namespace MartinCostello.OpenApi.Transformers;
