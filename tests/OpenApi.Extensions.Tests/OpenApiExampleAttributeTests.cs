@@ -3,7 +3,12 @@
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
+
+#if NET9_0
 using Microsoft.OpenApi.Writers;
+#else
+using Microsoft.OpenApi;
+#endif
 
 namespace MartinCostello.OpenApi;
 
