@@ -6,7 +6,7 @@
     <IsPackable>false</IsPackable>
     <OutputType>Library</OutputType>
     <RootNamespace>Models.A</RootNamespace>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFrameworks>net10.0;net9.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\OpenApi.Extensions\MartinCostello.OpenApi.Extensions.csproj" />

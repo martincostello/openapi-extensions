@@ -2,11 +2,12 @@
   <PropertyGroup>
     <Description>Tests for MartinCostello.OpenApi.Extensions.</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <InterceptorsNamespaces>$(InterceptorsNamespaces);Microsoft.AspNetCore.Http.Generated;Microsoft.AspNetCore.OpenApi.Generated</InterceptorsNamespaces>
     <IsAotCompatible>false</IsAotCompatible>
     <JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
     <OutputType>Exe</OutputType>
     <RootNamespace>MartinCostello.OpenApi</RootNamespace>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFrameworks>net10.0;net9.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="coverlet.msbuild" />
