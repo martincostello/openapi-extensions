@@ -26,6 +26,5 @@
     <PackageVersion Update="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.0-preview.7.25380.108" />
     <PackageVersion Update="Microsoft.AspNetCore.OpenApi" Version="10.0.0-preview.7.25380.108" />
     <PackageVersion Update="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0-preview.7.25380.108" />
-    <PackageVersion Update="Microsoft.OpenApi" Version="2.0.1" />
   </ItemGroup>
 </Project>
