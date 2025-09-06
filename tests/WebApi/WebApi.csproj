@@ -2,9 +2,10 @@
   <PropertyGroup>
     <Description>Test MVC Web API application.</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <InterceptorsNamespaces>$(InterceptorsNamespaces);Microsoft.AspNetCore.OpenApi.Generated</InterceptorsNamespaces>
     <NoWarn>$(NoWarn);SA1629</NoWarn>
     <RootNamespace>MartinCostello.WebApi</RootNamespace>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFrameworks>net10.0;net9.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\OpenApi.Extensions\MartinCostello.OpenApi.Extensions.csproj" />
