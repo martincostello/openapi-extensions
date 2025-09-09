@@ -31,7 +31,7 @@ public static class XmlCommentsHelperTests
 
     [Theory]
     [InlineData(typeof(SomeStruct), nameof(SomeStruct.Field), "F:MartinCostello.OpenApi.XmlCommentsHelperTests.SomeStruct.Field")]
-    [InlineData(typeof(SomeGenericClass<int>), nameof(SomeGenericClass<int>.Field), "F:MartinCostello.OpenApi.XmlCommentsHelperTests.SomeGenericClass`1.Field")]
+    [InlineData(typeof(SomeGenericClass<>), nameof(SomeGenericClass<>.Field), "F:MartinCostello.OpenApi.XmlCommentsHelperTests.SomeGenericClass`1.Field")]
     public static void GetMemberName_For_Field(Type type, string name, string expected)
     {
         // Arrange
@@ -50,9 +50,9 @@ public static class XmlCommentsHelperTests
     [InlineData(typeof(SomeStruct), nameof(SomeStruct.ArrayProperty), "P:MartinCostello.OpenApi.XmlCommentsHelperTests.SomeStruct.ArrayProperty")]
     [InlineData(typeof(SomeStruct), nameof(SomeStruct.GenericProperty), "P:MartinCostello.OpenApi.XmlCommentsHelperTests.SomeStruct.GenericProperty")]
     [InlineData(typeof(SomeStruct), nameof(SomeStruct.Property), "P:MartinCostello.OpenApi.XmlCommentsHelperTests.SomeStruct.Property")]
-    [InlineData(typeof(SomeGenericClass<int>), nameof(SomeGenericClass<int>.ArrayProperty), "P:MartinCostello.OpenApi.XmlCommentsHelperTests.SomeGenericClass`1.ArrayProperty")]
-    [InlineData(typeof(SomeGenericClass<int>), nameof(SomeGenericClass<int>.GenericProperty), "P:MartinCostello.OpenApi.XmlCommentsHelperTests.SomeGenericClass`1.GenericProperty")]
-    [InlineData(typeof(SomeGenericClass<int>), nameof(SomeGenericClass<int>.Property), "P:MartinCostello.OpenApi.XmlCommentsHelperTests.SomeGenericClass`1.Property")]
+    [InlineData(typeof(SomeGenericClass<>), nameof(SomeGenericClass<>.ArrayProperty), "P:MartinCostello.OpenApi.XmlCommentsHelperTests.SomeGenericClass`1.ArrayProperty")]
+    [InlineData(typeof(SomeGenericClass<>), nameof(SomeGenericClass<>.GenericProperty), "P:MartinCostello.OpenApi.XmlCommentsHelperTests.SomeGenericClass`1.GenericProperty")]
+    [InlineData(typeof(SomeGenericClass<>), nameof(SomeGenericClass<>.Property), "P:MartinCostello.OpenApi.XmlCommentsHelperTests.SomeGenericClass`1.Property")]
     public static void GetMemberName_For_Property(Type type, string name, string expected)
     {
         // Arrange
