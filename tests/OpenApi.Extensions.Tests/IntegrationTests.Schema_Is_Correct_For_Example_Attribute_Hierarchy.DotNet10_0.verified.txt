@@ -270,7 +270,14 @@
             content: {
               application/json: {
                 schema: {
-                  $ref: #/components/schemas/Cat
+                  oneOf: [
+                    {
+                      type: null
+                    },
+                    {
+                      $ref: #/components/schemas/Cat
+                    }
+                  ]
                 },
                 example: {
                   Color: Black,
