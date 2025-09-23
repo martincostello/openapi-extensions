@@ -16,7 +16,7 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.9" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageVersion Include="Microsoft.OpenApi" Version="2.3.2" />
-    <PackageVersion Include="ReportGenerator" Version="5.4.14" />
+    <PackageVersion Include="ReportGenerator" Version="5.4.15" />
     <PackageVersion Include="Shouldly" Version="4.3.0" />
     <PackageVersion Include="Verify.XunitV3" Version="30.18.0" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.4" />
