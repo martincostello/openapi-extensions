@@ -6,8 +6,10 @@
     <IsAotCompatible>false</IsAotCompatible>
     <JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
     <OutputType>Exe</OutputType>
+    <PublicSign>false</PublicSign>
     <RootNamespace>MartinCostello.OpenApi</RootNamespace>
     <SignAssembly>false</SignAssembly>
+    <StrongNamePublicKey></StrongNamePublicKey>
     <TargetFrameworks>net10.0;net9.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
