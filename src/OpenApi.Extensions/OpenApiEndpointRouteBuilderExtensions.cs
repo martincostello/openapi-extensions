@@ -81,8 +81,11 @@ public static class OpenApiEndpointRouteBuilderExtensions
         document.Serialize(yamlWriter, version);
 
         // See https://www.rfc-editor.org/rfc/rfc9512.html
-        // TODO Use MediaTypeNames.Application.Yaml when available. See https://github.com/dotnet/runtime/issues/105809.
+#if NET10_0_OR_GREATER
+        httpContext.Response.ContentType = MediaTypeNames.Application.Yaml;
+#else
         httpContext.Response.ContentType = "application/yaml";
+#endif
 
         await httpContext.Response.BodyWriter.WriteAsync(stream.ToArray(), httpContext.RequestAborted);
         await httpContext.Response.BodyWriter.FlushAsync(httpContext.RequestAborted);
