@@ -18,7 +18,7 @@
     <PackageVersion Include="Microsoft.OpenApi" Version="3.0.0" />
     <PackageVersion Include="ReportGenerator" Version="5.5.0" />
     <PackageVersion Include="Shouldly" Version="4.3.0" />
-    <PackageVersion Include="Verify.XunitV3" Version="31.6.0" />
+    <PackageVersion Include="Verify.XunitV3" Version="31.7.1" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
     <PackageVersion Include="xunit.v3" Version="3.2.0" />
   </ItemGroup>
