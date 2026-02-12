@@ -3,6 +3,7 @@ MartinCostello.OpenApi.IExampleProvider<T>
 MartinCostello.OpenApi.IExampleProvider<T>.GenerateExample() -> T
 MartinCostello.OpenApi.IOpenApiExampleMetadata
 MartinCostello.OpenApi.IOpenApiExampleMetadata.ExampleType.get -> System.Type!
+MartinCostello.OpenApi.IOpenApiExampleMetadata.GenerateExample(System.Text.Json.Serialization.JsonSerializerContext! context) -> System.Text.Json.Nodes.JsonNode?
 MartinCostello.OpenApi.OpenApiEndpointConventionBuilderExtensions
 MartinCostello.OpenApi.OpenApiExampleAttribute
 MartinCostello.OpenApi.OpenApiExampleAttribute.OpenApiExampleAttribute(string! value) -> void
