@@ -4,12 +4,7 @@
 using System.Reflection;
 using System.Text.Json.Serialization.Metadata;
 using Microsoft.AspNetCore.OpenApi;
-
-#if NET9_0
-using Microsoft.OpenApi.Models;
-#else
 using Microsoft.OpenApi;
-#endif
 
 namespace MartinCostello.OpenApi.Transformers;
 
