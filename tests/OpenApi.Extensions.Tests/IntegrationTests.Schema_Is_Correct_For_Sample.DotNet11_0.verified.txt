@@ -1,0 +1,489 @@
+﻿{
+  openapi: 3.1.1,
+  info: {
+    title: Todo API,
+    description: An API for managing Todo items.,
+    contact: {
+      name: martincostello,
+      url: https://github.com/martincostello/openapi-extensions
+    },
+    license: {
+      name: Apache 2.0,
+      url: https://www.apache.org/licenses/LICENSE-2.0
+    },
+    version: v1
+  },
+  servers: [
+    {
+      url: http://localhost
+    }
+  ],
+  paths: {
+    /api/items: {
+      get: {
+        tags: [
+          TodoApp
+        ],
+        summary: Get all Todo items,
+        description: Gets all of the current user's todo items.,
+        operationId: ListTodos,
+        responses: {
+          200: {
+            description: The Todo items.,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/TodoListViewModel
+                },
+                example: {
+                  items: [
+                    {
+                      id: a03952ca-880e-4af7-9cfa-630be0feb4a5,
+                      text: Buy eggs 🥚,
+                      isCompleted: false
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      post: {
+        tags: [
+          TodoApp
+        ],
+        summary: Create a new Todo item,
+        description: Creates a new todo item for the current user and returns its ID.,
+        operationId: CreateTodo,
+        requestBody: {
+          description: The Todo item to create.,
+          content: {
+            application/json: {
+              schema: {
+                $ref: #/components/schemas/CreateTodoItemModel
+              },
+              example: {
+                text: Buy eggs 🥚
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          201: {
+            description: The created Todo item.,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/CreatedTodoItemModel
+                },
+                example: {
+                  id: a03952ca-880e-4af7-9cfa-630be0feb4a5
+                }
+              }
+            }
+          },
+          400: {
+            description: The Todo item could not be created.,
+            content: {
+              application/problem+json: {
+                schema: {
+                  $ref: #/components/schemas/ProblemDetails
+                },
+                example: {
+                  type: https://tools.ietf.org/html/rfc7231#section-6.5.1,
+                  title: Bad Request,
+                  status: 400,
+                  detail: The specified value is invalid.
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /api/items/{id}: {
+      get: {
+        tags: [
+          TodoApp
+        ],
+        summary: Get a specific Todo item,
+        description: Gets the todo item with the specified ID.,
+        operationId: GetTodo,
+        parameters: [
+          {
+            name: id,
+            in: path,
+            description: The Todo item's ID.,
+            required: true,
+            schema: {
+              type: string,
+              format: uuid,
+              example: a03952ca-880e-4af7-9cfa-630be0feb4a5
+            },
+            example: a03952ca-880e-4af7-9cfa-630be0feb4a5
+          }
+        ],
+        responses: {
+          200: {
+            description: The Todo item was found.,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/TodoItemModel
+                },
+                example: {
+                  id: a03952ca-880e-4af7-9cfa-630be0feb4a5,
+                  text: Buy eggs 🥚,
+                  isCompleted: false
+                }
+              }
+            }
+          },
+          404: {
+            description: The Todo item was not found.,
+            content: {
+              application/problem+json: {
+                schema: {
+                  $ref: #/components/schemas/ProblemDetails
+                },
+                example: {
+                  type: https://tools.ietf.org/html/rfc7231#section-6.5.1,
+                  title: Bad Request,
+                  status: 400,
+                  detail: The specified value is invalid.
+                }
+              }
+            }
+          }
+        }
+      },
+      delete: {
+        tags: [
+          TodoApp
+        ],
+        summary: Delete a Todo item,
+        description: Deletes the todo item with the specified ID.,
+        operationId: DeleteTodo,
+        parameters: [
+          {
+            name: id,
+            in: path,
+            description: The Todo item's ID.,
+            required: true,
+            schema: {
+              type: string,
+              format: uuid,
+              example: a03952ca-880e-4af7-9cfa-630be0feb4a5
+            },
+            example: a03952ca-880e-4af7-9cfa-630be0feb4a5
+          }
+        ],
+        responses: {
+          204: {
+            description: The Todo item was deleted.
+          },
+          404: {
+            description: The Todo item was not found.,
+            content: {
+              application/problem+json: {
+                schema: {
+                  $ref: #/components/schemas/ProblemDetails
+                },
+                example: {
+                  type: https://tools.ietf.org/html/rfc7231#section-6.5.1,
+                  title: Bad Request,
+                  status: 400,
+                  detail: The specified value is invalid.
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /api/items/{id}/complete: {
+      post: {
+        tags: [
+          TodoApp
+        ],
+        summary: Mark a Todo item as completed,
+        description: Marks the todo item with the specified ID as complete.,
+        operationId: CompleteTodo,
+        parameters: [
+          {
+            name: id,
+            in: path,
+            description: The Todo item's ID.,
+            required: true,
+            schema: {
+              type: string,
+              format: uuid,
+              example: a03952ca-880e-4af7-9cfa-630be0feb4a5
+            },
+            example: a03952ca-880e-4af7-9cfa-630be0feb4a5
+          }
+        ],
+        responses: {
+          204: {
+            description: The Todo item was completed.
+          },
+          400: {
+            description: The Todo item could not be completed.,
+            content: {
+              application/problem+json: {
+                schema: {
+                  $ref: #/components/schemas/ProblemDetails
+                },
+                example: {
+                  type: https://tools.ietf.org/html/rfc7231#section-6.5.1,
+                  title: Bad Request,
+                  status: 400,
+                  detail: The specified value is invalid.
+                }
+              }
+            }
+          },
+          404: {
+            description: The Todo item was not found.,
+            content: {
+              application/problem+json: {
+                schema: {
+                  $ref: #/components/schemas/ProblemDetails
+                },
+                example: {
+                  type: https://tools.ietf.org/html/rfc7231#section-6.5.1,
+                  title: Bad Request,
+                  status: 400,
+                  detail: The specified value is invalid.
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /api/items/find: {
+      get: {
+        tags: [
+          TodoApp
+        ],
+        summary: Searches for Todo items using the specified filter.,
+        operationId: FindTodo,
+        parameters: [
+          {
+            name: Text,
+            in: query,
+            description: The text of the filter.,
+            required: true,
+            schema: {
+              type: string
+            }
+          },
+          {
+            name: IsCompleted,
+            in: query,
+            description: Whether to search completed Todo items.,
+            required: true,
+            schema: {
+              type: boolean
+            }
+          }
+        ],
+        responses: {
+          200: {
+            description: The Todo items that matched the filter.,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/TodoListViewModel
+                },
+                example: {
+                  items: [
+                    {
+                      id: a03952ca-880e-4af7-9cfa-630be0feb4a5,
+                      text: Buy eggs 🥚,
+                      isCompleted: false
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /api/items/getAfter: {
+      get: {
+        tags: [
+          TodoApp
+        ],
+        summary: Searches for Todo items created after the specified date and time.,
+        description: Returns both completed and uncompleted items.,
+        operationId: GetAfterDate,
+        parameters: [
+          {
+            name: value,
+            in: query,
+            description: The date and time to look for items created after.,
+            required: true,
+            schema: {
+              type: string,
+              format: date-time,
+              example: 2025-03-05T16:43:44Z
+            },
+            example: 2025-03-05T16:43:44Z
+          }
+        ],
+        responses: {
+          200: {
+            description: The Todo items created after the specified date.,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/TodoListViewModel
+                },
+                example: {
+                  items: [
+                    {
+                      id: a03952ca-880e-4af7-9cfa-630be0feb4a5,
+                      text: Buy eggs 🥚,
+                      isCompleted: false
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  components: {
+    schemas: {
+      CreatedTodoItemModel: {
+        type: object,
+        properties: {
+          id: {
+            type: string,
+            description: The ID of the created Todo item.
+          }
+        },
+        description: Represents the model for a created Todo item.,
+        example: {
+          id: a03952ca-880e-4af7-9cfa-630be0feb4a5
+        }
+      },
+      CreateTodoItemModel: {
+        type: object,
+        properties: {
+          text: {
+            type: string,
+            description: The text of the Todo item.
+          }
+        },
+        description: Represents the model for creating a new Todo item.,
+        example: {
+          text: Buy eggs 🥚
+        }
+      },
+      ProblemDetails: {
+        type: object,
+        properties: {
+          type: {
+            type: [
+              null,
+              string
+            ]
+          },
+          title: {
+            type: [
+              null,
+              string
+            ]
+          },
+          status: {
+            type: [
+              null,
+              integer
+            ],
+            format: int32
+          },
+          detail: {
+            type: [
+              null,
+              string
+            ]
+          },
+          instance: {
+            type: [
+              null,
+              string
+            ]
+          }
+        },
+        example: {
+          type: https://tools.ietf.org/html/rfc7231#section-6.5.1,
+          title: Bad Request,
+          status: 400,
+          detail: The specified value is invalid.
+        }
+      },
+      TodoItemModel: {
+        type: object,
+        properties: {
+          id: {
+            type: string,
+            description: The ID of the Todo item.
+          },
+          text: {
+            type: string,
+            description: The text of the Todo item.
+          },
+          isCompleted: {
+            type: boolean,
+            description: Whether the Todo item has been completed.
+          },
+          lastUpdated: {
+            type: string,
+            description: The date and time the Todo item was last updated.
+          }
+        },
+        description: Represents a Todo item.,
+        example: {
+          id: a03952ca-880e-4af7-9cfa-630be0feb4a5,
+          text: Buy eggs 🥚,
+          isCompleted: false
+        }
+      },
+      TodoListViewModel: {
+        type: object,
+        properties: {
+          items: {
+            type: array,
+            items: {
+              $ref: #/components/schemas/TodoItemModel
+            },
+            description: The Todo item(s).
+          }
+        },
+        description: Represents a collection of Todo items.,
+        example: {
+          items: [
+            {
+              id: a03952ca-880e-4af7-9cfa-630be0feb4a5,
+              text: Buy eggs 🥚,
+              isCompleted: false
+            }
+          ]
+        }
+      }
+    }
+  },
+  tags: [
+    {
+      name: TodoApp
+    }
+  ]
+}

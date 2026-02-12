@@ -1,0 +1,132 @@
+﻿{
+  openapi: 3.1.1,
+  info: {
+    title: TestApp | v1,
+    version: 1.0.0
+  },
+  servers: [
+    {
+      url: http://localhost
+    }
+  ],
+  paths: {
+    /hello: {
+      get: {
+        tags: [
+          TestApp
+        ],
+        parameters: [
+          {
+            name: name,
+            in: query,
+            description: The name of the person to greet.,
+            schema: {
+              type: string
+            },
+            example: Martin
+          }
+        ],
+        responses: {
+          200: {
+            description: A greeting.,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/Greeting
+                },
+                example: {
+                  text: Hello, World!
+                }
+              }
+            }
+          },
+          400: {
+            description: No name was provided.,
+            content: {
+              application/problem+json: {
+                schema: {
+                  $ref: #/components/schemas/ProblemDetails
+                },
+                example: {
+                  type: https://tools.ietf.org/html/rfc9110#section-15.6.1,
+                  title: Internal Server Error,
+                  status: 500,
+                  detail: An internal error occurred.,
+                  instance: /hello
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  components: {
+    schemas: {
+      Greeting: {
+        type: object,
+        properties: {
+          text: {
+            type: [
+              null,
+              string
+            ],
+            description: The text of the greeting.
+          }
+        },
+        description: Represents a greeting.,
+        example: {
+          text: Hello, World!
+        }
+      },
+      ProblemDetails: {
+        type: object,
+        properties: {
+          type: {
+            type: [
+              null,
+              string
+            ]
+          },
+          title: {
+            type: [
+              null,
+              string
+            ]
+          },
+          status: {
+            type: [
+              null,
+              integer
+            ],
+            format: int32
+          },
+          detail: {
+            type: [
+              null,
+              string
+            ]
+          },
+          instance: {
+            type: [
+              null,
+              string
+            ]
+          }
+        },
+        example: {
+          type: https://tools.ietf.org/html/rfc9110#section-15.6.1,
+          title: Internal Server Error,
+          status: 500,
+          detail: An internal error occurred.,
+          instance: /hello
+        }
+      }
+    }
+  },
+  tags: [
+    {
+      name: TestApp
+    }
+  ]
+}
