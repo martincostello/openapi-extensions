@@ -2,10 +2,6 @@
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using System.Text.Json.Serialization;
-#if NET9_0
-using Microsoft.OpenApi;
-using Microsoft.OpenApi.Writers;
-#endif
 
 namespace MartinCostello.OpenApi;
 
@@ -129,17 +125,7 @@ public static partial class ExampleFormatterTests
     private static string? Serialize<T>(T value)
     {
         var actual = ExampleFormatter.AsJson(value, ReflectionJsonSerializerContext.Default);
-
-#if NET9_0
-        using var stringWriter = new StringWriter();
-        var jsonWriter = new OpenApiJsonWriter(stringWriter);
-
-        actual.Write(jsonWriter, OpenApiSpecVersion.OpenApi3_0);
-
-        return stringWriter.ToString();
-#else
         return actual?.ToJsonString();
-#endif
     }
 
     private sealed class Custom
