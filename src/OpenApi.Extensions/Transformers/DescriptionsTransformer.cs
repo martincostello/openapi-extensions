@@ -2,12 +2,7 @@
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using Microsoft.AspNetCore.OpenApi;
-
-#if NET9_0
-using Microsoft.OpenApi.Models;
-#else
 using Microsoft.OpenApi;
-#endif
 
 namespace MartinCostello.OpenApi.Transformers;
 
