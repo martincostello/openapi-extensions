@@ -53,10 +53,7 @@ internal sealed class AddParameterDescriptionsTransformer : IOpenApiOperationTra
                 if (description is not null)
                 {
                     var parameter = parameters.FirstOrDefault((p) => p.Name == argument.Name);
-                    if (parameter is not null)
-                    {
-                        parameter.Description ??= description;
-                    }
+                    parameter?.Description ??= description;
                 }
             }
         }
