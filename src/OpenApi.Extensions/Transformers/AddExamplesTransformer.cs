@@ -9,17 +9,11 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.OpenApi;
 
-#if NET9_0
-using Microsoft.OpenApi.Models;
-#endif
-
-#if NET10_0_OR_GREATER
 using OpenApiOperation = Microsoft.OpenApi.OpenApiOperation;
 using OpenApiParameter = Microsoft.OpenApi.IOpenApiParameter;
 using OpenApiRequestBody = Microsoft.OpenApi.IOpenApiRequestBody;
 using OpenApiResponses = Microsoft.OpenApi.OpenApiResponses;
 using OpenApiSchema = Microsoft.OpenApi.OpenApiSchema;
-#endif
 
 namespace MartinCostello.OpenApi.Transformers;
 
@@ -115,14 +109,10 @@ internal sealed class AddExamplesTransformer(
                 // Find the parameter that corresponds to the argument and set its example
                 var parameter = parameters.FirstOrDefault((p) => p.Name == argument.Name);
 
-#if NET10_0_OR_GREATER
                 if (parameter is Microsoft.OpenApi.OpenApiParameter { Example: null } concrete)
                 {
                     concrete.Example = metadata.GenerateExample(_context);
                 }
-#else
-                parameter?.Example ??= metadata.GenerateExample(_context);
-#endif
             }
         }
     }

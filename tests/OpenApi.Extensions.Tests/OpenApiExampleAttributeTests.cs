@@ -4,12 +4,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-#if NET9_0
-using Microsoft.OpenApi.Writers;
-#else
-using Microsoft.OpenApi;
-#endif
-
 namespace MartinCostello.OpenApi;
 
 public static partial class OpenApiExampleAttributeTests
@@ -103,19 +97,7 @@ public static partial class OpenApiExampleAttributeTests
         // Assert
         actual.ShouldNotBeNull();
 
-        string json;
-
-#if NET9_0
-        // Arrange
-        using var stringWriter = new StringWriter();
-        var jsonWriter = new OpenApiJsonWriter(stringWriter);
-
-        // Act
-        actual.Write(jsonWriter, Microsoft.OpenApi.OpenApiSpecVersion.OpenApi3_0);
-        json = stringWriter.ToString();
-#else
-        json = actual.ToJsonString();
-#endif
+        string json = actual.ToJsonString();
 
         // Assert
         using var document = JsonDocument.Parse(json);

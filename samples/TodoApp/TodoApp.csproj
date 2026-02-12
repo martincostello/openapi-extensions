@@ -7,7 +7,7 @@
     <IsPackable>false</IsPackable>
     <NoWarn>$(NoWarn);CA1019;CA1050;CA1813;CS1591;IDE0130</NoWarn>
     <RootNamespace>TodoApp</RootNamespace>
-    <TargetFrameworks>net10.0;net9.0;net11.0</TargetFrameworks>
+    <TargetFrameworks>net11.0;net10.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
