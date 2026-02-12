@@ -121,10 +121,7 @@ internal sealed class AddExamplesTransformer(
                     concrete.Example = metadata.GenerateExample(_context);
                 }
 #else
-                if (parameter is not null)
-                {
-                    parameter.Example ??= metadata.GenerateExample(_context);
-                }
+                parameter?.Example ??= metadata.GenerateExample(_context);
 #endif
             }
         }
