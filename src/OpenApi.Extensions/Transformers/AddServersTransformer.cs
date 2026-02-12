@@ -5,12 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Extensions.Options;
-
-#if NET9_0
-using Microsoft.OpenApi.Models;
-#else
 using Microsoft.OpenApi;
-#endif
 
 namespace MartinCostello.OpenApi.Transformers;
 
