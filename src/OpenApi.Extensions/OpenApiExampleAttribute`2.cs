@@ -1,6 +1,9 @@
 ﻿// Copyright (c) Martin Costello, 2024. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
+
 namespace MartinCostello.OpenApi;
 
 #pragma warning disable CA1813
@@ -24,4 +27,8 @@ public partial class OpenApiExampleAttribute<TSchema, TProvider> : Attribute, IO
     /// A <typeparamref name="TSchema"/> that should be used as the example.
     /// </returns>
     public virtual TSchema GenerateExample() => TProvider.GenerateExample();
+
+    /// <inheritdoc/>
+    JsonNode? IOpenApiExampleMetadata.GenerateExample(JsonSerializerContext context)
+        => ExampleFormatter.AsJson(GenerateExample(), context);
 }
