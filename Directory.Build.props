@@ -7,8 +7,8 @@
     <UseArtifactsOutput>true</UseArtifactsOutput>
     <UseDefaultAssemblyOriginatorKeyFile>true</UseDefaultAssemblyOriginatorKeyFile>
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
-    <PackageValidationBaselineVersion>2.0.0</PackageValidationBaselineVersion>
-    <VersionPrefix>2.0.1</VersionPrefix>
+    <PackageValidationBaselineVersion>2.0.1</PackageValidationBaselineVersion>
+    <VersionPrefix>2.0.2</VersionPrefix>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(EnableReferenceTrimmer)' != 'false' AND '$(GenerateDocumentationFile)' != 'true' ">
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
