@@ -140,7 +140,7 @@ public static class OpenApiEndpointRouteBuilderExtensions
                 [typeof(IServiceProvider), typeof(HttpRequest), typeof(CancellationToken)]);
 
             Debug.Assert(methodInfo is not null, $"Could not resolve method {GetOpenApiDocumentAsyncMethodName} from type {OpenApiDocumentServiceName}.");
-            return (type, methodInfo!, methodInfo.GetParameters().Length);
+            return (type, methodInfo, methodInfo.GetParameters().Length);
         }
 
         private bool TryGetServiceInstance(
