@@ -1,5 +1,5 @@
 ﻿{
-  openapi: 3.1.1,
+  openapi: 3.1.2,
   info: {
     title: Todo API,
     description: An API for managing Todo items.,
