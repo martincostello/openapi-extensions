@@ -136,7 +136,10 @@ internal sealed class AddExamplesTransformer(
 
                 if (TryGetMetadata(argument, bodyParameter, examples) is { } metadata)
                 {
-                    mediaType.Example ??= metadata.GenerateExample(_context);
+                    if (mediaType is Microsoft.OpenApi.OpenApiMediaType { Example: null } concrete)
+                    {
+                        concrete.Example = metadata.GenerateExample(_context);
+                    }
                 }
             }
         }
@@ -169,7 +172,10 @@ internal sealed class AddExamplesTransformer(
                 if (responses.TryGetValue(schemaResponse.StatusCode.ToString(CultureInfo.InvariantCulture), out var response) &&
                     response.Content?.TryGetValue(responseFormat.MediaType, out var mediaType) is true)
                 {
-                    mediaType.Example ??= metadata?.GenerateExample(_context);
+                    if (mediaType is Microsoft.OpenApi.OpenApiMediaType { Example: null } concrete)
+                    {
+                        concrete.Example = metadata?.GenerateExample(_context);
+                    }
                 }
             }
         }
