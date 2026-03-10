@@ -20,8 +20,8 @@
     <PackageReference Include="Microsoft.OpenApi" VersionOverride="[2.0.0,)" />
   </ItemGroup>
   <ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net11.0'))">
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Update="Microsoft.AspNetCore.OpenApi" VersionOverride="11.0.0-preview.1.26104.118" />
+    <PackageReference Update="Microsoft.AspNetCore.OpenApi" VersionOverride="11.0.0-preview.2.26159.112" />
+    <PackageReference Update="Microsoft.OpenApi" VersionOverride="[3.4.0,)" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" PrivateAssets="All" />
