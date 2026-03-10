@@ -28,8 +28,8 @@
     <PackageVersion Update="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.4" />
   </ItemGroup>
   <ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net11.0'))">
-    <PackageVersion Update="Microsoft.AspNetCore.Mvc.Testing" Version="11.0.0-preview.1.26104.118" />
-    <PackageVersion Update="Microsoft.AspNetCore.OpenApi" Version="11.0.0-preview.1.26104.118" />
-    <PackageVersion Update="Microsoft.EntityFrameworkCore.Sqlite" Version="11.0.0-preview.1.26104.118" />
+    <PackageVersion Update="Microsoft.AspNetCore.Mvc.Testing" Version="11.0.0-preview.2.26159.112" />
+    <PackageVersion Update="Microsoft.AspNetCore.OpenApi" Version="11.0.0-preview.2.26159.112" />
+    <PackageVersion Update="Microsoft.EntityFrameworkCore.Sqlite" Version="11.0.0-preview.2.26159.112" />
   </ItemGroup>
 </Project>
