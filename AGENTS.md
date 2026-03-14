@@ -9,7 +9,7 @@ This file provides guidance to coding agents when working with code in this repo
 - Run the main test project directly with `dotnet test tests\OpenApi.Extensions.Tests\MartinCostello.OpenApi.Extensions.Tests.csproj --configuration Release`.
 - Run one target framework explicitly with `dotnet test tests\OpenApi.Extensions.Tests\MartinCostello.OpenApi.Extensions.Tests.csproj --configuration Release --framework net10.0`.
 - Run a single test with a filter such as `dotnet test tests\OpenApi.Extensions.Tests\MartinCostello.OpenApi.Extensions.Tests.csproj --configuration Release --framework net10.0 --filter "FullyQualifiedName~MartinCostello.OpenApi.AssemblyTests.Library_Is_Strong_Named" /p:CollectCoverage=false`. The test project enforces an 85% coverage threshold, so disable coverage for narrowly filtered runs.
-- CI linting is defined in `.github\workflows\lint.yml`. The repo currently lint-checks Markdown, GitHub Actions workflows, and PowerShell scripts. The PowerShell script lint pass uses `Invoke-ScriptAnalyzer -Path . -Recurse -ReportSummary -Settings @{ IncludeDefaultRules = $true; Severity = @('Error', 'Warning') }`.
+- CI linting is defined in `.github/workflows/lint.yml`. The repo currently lint-checks Markdown, GitHub Actions workflows, and PowerShell scripts. The PowerShell script lint pass uses `Invoke-ScriptAnalyzer -Path . -Recurse -ReportSummary -Settings @{ IncludeDefaultRules = $true; Severity = @('Error', 'Warning') }`.
 
 ## High-level architecture
 
