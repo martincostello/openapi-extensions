@@ -5,7 +5,7 @@
     <GlobalPackageReference Include="ReferenceTrimmer" Version="3.4.5" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
-    <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
+    <PackageVersion Include="BenchmarkDotNet" Version="0.16.0-nightly.20260402.490" />
     <PackageVersion Include="coverlet.msbuild" Version="8.0.1" />
     <PackageVersion Include="GitHubActionsTestLogger" Version="3.0.3" />
     <PackageVersion Include="JunitXml.TestLogger" Version="8.0.0" />
