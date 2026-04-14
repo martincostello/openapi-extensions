@@ -13,7 +13,7 @@
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.15" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.15" />
     <PackageVersion Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="4.14.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="11.0.0-preview.2.26159.112" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="11.0.0-preview.3.26207.106" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.4.0" />
     <PackageVersion Include="Microsoft.OpenApi" Version="3.5.2" />
     <PackageVersion Include="ReportGenerator" Version="5.5.5" />
@@ -28,8 +28,8 @@
     <PackageVersion Update="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.6" />
   </ItemGroup>
   <ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net11.0'))">
-    <PackageVersion Update="Microsoft.AspNetCore.Mvc.Testing" Version="11.0.0-preview.2.26159.112" />
-    <PackageVersion Update="Microsoft.AspNetCore.OpenApi" Version="11.0.0-preview.2.26159.112" />
-    <PackageVersion Update="Microsoft.EntityFrameworkCore.Sqlite" Version="11.0.0-preview.2.26159.112" />
+    <PackageVersion Update="Microsoft.AspNetCore.Mvc.Testing" Version="11.0.0-preview.3.26207.106" />
+    <PackageVersion Update="Microsoft.AspNetCore.OpenApi" Version="11.0.0-preview.3.26207.106" />
+    <PackageVersion Update="Microsoft.EntityFrameworkCore.Sqlite" Version="11.0.0-preview.3.26207.106" />
   </ItemGroup>
 </Project>
