@@ -28,6 +28,7 @@ jobs:
 
     permissions:
       contents: read
+      id-token: write
 
     steps:
 
