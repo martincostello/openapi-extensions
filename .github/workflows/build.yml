@@ -23,10 +23,6 @@ jobs:
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 20
 
-    environment:
-      name: release
-      deployment: false
-
     outputs:
       dotnet-sdk-version: ${{ steps.setup-dotnet.outputs.dotnet-version }}
       dotnet-validate-version: ${{ steps.get-dotnet-tools-versions.outputs.dotnet-validate-version }}
