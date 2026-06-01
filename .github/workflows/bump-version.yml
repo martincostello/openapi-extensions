@@ -26,6 +26,9 @@ jobs:
       name: release
       deployment: false
 
+    permissions:
+       id-token: write
+
     steps:
 
       - name: Get GitHub token
