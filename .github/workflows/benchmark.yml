@@ -74,7 +74,7 @@ jobs:
         profile-name: benchmarks
 
     - name: Publish results
-      uses: martincostello/benchmarkdotnet-results-publisher@0f2a458a28dbd963b1bcb029efaec245b677c7b3 # v2.0.3
+      uses: martincostello/benchmarkdotnet-results-publisher@b1e7cf14565f479f7d7628c89ca3936142fa6d67 # v2.0.4
       if: github.event.repository.fork == false
       with:
         branch: ${{ github.ref_name }}
