@@ -40,6 +40,8 @@ paths:
 components:
   schemas:
     Greeting:
+      examples:
+        - text: 'Hello, World!'
       type: object
       properties:
         text:
@@ -48,9 +50,13 @@ components:
             - string
           description: The text of the greeting.
       description: Represents a greeting.
-      example:
-        text: 'Hello, World!'
     ProblemDetails:
+      examples:
+        - type: https://tools.ietf.org/html/rfc9110#section-15.6.1
+          title: Internal Server Error
+          status: 500
+          detail: An internal error occurred.
+          instance: /hello
       type: object
       properties:
         type:
@@ -74,11 +80,5 @@ components:
           type:
             - 'null'
             - string
-      example:
-        type: https://tools.ietf.org/html/rfc9110#section-15.6.1
-        title: Internal Server Error
-        status: 500
-        detail: An internal error occurred.
-        instance: /hello
 tags:
   - name: TestApp

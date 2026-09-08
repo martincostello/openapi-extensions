@@ -84,10 +84,16 @@ internal sealed class AddExamplesTransformer(
 
     private void Process(OpenApiSchema schema, Type type)
     {
-        if (schema.Example is null &&
+        if (schema.Examples is not { Count: > 0 } &&
             _cache.TryGetMetadata(type, includeOptions: true) is { } metadata)
         {
-            schema.Example = metadata.GenerateExample(_context);
+            var example = metadata.GenerateExample(_context);
+
+            if (example is not null)
+            {
+                schema.Examples ??= [];
+                schema.Examples.Add(example);
+            }
         }
     }
 

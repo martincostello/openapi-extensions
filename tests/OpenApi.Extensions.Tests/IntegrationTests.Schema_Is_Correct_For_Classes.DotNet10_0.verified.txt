@@ -112,6 +112,11 @@
   components: {
     schemas: {
       Animal: {
+        examples: [
+          {
+            Name: Donald
+          }
+        ],
         type: object,
         properties: {
           name: {
@@ -122,12 +127,14 @@
             description: The name of the animal.
           }
         },
-        description: A class representing an animal.,
-        example: {
-          Name: Donald
-        }
+        description: A class representing an animal.
       },
       Cat: {
+        examples: [
+          {
+            Name: Donald
+          }
+        ],
         type: object,
         properties: {
           color: {
@@ -145,12 +152,15 @@
             description: The name of the animal.
           }
         },
-        description: A class representing a cat.,
-        example: {
-          Name: Donald
-        }
+        description: A class representing a cat.
       },
       Dog: {
+        examples: [
+          {
+            Breed: Greyhound,
+            Name: Santa's Little Helper
+          }
+        ],
         type: object,
         properties: {
           breed: {
@@ -176,11 +186,7 @@
             description: The name of the animal.
           }
         },
-        description: A class representing a dog.,
-        example: {
-          Breed: Greyhound,
-          Name: Santa's Little Helper
-        }
+        description: A class representing a dog.
       }
     }
   },

@@ -118,9 +118,11 @@
             description: The Todo item's ID.,
             required: true,
             schema: {
+              examples: [
+                a03952ca-880e-4af7-9cfa-630be0feb4a5
+              ],
               type: string,
-              format: uuid,
-              example: a03952ca-880e-4af7-9cfa-630be0feb4a5
+              format: uuid
             },
             example: a03952ca-880e-4af7-9cfa-630be0feb4a5
           }
@@ -173,9 +175,11 @@
             description: The Todo item's ID.,
             required: true,
             schema: {
+              examples: [
+                a03952ca-880e-4af7-9cfa-630be0feb4a5
+              ],
               type: string,
-              format: uuid,
-              example: a03952ca-880e-4af7-9cfa-630be0feb4a5
+              format: uuid
             },
             example: a03952ca-880e-4af7-9cfa-630be0feb4a5
           }
@@ -218,9 +222,11 @@
             description: The Todo item's ID.,
             required: true,
             schema: {
+              examples: [
+                a03952ca-880e-4af7-9cfa-630be0feb4a5
+              ],
               type: string,
-              format: uuid,
-              example: a03952ca-880e-4af7-9cfa-630be0feb4a5
+              format: uuid
             },
             example: a03952ca-880e-4af7-9cfa-630be0feb4a5
           }
@@ -329,9 +335,11 @@
             description: The date and time to look for items created after.,
             required: true,
             schema: {
+              examples: [
+                2025-03-05T16:43:44Z
+              ],
               type: string,
-              format: date-time,
-              example: 2025-03-05T16:43:44Z
+              format: date-time
             },
             example: 2025-03-05T16:43:44Z
           }
@@ -363,6 +371,11 @@
   components: {
     schemas: {
       CreatedTodoItemModel: {
+        examples: [
+          {
+            id: a03952ca-880e-4af7-9cfa-630be0feb4a5
+          }
+        ],
         type: object,
         properties: {
           id: {
@@ -370,12 +383,14 @@
             description: The ID of the created Todo item.
           }
         },
-        description: Represents the model for a created Todo item.,
-        example: {
-          id: a03952ca-880e-4af7-9cfa-630be0feb4a5
-        }
+        description: Represents the model for a created Todo item.
       },
       CreateTodoItemModel: {
+        examples: [
+          {
+            text: Buy eggs 🥚
+          }
+        ],
         type: object,
         properties: {
           text: {
@@ -383,12 +398,17 @@
             description: The text of the Todo item.
           }
         },
-        description: Represents the model for creating a new Todo item.,
-        example: {
-          text: Buy eggs 🥚
-        }
+        description: Represents the model for creating a new Todo item.
       },
       ProblemDetails: {
+        examples: [
+          {
+            type: https://tools.ietf.org/html/rfc7231#section-6.5.1,
+            title: Bad Request,
+            status: 400,
+            detail: The specified value is invalid.
+          }
+        ],
         type: object,
         properties: {
           type: {
@@ -422,15 +442,16 @@
               string
             ]
           }
-        },
-        example: {
-          type: https://tools.ietf.org/html/rfc7231#section-6.5.1,
-          title: Bad Request,
-          status: 400,
-          detail: The specified value is invalid.
         }
       },
       TodoItemModel: {
+        examples: [
+          {
+            id: a03952ca-880e-4af7-9cfa-630be0feb4a5,
+            text: Buy eggs 🥚,
+            isCompleted: false
+          }
+        ],
         type: object,
         properties: {
           id: {
@@ -450,14 +471,20 @@
             description: The date and time the Todo item was last updated.
           }
         },
-        description: Represents a Todo item.,
-        example: {
-          id: a03952ca-880e-4af7-9cfa-630be0feb4a5,
-          text: Buy eggs 🥚,
-          isCompleted: false
-        }
+        description: Represents a Todo item.
       },
       TodoListViewModel: {
+        examples: [
+          {
+            items: [
+              {
+                id: a03952ca-880e-4af7-9cfa-630be0feb4a5,
+                text: Buy eggs 🥚,
+                isCompleted: false
+              }
+            ]
+          }
+        ],
         type: object,
         properties: {
           items: {
@@ -468,16 +495,7 @@
             description: The Todo item(s).
           }
         },
-        description: Represents a collection of Todo items.,
-        example: {
-          items: [
-            {
-              id: a03952ca-880e-4af7-9cfa-630be0feb4a5,
-              text: Buy eggs 🥚,
-              isCompleted: false
-            }
-          ]
-        }
+        description: Represents a collection of Todo items.
       }
     }
   },

@@ -64,6 +64,11 @@
   components: {
     schemas: {
       Greeting: {
+        examples: [
+          {
+            text: Hello, World!
+          }
+        ],
         type: object,
         properties: {
           text: {
@@ -74,12 +79,18 @@
             description: The text of the greeting.
           }
         },
-        description: Represents a greeting.,
-        example: {
-          text: Hello, World!
-        }
+        description: Represents a greeting.
       },
       ProblemDetails: {
+        examples: [
+          {
+            type: https://tools.ietf.org/html/rfc9110#section-15.6.1,
+            title: Internal Server Error,
+            status: 500,
+            detail: An internal error occurred.,
+            instance: /hello
+          }
+        ],
         type: object,
         properties: {
           type: {
@@ -113,13 +124,6 @@
               string
             ]
           }
-        },
-        example: {
-          type: https://tools.ietf.org/html/rfc9110#section-15.6.1,
-          title: Internal Server Error,
-          status: 500,
-          detail: An internal error occurred.,
-          instance: /hello
         }
       }
     }

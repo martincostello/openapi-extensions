@@ -332,6 +332,13 @@
   components: {
     schemas: {
       Car: {
+        examples: [
+          {
+            Type: 0,
+            Wheels: 4,
+            Manufacturer: MINI
+          }
+        ],
         required: [
           type,
           wheels,
@@ -349,11 +356,6 @@
           manufacturer: {
             type: string
           }
-        },
-        example: {
-          Type: 0,
-          Wheels: 4,
-          Manufacturer: MINI
         }
       },
       CarType: {
@@ -377,6 +379,12 @@
         }
       },
       Dog: {
+        examples: [
+          {
+            Breed: Greyhound,
+            Name: Santa's Little Helper
+          }
+        ],
         type: object,
         properties: {
           breed: {
@@ -398,13 +406,15 @@
               string
             ]
           }
-        },
-        example: {
-          Breed: Greyhound,
-          Name: Santa's Little Helper
         }
       },
       Spot: {
+        examples: [
+          {
+            Breed: Greyhound,
+            Name: Santa's Little Helper
+          }
+        ],
         type: object,
         properties: {
           breed: {
@@ -426,10 +436,6 @@
               string
             ]
           }
-        },
-        example: {
-          Breed: Greyhound,
-          Name: Santa's Little Helper
         }
       }
     }
