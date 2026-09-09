@@ -16,7 +16,7 @@ permissions: {}
 jobs:
   bump-version:
     runs-on: ubuntu-24.04
-    if: github.event.repository.fork == false
+    if: github.event.repository.fork == false && !contains(github.event.release.tag_name, '-')
 
     concurrency:
       group: '${{ github.workflow }}-bump'
