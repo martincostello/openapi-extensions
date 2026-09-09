@@ -140,12 +140,10 @@ internal sealed class AddExamplesTransformer(
                 var bodyParameter = description.ParameterDescriptions.Single((p) => p.Source == BindingSource.Body);
                 var argument = method.GetParameters().Single((p) => p.Name == bodyParameter.Name);
 
-                if (TryGetMetadata(argument, bodyParameter, examples) is { } metadata)
+                if (TryGetMetadata(argument, bodyParameter, examples) is { } metadata &&
+                    mediaType is Microsoft.OpenApi.OpenApiMediaType { Example: null } concrete)
                 {
-                    if (mediaType is Microsoft.OpenApi.OpenApiMediaType { Example: null } concrete)
-                    {
-                        concrete.Example = metadata.GenerateExample(_context);
-                    }
+                    concrete.Example = metadata.GenerateExample(_context);
                 }
             }
         }
@@ -176,12 +174,10 @@ internal sealed class AddExamplesTransformer(
             foreach (var responseFormat in schemaResponse.ApiResponseFormats)
             {
                 if (responses.TryGetValue(schemaResponse.StatusCode.ToString(CultureInfo.InvariantCulture), out var response) &&
-                    response.Content?.TryGetValue(responseFormat.MediaType, out var mediaType) is true)
+                    response.Content?.TryGetValue(responseFormat.MediaType, out var mediaType) is true &&
+                    mediaType is Microsoft.OpenApi.OpenApiMediaType { Example: null } concrete)
                 {
-                    if (mediaType is Microsoft.OpenApi.OpenApiMediaType { Example: null } concrete)
-                    {
-                        concrete.Example = metadata?.GenerateExample(_context);
-                    }
+                    concrete.Example = metadata?.GenerateExample(_context);
                 }
             }
         }
