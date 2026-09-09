@@ -7,7 +7,7 @@
     <JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
     <OutputType>Exe</OutputType>
     <RootNamespace>MartinCostello.OpenApi</RootNamespace>
-    <TargetFrameworks>net10.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>net11.0;net10.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="coverlet.msbuild" />

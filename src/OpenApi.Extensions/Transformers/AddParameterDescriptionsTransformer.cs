@@ -6,16 +6,9 @@ using System.ComponentModel;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.OpenApi;
-
-#if NET9_0
-using Microsoft.OpenApi.Models;
-#else
 using Microsoft.OpenApi;
-#endif
 
-#if NET10_0_OR_GREATER
 using OpenApiParameter = Microsoft.OpenApi.IOpenApiParameter;
-#endif
 
 namespace MartinCostello.OpenApi.Transformers;
 
@@ -53,10 +46,7 @@ internal sealed class AddParameterDescriptionsTransformer : IOpenApiOperationTra
                 if (description is not null)
                 {
                     var parameter = parameters.FirstOrDefault((p) => p.Name == argument.Name);
-                    if (parameter is not null)
-                    {
-                        parameter.Description ??= description;
-                    }
+                    parameter?.Description ??= description;
                 }
             }
         }
