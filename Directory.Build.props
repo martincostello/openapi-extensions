@@ -3,6 +3,7 @@
     <AssemblyIsCLSCompliant>false</AssemblyIsCLSCompliant>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)OpenApi.Extensions.ruleset</CodeAnalysisRuleSet>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <NoWarn>$(NoWarn);SC031</NoWarn>
     <PackageTags>openapi</PackageTags>
     <UseArtifactsOutput>true</UseArtifactsOutput>
     <UseDefaultAssemblyOriginatorKeyFile>true</UseDefaultAssemblyOriginatorKeyFile>
