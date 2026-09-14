@@ -9,6 +9,8 @@
     <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <PackageValidationBaselineVersion>2.0.2</PackageValidationBaselineVersion>
     <VersionPrefix>3.0.0</VersionPrefix>
+    <Verify_SponsorshipExemption>OpenSource</Verify_SponsorshipExemption>
+    <Verify_SponsorshipExemptionUntil>$([System.DateTime]::UtcNow.AddMonths(12).ToString("yyyy-MM"))</Verify_SponsorshipExemptionUntil>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(EnableReferenceTrimmer)' != 'false' AND '$(GenerateDocumentationFile)' != 'true' ">
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
