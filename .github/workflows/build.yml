@@ -80,6 +80,10 @@ jobs:
       uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
       id: setup-dotnet
 
+    - name: Install .NET Tools
+      shell: pwsh
+      run: dotnet tool restore
+
     - name: Build, Test and Package
       id: build
       shell: pwsh
