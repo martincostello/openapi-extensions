@@ -20,7 +20,7 @@
     <PackageReference Include="Microsoft.OpenApi" VersionOverride="[2.7.5,)" />
   </ItemGroup>
   <ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net11.0'))">
-    <PackageReference Update="Microsoft.AspNetCore.OpenApi" VersionOverride="11.0.0-rc.1.26425.128" />
+    <PackageReference Update="Microsoft.AspNetCore.OpenApi" VersionOverride="11.0.0-rc.2.26504.105" />
     <PackageReference Update="Microsoft.OpenApi" VersionOverride="[3.10.2,)" />
   </ItemGroup>
   <ItemGroup>
