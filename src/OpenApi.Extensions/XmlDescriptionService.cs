@@ -27,10 +27,9 @@ internal sealed class XmlDescriptionService(Assembly assembly)
 
         var navigator = CreateNavigator();
 
-        var xmlPath =
-            !string.IsNullOrEmpty(parameterName) ?
-            $"/doc/members/member[@name='{memberName}']/param[@name='{parameterName}']" :
-            $"/doc/members/member[@name='{memberName}']/{section}";
+        var xmlPath = !string.IsNullOrEmpty(parameterName)
+            ? $"/doc/members/member[@name='{memberName}']/param[@name='{parameterName}']"
+            : $"/doc/members/member[@name='{memberName}']/{section}";
 
         if (navigator.SelectSingleNode(xmlPath) is { Value.Length: > 0 } node)
         {

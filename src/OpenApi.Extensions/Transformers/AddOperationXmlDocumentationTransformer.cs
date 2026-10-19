@@ -30,9 +30,16 @@ internal sealed class AddOperationXmlDocumentationTransformer(XmlDescriptionServ
         return Task.CompletedTask;
     }
 
-    private static string? GetXmlMethodName(OpenApiOperationTransformerContext context) =>
-        GetMethodInfo(context.Description) is not { } methodInfo ||
-        XmlCommentsHelper.GetMemberName(methodInfo) is not { Length: > 0 } name ? null : name;
+    private static string? GetXmlMethodName(OpenApiOperationTransformerContext context)
+    {
+        if (GetMethodInfo(context.Description) is { } methodInfo &&
+            XmlCommentsHelper.GetMemberName(methodInfo) is { Length: > 0 } name)
+        {
+            return name;
+        }
+
+        return null;
+    }
 
     private static MethodInfo? GetMethodInfo(ApiDescription description)
     {
