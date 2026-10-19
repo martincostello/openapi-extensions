@@ -9,6 +9,7 @@ namespace MartinCostello.WebApi.Controllers;
 /// <summary>
 /// Represents the controller for the time API.
 /// </summary>
+/// <param name="timeProvider">The <see cref="TimeProvider"/> to use.</param>
 [ApiController]
 [Route("api/[controller]")]
 public class TimeController(TimeProvider timeProvider) : ControllerBase

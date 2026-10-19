@@ -133,8 +133,8 @@ internal static class XmlCommentsHelper
 
     private static string? GetNameForType(Type type)
     {
-        return type.IsGenericParameter ?
-            FormattableString.Invariant($"``{type.GenericParameterPosition}") :
-            QualifiedNameFor(type, expandGenericArguments: true);
+        return type.IsGenericParameter
+            ? FormattableString.Invariant($"``{type.GenericParameterPosition}")
+            : QualifiedNameFor(type, expandGenericArguments: true);
     }
 }

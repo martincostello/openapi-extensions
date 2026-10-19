@@ -45,10 +45,9 @@ internal sealed class AddSchemaXmlDocumentationTransformer(Assembly assembly, Xm
         else if (propertyInfo is not null)
         {
             var typeName = propertyInfo.DeclaringType.FullName;
-            var memberName =
-                propertyInfo.AttributeProvider is MemberInfo member ?
-                member.Name :
-                $"{char.ToUpperInvariant(propertyInfo.Name[0])}{propertyInfo.Name[1..]}";
+            var memberName = propertyInfo.AttributeProvider is MemberInfo member
+                ? member.Name
+                : $"{char.ToUpperInvariant(propertyInfo.Name[0])}{propertyInfo.Name[1..]}";
 
             var memberType = propertyInfo.AttributeProvider is PropertyInfo ? "P" : "F";
 

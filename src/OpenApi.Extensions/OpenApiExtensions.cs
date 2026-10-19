@@ -153,10 +153,9 @@ public static class OpenApiExtensions
                     throw new InvalidOperationException($"No {nameof(JsonSerializerContext)} has been configured on the {nameof(OpenApiExtensionsOptions)} instance for the OpenAPI document \"{options.DocumentName}\".");
                 }
 
-                var serializationContext =
-                    contexts.Count is 1 ?
-                    contexts[0] :
-                    new ChainedJsonSerializerContext(contexts);
+                var serializationContext = contexts.Count is 1
+                    ? contexts[0]
+                    : new ChainedJsonSerializerContext(contexts);
 
                 var examples = new AddExamplesTransformer(
                     extensions.ExamplesMetadata,
